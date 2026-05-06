@@ -1,0 +1,23 @@
+:root {
+  --hino-red: #c90000;
+  --ink: #0f172a;
+  --muted: #64748b;
+  --surface: #ffffff;
+  --soft: #f3f4f6;
+  --border: #e2e8f0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: "Be Vietnam Pro", Arial, "Helvetica Neue", sans-serif;
+  color: var(--ink);
+  background: var(--surface);
+}
