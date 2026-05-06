@@ -29,3 +29,27 @@ test("index loads app modules and uses a mobile-safe viewport", () => {
   assert.match(html, /src\/main\.js/);
   assert.match(html, /<main id="app"/);
 });
+
+test("app modules expose the scaffold contract", async () => {
+  const [{ sectionOrder, content }, { renderPage }, { setupTimeline }] = await Promise.all([
+    import("../src/content.js"),
+    import("../src/render.js"),
+    import("../src/timeline.js")
+  ]);
+
+  assert.deepEqual(sectionOrder, [
+    "hero",
+    "appreciation",
+    "video",
+    "milestones",
+    "news",
+    "contest",
+    "profile",
+    "contact"
+  ]);
+  assert.deepEqual(Object.keys(content).sort(), ["en", "vi"]);
+  assert.equal(typeof renderPage, "function");
+  assert.equal(typeof renderPage(), "string");
+  assert.equal(typeof setupTimeline, "function");
+  assert.equal(typeof setupTimeline(), "function");
+});
