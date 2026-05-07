@@ -114,3 +114,54 @@ test("rendered output escapes text and filters unsafe urls", async () => {
   assert.doesNotMatch(html, /<iframe/);
   assert.match(html, /<span class="button primary is-disabled" aria-disabled="true">/);
 });
+
+test("rendered output rejects control-character url obfuscation", async () => {
+  const [{ content }, { renderPage }] = await Promise.all([
+    import("../src/content.js"),
+    import("../src/render.js")
+  ]);
+  const data = structuredClone(content.vi);
+  data.nav.logoHref = "java\nscript:alert(1)";
+  data.assets.videoUrl = "jav\tascript:alert(2)";
+  data.assets.companyProfileUrl = "java\rscript:alert(3)";
+
+  const html = renderPage(data, "vi");
+
+  assert.doesNotMatch(html, /java\s*script:/i);
+  assert.doesNotMatch(html, /jav\s*ascript:/i);
+  assert.match(html, /class="brand-lockup" href="#"/);
+  assert.doesNotMatch(html, /<iframe/);
+  assert.match(html, /<span class="button primary is-disabled" aria-disabled="true">/);
+});
+
+test("rendered cards use disabled ctas unless item href exists", async () => {
+  const [{ content }, { renderPage }] = await Promise.all([
+    import("../src/content.js"),
+    import("../src/render.js")
+  ]);
+
+  const withoutHref = renderPage(content.vi, "vi");
+  assert.doesNotMatch(withoutHref, /class="text-link" href="#news"/);
+  assert.match(withoutHref, /<span class="text-link is-disabled" aria-disabled="true">XEM THÊM<\/span>/);
+
+  const data = structuredClone(content.vi);
+  data.sections.news.items[0].href = "/news/a30";
+  const withHref = renderPage(data, "vi");
+  assert.match(withHref, /class="text-link" href="\/news\/a30">XEM THÊM<\/a>/);
+});
+
+test("rendered hero actions and language toggle are localized and grouped", async () => {
+  const [{ content }, { renderPage }] = await Promise.all([
+    import("../src/content.js"),
+    import("../src/render.js")
+  ]);
+
+  const vi = renderPage(content.vi, "vi");
+  const en = renderPage(content.en, "en");
+
+  assert.match(vi, /<div class="language-toggle" role="group" aria-label="Switch language">/);
+  assert.match(vi, /href="#milestones">Hành trình 30 năm<\/a>/);
+  assert.match(vi, /href="#video">Video<\/a>/);
+  assert.match(en, /href="#milestones">Milestones<\/a>/);
+  assert.match(en, /href="#video">Video<\/a>/);
+});

@@ -6,11 +6,24 @@ function escapeHtml(value) {
     .replaceAll('"', "&quot;");
 }
 
+const safeUrlBase = "https://hino.local/";
+const heroActionLabels = {
+  vi: {
+    milestones: "Hành trình 30 năm",
+    video: "Video"
+  },
+  en: {
+    milestones: "Milestones",
+    video: "Video"
+  }
+};
+
 function safeUrl(value, fallback = "#", options = {}) {
   const { allowHash = true } = options;
-  const url = String(value || "").trim();
+  const rawUrl = String(value || "");
+  const url = rawUrl.trim();
 
-  if (!url) {
+  if (!url || /[\u0000-\u001F\u007F]/.test(rawUrl)) {
     return escapeHtml(fallback);
   }
 
@@ -18,21 +31,16 @@ function safeUrl(value, fallback = "#", options = {}) {
     return escapeHtml(allowHash ? url : fallback);
   }
 
-  if (url.startsWith("/") && !url.startsWith("//")) {
-    return escapeHtml(url);
-  }
-
-  if (url.startsWith("./") || url.startsWith("../") || url.startsWith("?")) {
-    return escapeHtml(url);
-  }
-
-  if (!/^[a-zA-Z][a-zA-Z\d+.-]*:/.test(url) && !url.startsWith("//")) {
-    return escapeHtml(url);
-  }
-
   try {
-    const parsed = new URL(url);
+    const parsed = new URL(url, safeUrlBase);
+    const base = new URL(safeUrlBase);
+    const hasExplicitScheme = /^[a-zA-Z][a-zA-Z\d+.-]*:/.test(url);
+
     if (parsed.protocol === "http:" || parsed.protocol === "https:") {
+      if (!hasExplicitScheme && parsed.origin !== base.origin) {
+        return escapeHtml(fallback);
+      }
+
       return escapeHtml(url);
     }
   } catch {
@@ -77,7 +85,7 @@ function renderNav(data, activeLang) {
       <nav class="nav-links" id="nav-links" aria-label="Primary navigation">
         ${links}
       </nav>
-      <div class="language-toggle" aria-label="Switch language">
+      <div class="language-toggle" role="group" aria-label="Switch language">
         <button type="button" data-lang="vi" aria-pressed="${activeLang === "vi"}">VI</button>
         <button type="button" data-lang="en" aria-pressed="${activeLang === "en"}">EN</button>
       </div>
@@ -85,7 +93,9 @@ function renderNav(data, activeLang) {
   `;
 }
 
-function renderHero(section) {
+function renderHero(section, activeLang) {
+  const labels = heroActionLabels[activeLang] || heroActionLabels.vi;
+
   return `
     <section class="hero-banner" id="hero" aria-labelledby="hero-title">
       <div class="hero-scrim"></div>
@@ -94,8 +104,8 @@ function renderHero(section) {
         <h1 id="hero-title">${escapeHtml(section.heading)}</h1>
         <p class="hero-copy">${escapeHtml(section.subtext)}</p>
         <div class="hero-actions">
-          <a class="button primary" href="#milestones">Milestones</a>
-          <a class="button secondary" href="#video">Video</a>
+          <a class="button primary" href="#milestones">${escapeHtml(labels.milestones)}</a>
+          <a class="button secondary" href="#video">${escapeHtml(labels.video)}</a>
         </div>
       </div>
     </section>
@@ -161,16 +171,25 @@ function renderMilestones(section) {
 
 function renderCards(section, type) {
   const items = section.items
-    .map((item) => `
-      <article class="${type}-card">
-        ${mediaPlaceholder(`${type} image placeholder`, "card-image")}
-        <div class="card-copy">
-          <h3>${escapeHtml(item.title || item.name)}</h3>
-          <p>${escapeHtml(item.excerpt || item.quote)}</p>
-          ${section.cta ? `<a class="text-link" href="#${type}">${escapeHtml(section.cta)}</a>` : ""}
-        </div>
-      </article>
-    `)
+    .map((item) => {
+      const hasHref = hasSafeUrl(item.href);
+      const cta = section.cta
+        ? hasHref
+          ? `<a class="text-link" href="${safeUrl(item.href)}">${escapeHtml(section.cta)}</a>`
+          : `<span class="text-link is-disabled" aria-disabled="true">${escapeHtml(section.cta)}</span>`
+        : "";
+
+      return `
+        <article class="${type}-card">
+          ${mediaPlaceholder(`${type} image placeholder`, "card-image")}
+          <div class="card-copy">
+            <h3>${escapeHtml(item.title || item.name)}</h3>
+            <p>${escapeHtml(item.excerpt || item.quote)}</p>
+            ${cta}
+          </div>
+        </article>
+      `;
+    })
     .join("");
 
   if (type === "news") {
@@ -227,7 +246,7 @@ export function renderPage(data, activeLang) {
   const sections = data.sections;
   return `
     ${renderNav(data, activeLang)}
-    ${renderHero(sections.hero)}
+    ${renderHero(sections.hero, activeLang)}
     ${renderAppreciation(sections.appreciation)}
     ${renderVideo(sections.video, data.assets)}
     ${renderMilestones(sections.milestones)}
