@@ -206,10 +206,29 @@ function sortedKeys(value) {
   return Object.keys(value).sort();
 }
 
-function assertSameShape(actual, expected, path = "sections") {
-  assert.equal(Array.isArray(actual), Array.isArray(expected), `${path} array parity`);
+function shapeKind(value) {
+  if (Array.isArray(value)) {
+    return "array";
+  }
 
-  if (Array.isArray(actual)) {
+  if (value === null) {
+    return "null";
+  }
+
+  if (typeof value === "object") {
+    return "object";
+  }
+
+  return "primitive";
+}
+
+function assertSameShape(actual, expected, path = "sections") {
+  const actualKind = shapeKind(actual);
+  const expectedKind = shapeKind(expected);
+
+  assert.equal(actualKind, expectedKind, `${path} shape kind parity`);
+
+  if (actualKind === "array") {
     assert.equal(actual.length, expected.length, `${path} length parity`);
     actual.forEach((actualItem, index) => {
       assertSameShape(actualItem, expected[index], `${path}[${index}]`);
@@ -217,12 +236,16 @@ function assertSameShape(actual, expected, path = "sections") {
     return;
   }
 
-  if (actual && expected && typeof actual === "object" && typeof expected === "object") {
+  if (actualKind === "object") {
     assert.deepEqual(sortedKeys(actual), sortedKeys(expected), `${path} key parity`);
     for (const key of sortedKeys(actual)) {
       assertSameShape(actual[key], expected[key], `${path}.${key}`);
     }
+    return;
   }
+
+  assert.equal(typeof actual, typeof expected, `${path} typeof parity`);
+  assert.equal(actual === null, expected === null, `${path} null parity`);
 }
 
 test("both languages expose the locked top-level structure", () => {
