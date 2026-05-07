@@ -21,6 +21,28 @@ const expectedAssets = {
   heroBannerUrl: ""
 };
 
+const expectedViNav = {
+  logoHref: "https://hino.vn/",
+  homeLabel: "Hino",
+  links: [
+    ["appreciation", "Thư cảm ơn"],
+    ["milestones", "Hành trình 30 năm"],
+    ["profile", "Hồ sơ công ty"],
+    ["contest", "Cuộc thi ảnh A30"]
+  ]
+};
+
+const expectedEnNav = {
+  logoHref: "https://hino.vn/",
+  homeLabel: "Hino",
+  links: [
+    ["appreciation", "Appreciation Letter"],
+    ["milestones", "Milestones"],
+    ["profile", "Company Profile"],
+    ["contest", "A30 Contest"]
+  ]
+};
+
 const expectedYears = [
   "1995", "1996", "1997", "2001", "2006", "2007", "2008", "2010", "2011",
   "2013", "2015", "2016", "2018", "2021", "2022", "2023", "2024", "2025"
@@ -251,6 +273,22 @@ function assertSameShape(actual, expected, path = "sections") {
 test("both languages expose the locked top-level structure", () => {
   assert.deepEqual(sortedKeys(content.vi), requiredLanguageKeys);
   assert.deepEqual(sortedKeys(content.en), requiredLanguageKeys);
+});
+
+test("both languages use exact language metadata", () => {
+  assert.equal(content.vi.lang, "vi");
+  assert.equal(content.vi.languageLabel, "VI");
+  assert.equal(content.en.lang, "en");
+  assert.equal(content.en.languageLabel, "EN");
+});
+
+test("both languages use exact navigation content", () => {
+  assert.deepEqual(content.vi.nav, expectedViNav);
+  assert.deepEqual(content.en.nav, expectedEnNav);
+});
+
+test("both languages keep full content shape parity", () => {
+  assertSameShape(content.vi, content.en);
 });
 
 test("both languages use the approved Vietnamese module order", () => {
