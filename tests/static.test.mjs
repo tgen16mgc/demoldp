@@ -204,3 +204,11 @@ test("timeline implements pinned horizontal behavior, drag, and hidden scrollbar
   assert.match(css, /::-webkit-scrollbar/);
   assert.match(css, /\.timeline-progress/);
 });
+
+test("rendering protects missing video and profile assets", () => {
+  const render = file("src/render.js");
+  assert.match(render, /Video placeholder - awaiting Hino YouTube link/);
+  assert.match(render, /aria-disabled="true"/);
+  assert.match(render, /companyProfileUrl/);
+  assert.doesNotMatch(render, /fake\.pdf/);
+});
