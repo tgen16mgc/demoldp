@@ -112,11 +112,14 @@ function renderHero(section, activeLang, assets) {
   const labels = heroActionLabels[activeLang] || heroActionLabels.vi;
   const hasHeroBannerUrl = hasSafeUrl(assets.heroBannerUrl, { allowHash: false });
   const heroBannerUrl = safeUrl(assets.heroBannerUrl, "", { allowHash: false });
-  const heroStyle = hasHeroBannerUrl ? ` style="--hero-banner-image: url('${heroBannerUrl}');"` : "";
   const heroClass = hasHeroBannerUrl ? "hero-banner has-image" : "hero-banner";
+  const heroImage = hasHeroBannerUrl
+    ? `<img class="hero-image" src="${heroBannerUrl}" alt="Hino 30 years hero banner">`
+    : "";
 
   return `
-    <section class="${heroClass}" id="hero" aria-labelledby="hero-title"${heroStyle}>
+    <section class="${heroClass}" id="hero" aria-labelledby="hero-title">
+      ${heroImage}
       <div class="hero-scrim"></div>
       <div class="hero-content">
         <p class="eyebrow">${escapeHtml(section.eyebrow)}</p>

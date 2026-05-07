@@ -183,9 +183,17 @@ iframe {
   min-height: clamp(470px, 62vw, 720px);
   overflow: hidden;
   background:
-    var(--hero-banner-image, linear-gradient(135deg, #f8fafc 0%, #eceff4 42%, #cfd5dd 100%)) center / cover no-repeat,
     linear-gradient(90deg, rgba(255, 255, 255, 0.97) 0%, rgba(255, 255, 255, 0.84) 42%, rgba(255, 255, 255, 0.32) 100%),
     linear-gradient(135deg, #f8fafc 0%, #eceff4 42%, #cfd5dd 100%);
+}
+
+.hero-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .hero-banner::before {
