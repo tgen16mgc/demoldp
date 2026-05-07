@@ -53,3 +53,21 @@ test("app modules expose the scaffold contract", async () => {
   assert.equal(typeof setupTimeline, "function");
   assert.equal(typeof setupTimeline(), "function");
 });
+
+test("render module includes semantic sections and language controls", () => {
+  const render = file("src/render.js");
+  [
+    "site-nav",
+    "hero",
+    "appreciation",
+    "video",
+    "milestones",
+    "news",
+    "contest",
+    "profile",
+    "contact"
+  ].forEach((id) => assert.match(render, new RegExp(`id="${id}"`)));
+  assert.match(render, /data-lang="vi"/);
+  assert.match(render, /data-lang="en"/);
+  assert.match(render, /aria-label="Switch language"/);
+});
