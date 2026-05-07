@@ -233,8 +233,8 @@ iframe {
 
 .hero-banner.has-image .hero-scrim {
   background:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.58) 45%, rgba(255, 255, 255, 0.12) 100%),
-    linear-gradient(180deg, rgba(10, 18, 30, 0.04), rgba(10, 18, 30, 0.16));
+    linear-gradient(90deg, rgba(255, 255, 255, 0.42) 0%, rgba(255, 255, 255, 0.22) 42%, rgba(255, 255, 255, 0.04) 100%),
+    linear-gradient(180deg, rgba(10, 18, 30, 0.03), rgba(10, 18, 30, 0.1));
 }
 
 .hero-content {
