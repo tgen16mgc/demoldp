@@ -165,3 +165,15 @@ test("rendered hero actions and language toggle are localized and grouped", asyn
   assert.match(en, /href="#milestones">Milestones<\/a>/);
   assert.match(en, /href="#video">Video<\/a>/);
 });
+
+test("css includes approved UI/UX Pro Max quality gates", () => {
+  const css = file("src/styles.css");
+  assert.match(css, /--hino-red:\s*#c90000/);
+  assert.match(css, /Plus Jakarta Sans/);
+  assert.match(css, /Be Vietnam Pro/);
+  assert.match(css, /\.hero-banner/);
+  assert.match(css, /min-height:\s*44px/);
+  assert.match(css, /@media \(max-width:\s*768px\)/);
+  assert.match(css, /prefers-reduced-motion/);
+  assert.match(css, /:focus-visible/);
+});
