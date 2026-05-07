@@ -226,6 +226,17 @@ iframe {
     linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(15, 23, 42, 0.08));
 }
 
+.hero-banner.has-image::before,
+.hero-banner.has-image::after {
+  content: none;
+}
+
+.hero-banner.has-image .hero-scrim {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.58) 45%, rgba(255, 255, 255, 0.12) 100%),
+    linear-gradient(180deg, rgba(10, 18, 30, 0.04), rgba(10, 18, 30, 0.16));
+}
+
 .hero-content {
   position: relative;
   z-index: 1;
