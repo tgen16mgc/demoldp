@@ -140,4 +140,3 @@ After implementation and verification:
 
 - Commit with a focused message, for example `feat: apply hino client visual feedback`.
 - Push `main` to `origin`.
-
