@@ -300,12 +300,12 @@ function renderContest(section) {
 
   const makeCard = (item, index) => `
     <article class="contest-card${item.isPlaceholder ? " is-placeholder" : ""}" aria-label="A30 contest card ${index + 1}">
-      <div class="contest-card-top">
-        <span class="contest-index">${String(index + 1).padStart(2, "0")}</span>
-        <span class="contest-label">A30</span>
+      <div class="contest-card-media">
+        ${mediaPlaceholder("Contest image placeholder", "contest-card-img")}
+        <div class="contest-card-overlay">
+          <blockquote class="contest-quote">${escapeHtml(item.quote)}</blockquote>
+        </div>
       </div>
-      ${mediaPlaceholder("Contest image placeholder", "contest-image")}
-      <blockquote class="contest-quote">${escapeHtml(item.quote)}</blockquote>
       <p class="contest-name">${escapeHtml(item.name)}</p>
     </article>
   `;

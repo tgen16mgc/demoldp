@@ -857,83 +857,83 @@ blockquote {
 .contest-card {
   position: relative;
   flex: 0 0 300px;
-  display: grid;
-  grid-template-rows: auto auto 1fr auto;
-  gap: 16px;
-  min-height: 420px;
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: #ffffff;
   box-shadow: 0 8px 28px rgba(15, 23, 42, 0.07);
-  transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+  transition: transform 220ms ease, box-shadow 220ms ease;
 }
 
 .contest-card:hover {
   border-color: rgba(201, 0, 0, 0.34);
-  box-shadow: 0 22px 58px rgba(15, 23, 42, 0.12);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.13);
   transform: translateY(-3px);
 }
 
 .contest-card.is-placeholder {
   border-style: dashed;
-  background:
-    linear-gradient(135deg, rgba(255, 241, 241, 0.78), rgba(255, 255, 255, 0.94)),
-    #ffffff;
+  opacity: 0.6;
 }
 
-.contest-card-top {
+/* ── Media wrapper (image + overlay) ── */
+.contest-card-media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.contest-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 400ms ease;
+}
+
+.contest-card:hover .contest-card-img {
+  transform: scale(1.04);
+}
+
+/* ── Hover overlay with quote ── */
+.contest-card-overlay {
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 14px;
+  padding: 20px;
+  background: rgba(180, 0, 0, 0.92);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 280ms ease, transform 280ms ease;
 }
 
-.contest-index,
-.contest-label {
-  font-family: "Plus Jakarta Sans", sans-serif;
-  font-weight: 800;
-  line-height: 1;
-}
-
-.contest-index {
-  color: var(--hino-red);
-  font-size: 1.85rem;
-}
-
-.contest-label {
-  display: inline-flex;
-  align-items: center;
-  min-height: 32px;
-  padding: 0 10px;
-  border: 1px solid rgba(201, 0, 0, 0.28);
-  border-radius: 999px;
-  color: var(--hino-red);
-  font-size: 0.78rem;
-}
-
-.contest-image {
-  min-height: 190px;
-  border-radius: 6px;
-  background:
-    linear-gradient(135deg, rgba(201, 0, 0, 0.16), rgba(255, 255, 255, 0.1)),
-    repeating-linear-gradient(135deg, #edf1f5, #edf1f5 14px, #f7f8fa 14px, #f7f8fa 28px);
+.contest-card:hover .contest-card-overlay {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .contest-quote {
   margin: 0;
-  color: var(--ink);
-  font-size: clamp(1.05rem, 1.4vw, 1.28rem);
-  line-height: 1.55;
+  color: #ffffff;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  font-style: italic;
 }
 
 .contest-name {
-  margin: 0;
-  padding-top: 16px;
+  padding: 10px 14px;
+  background: #ffffff;
   border-top: 1px solid var(--border);
-  color: var(--muted);
+  color: var(--text);
+  font-size: 0.82rem;
   font-weight: 700;
-  line-height: 1.55;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .card-image {
