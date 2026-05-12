@@ -298,32 +298,35 @@ function renderContest(section) {
     });
   }
 
-  const cards = items
-    .slice(0, contestCardCount)
-    .map((item, index) => `
-      <article class="contest-card${item.isPlaceholder ? " is-placeholder" : ""}" aria-label="A30 contest card ${index + 1}">
-        <div class="contest-card-top">
-          <span class="contest-index">${String(index + 1).padStart(2, "0")}</span>
-          <span class="contest-label">A30</span>
-        </div>
-        ${mediaPlaceholder("Contest image placeholder", "contest-image")}
-        <blockquote class="contest-quote">${escapeHtml(item.quote)}</blockquote>
-        <p class="contest-name">${escapeHtml(item.name)}</p>
-      </article>
-    `)
-    .join("");
+  const makeCard = (item, index) => `
+    <article class="contest-card${item.isPlaceholder ? " is-placeholder" : ""}" aria-label="A30 contest card ${index + 1}">
+      <div class="contest-card-top">
+        <span class="contest-index">${String(index + 1).padStart(2, "0")}</span>
+        <span class="contest-label">A30</span>
+      </div>
+      ${mediaPlaceholder("Contest image placeholder", "contest-image")}
+      <blockquote class="contest-quote">${escapeHtml(item.quote)}</blockquote>
+      <p class="contest-name">${escapeHtml(item.name)}</p>
+    </article>
+  `;
+
+  const row1 = items.slice(0, contestCardCount).map(makeCard).join("");
+  const row2 = [...items].reverse().slice(0, contestCardCount).map(makeCard).join("");
 
   return `
     <section class="card-section contest-section section-pattern" id="contest" aria-labelledby="contest-title">
       <div class="contest-heading-row">
         ${sectionHeading(section, "contest-title")}
-        <div class="contest-controls" aria-label="Contest carousel controls">
-          ${renderCarouselButton("prev", "Previous contest card")}
-          ${renderCarouselButton("next", "Next contest card")}
-        </div>
       </div>
-      <div class="contest-carousel" tabindex="0" aria-label="${escapeHtml(section.heading)}">
-        <div class="contest-track">${cards}</div>
+      <div class="marquee-wrapper">
+        <div class="marquee-row">
+          <div class="marquee-set">${row1}</div>
+          <div class="marquee-set" aria-hidden="true">${row1}</div>
+        </div>
+        <div class="marquee-row marquee-row--reverse">
+          <div class="marquee-set">${row2}</div>
+          <div class="marquee-set" aria-hidden="true">${row2}</div>
+        </div>
       </div>
     </section>
   `;
