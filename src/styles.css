@@ -552,19 +552,21 @@ blockquote {
 .timeline-pin {
   position: sticky;
   top: 92px;
-  overflow: hidden;
+  overflow: visible;
   padding: 28px 0 42px;
 }
 
 .timeline-viewport {
   width: 100%;
   overflow-x: auto;
-  overflow-y: hidden;
+  overflow-y: visible;
   cursor: grab;
   scrollbar-width: none;
   overscroll-behavior-x: contain;
   touch-action: pan-x;
   user-select: none;
+  padding-top: 12px;
+  padding-bottom: 12px;
 }
 
 .timeline-viewport::-webkit-scrollbar {
