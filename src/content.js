@@ -146,11 +146,11 @@ export const content = {
         subtext: "Lắng nghe những cảm xúc chân thực đã cùng Hino viết nên dấu ấn 30 năm đáng tự hào.",
         items: [
           {
-            name: "Anh Nguyễn Văn A - Trưởng nhóm Cố vấn Dịch vụ - Công ty Hino Vĩnh Thịnh (Bình Dương)",
+            name: "Anh Nguyễn Văn A",
             quote: "Nhân dịp kỉ niệm 30 năm, tôi mong rằng sẽ còn được chứng kiến một HINO phát triển và thành công, để không chỉ khách hàng an tâm về sản phẩm và chất lượng dịch vụ, mà với nhân viên như tôi, những giá trị và tâm huyết đó vẫn sẽ được phát huy."
           },
           {
-            name: "Anh Nguyễn Văn B - Trưởng khối Sản xuất - Công ty Hino Sao Bắc (Hà Nội)",
+            name: "Anh Nguyễn Văn B",
             quote: "Chúc cho HINO Việt Nam sẽ luôn vững vàng và phát triển mạnh mẽ hơn nữa trong tương lai. Từ đó, tiếp tục sứ mệnh đóng góp cho ngành công nghiệp ô tô Việt Nam."
           }
         ]
@@ -233,11 +233,11 @@ export const content = {
         subtext: "Listen to heartfelt emotions that have joined Hino in writing a proud 30-year legacy.",
         items: [
           {
-            name: "Mr. Nguyen Van A - Service Advisor Team Leader - Hino Vinh Thinh Company (Binh Duong)",
+            name: "Mr. Nguyen Van A",
             quote: "On the occasion of the 30th anniversary, I hope to continue witnessing HINO grow and succeed, so that not only customers feel confident in the products and service quality, but employees like me can also see those values and dedication carried forward."
           },
           {
-            name: "Mr. Nguyen Van B - Head of Production Division - Hino Sao Bac Company (Hanoi)",
+            name: "Mr. Nguyen Van B",
             quote: "I wish HINO Vietnam continued stability and even stronger growth in the future, thereby continuing its mission of contributing to Vietnam’s automotive industry."
           }
         ]
