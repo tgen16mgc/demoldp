@@ -16,11 +16,34 @@ test("project shell files exist", () => {
     "src/carousel.js",
     "src/render.js",
     "src/timeline.js",
-    "src/main.js",
+    "src/main.jsx",
+    "src/App.jsx",
+    "src/components/ui/button.jsx",
+    "src/lib/utils.js",
     "src/styles.css",
-    "src/assets/hino-logo.svg",
-    "src/assets/a30-mark.svg",
-    "src/assets/hero-banner.png"
+    "src/a30new.svg",
+    "src/assets/hinologonew.png",
+    "src/assets/hinobannernew.jpg",
+    "src/assets/news-eco-driving-can-tho.jpg",
+    "src/assets/news-vilog-2025.jpg",
+    "src/assets/milestone-1995.jpg",
+    "src/assets/milestone-1996.jpg",
+    "src/assets/milestone-1997.jpg",
+    "src/assets/milestone-2001.jpg",
+    "src/assets/milestone-2006.jpg",
+    "src/assets/milestone-2007.jpg",
+    "src/assets/milestone-2008.png",
+    "src/assets/milestone-2010.jpg",
+    "src/assets/milestone-2011.jpg",
+    "src/assets/milestone-2013.jpg",
+    "src/assets/milestone-2015.jpg",
+    "src/assets/milestone-2016.jpg",
+    "src/assets/milestone-2018.png",
+    "src/assets/milestone-2021.png",
+    "src/assets/milestone-2022.png",
+    "src/assets/milestone-2023.jpg",
+    "src/assets/milestone-2024.jpg",
+    "src/assets/milestone-2025.jpg"
   ].forEach((path) => {
     assert.equal(existsSync(join(root, path)), true, `${path} should exist`);
   });
@@ -30,8 +53,24 @@ test("index loads app modules and uses a mobile-safe viewport", () => {
   const html = file("index.html");
   assert.match(html, /<meta name="viewport" content="width=device-width, initial-scale=1">/);
   assert.match(html, /src\/styles\.css/);
-  assert.match(html, /src\/main\.js/);
+  assert.match(html, /src\/main\.jsx/);
   assert.match(html, /<main id="app"/);
+});
+
+test("project is configured as a Vite React app with shadcn registry support", () => {
+  const pkg = JSON.parse(file("package.json"));
+  const components = JSON.parse(file("components.json"));
+
+  assert.match(pkg.scripts.dev, /vite/);
+  assert.match(pkg.scripts.build, /vite build/);
+  assert.match(pkg.scripts.serve, /vite --host/);
+  assert.ok(pkg.dependencies.react);
+  assert.ok(pkg.dependencies["react-dom"]);
+  assert.ok(pkg.dependencies["@base-ui/react"]);
+  assert.equal(components.$schema, "https://ui.shadcn.com/schema.json");
+  assert.equal(components.style, "base-nova");
+  assert.equal(components.aliases.ui, "@/components/ui");
+  assert.equal(components.registries["@react-bits"], "https://reactbits.dev/r/{name}.json");
 });
 
 test("app modules expose the scaffold contract", async () => {
@@ -108,9 +147,12 @@ test("rendered page uses requested Hino logo and copied footer", async () => {
 
   const html = renderPage(content.vi, "vi");
 
-  assert.match(html, /src="src\/assets\/hino-logo\.svg"/);
-  assert.match(html, /src="src\/assets\/a30-mark\.svg"/);
-  assert.match(html, /src="src\/assets\/hero-banner\.png"/);
+  assert.match(html, /src="src\/assets\/hinologonew\.png"/);
+  assert.match(html, /src="src\/a30new\.svg"/);
+  assert.match(html, /src="src\/assets\/hinobannernew\.jpg"/);
+  assert.doesNotMatch(html, /src="src\/assets\/hino-logo\.svg"/);
+  assert.doesNotMatch(html, /src="src\/assets\/a30-mark\.svg"/);
+  assert.doesNotMatch(html, /src="src\/assets\/hero-banner\.png"/);
   assert.match(html, /alt="Hino"/);
   assert.match(html, /id="contact"/);
   assert.match(html, /SẢN PHẨM/);
@@ -118,7 +160,8 @@ test("rendered page uses requested Hino logo and copied footer", async () => {
   assert.match(html, /DỊCH VỤ VÀ PHỤ TÙNG/);
   assert.match(html, /FOLLOW US/);
   assert.match(html, /CÔNG TY LD TNHH HINO MOTORS VIỆT NAM/);
-  assert.match(html, /Hotline:<\/strong> <b>18009280<\/b>/);
+  assert.match(html, /href="tel:18009280"/);
+  assert.match(html, /Hotline:<\/strong> <a href="tel:18009280"><b>18009280<\/b><\/a>/);
   assert.match(html, /Quy định &amp; Điều khoản/);
   assert.match(html, /Lên đầu trang/);
 });
@@ -160,7 +203,8 @@ test("rendered output escapes text and filters unsafe urls", async () => {
   assert.match(html, /&lt;img src=x onerror=&quot;alert\(1\)&quot;&gt;/);
   assert.match(html, /class="brand-lockup" href="#"/);
   assert.doesNotMatch(html, /<iframe/);
-  assert.match(html, /<span class="button primary is-disabled" aria-disabled="true">/);
+  assert.doesNotMatch(html, /aria-disabled="true"/);
+  assert.match(html, /class="asset-status"/);
 });
 
 test("rendered output rejects control-character url obfuscation", async () => {
@@ -179,23 +223,65 @@ test("rendered output rejects control-character url obfuscation", async () => {
   assert.doesNotMatch(html, /jav\s*ascript:/i);
   assert.match(html, /class="brand-lockup" href="#"/);
   assert.doesNotMatch(html, /<iframe/);
-  assert.match(html, /<span class="button primary is-disabled" aria-disabled="true">/);
+  assert.doesNotMatch(html, /aria-disabled="true"/);
+  assert.match(html, /class="asset-status"/);
 });
 
-test("rendered cards use disabled ctas unless item href exists", async () => {
+test("rendered cards use status copy unless item href exists", async () => {
   const [{ content }, { renderPage }] = await Promise.all([
     import("../src/content.js"),
     import("../src/render.js")
   ]);
 
-  const withoutHref = renderPage(content.vi, "vi");
+  const dataWithoutHref = structuredClone(content.vi);
+  dataWithoutHref.sections.news.items.forEach((item) => {
+    delete item.href;
+  });
+  const withoutHref = renderPage(dataWithoutHref, "vi");
   assert.doesNotMatch(withoutHref, /class="text-link" href="#news"/);
-  assert.match(withoutHref, /<span class="text-link is-disabled" aria-disabled="true">XEM THÊM<\/span>/);
+  assert.match(withoutHref, /<span class="text-status">Sắp cập nhật<\/span>/);
 
   const data = structuredClone(content.vi);
   data.sections.news.items[0].href = "/news/a30";
   const withHref = renderPage(data, "vi");
   assert.match(withHref, /class="text-link" href="\/news\/a30">XEM THÊM<\/a>/);
+});
+
+test("rendered news and milestones use real local images", async () => {
+  const [{ content }, { renderPage }] = await Promise.all([
+    import("../src/content.js"),
+    import("../src/render.js")
+  ]);
+
+  const html = renderPage(content.vi, "vi");
+
+  assert.match(html, /<img class="card-image" src="src\/assets\/news-eco-driving-can-tho\.jpg" alt="Sự kiện Eco Driving tại Cần Thơ" loading="lazy">/);
+  assert.match(html, /<img class="card-image" src="src\/assets\/news-vilog-2025\.jpg" alt="Gian hàng Hino Motors Việt Nam tại VILOG 2025" loading="lazy">/);
+  assert.match(html, /<img class="milestone-image" src="src\/assets\/milestone-1995\.jpg" alt="1995 milestone image" loading="lazy">/);
+  assert.match(html, /<img class="milestone-image" src="src\/assets\/milestone-2025\.jpg" alt="2025 milestone image" loading="lazy">/);
+});
+
+test("rendered page avoids design-slop placeholders and preserves the supplied banner artwork", async () => {
+  const [{ content }, { renderPage }] = await Promise.all([
+    import("../src/content.js"),
+    import("../src/render.js")
+  ]);
+
+  const html = renderPage(content.vi, "vi");
+  const heroBanner = html.match(/<section class="hero-banner"[\s\S]*?<\/section>/)?.[0] || "";
+
+  assert.doesNotMatch(html, /picsum\.photos/);
+  assert.match(html, /<section class="hero-banner" id="hero" aria-label="Hino 30 years anniversary banner">/);
+  assert.match(html, /<img class="hero-image-full" src="src\/assets\/hinobannernew\.jpg" alt="Hino 30 years hero banner">/);
+  assert.doesNotMatch(heroBanner, /<h1 id="hero-title">/);
+  assert.match(html, /<section class="hero-action-strip" aria-labelledby="hero-title">[\s\S]*class="hero-actions"/);
+  assert.match(html, /<h1 id="hero-title" class="hero-title">[\s\S]*<span class="hero-title-count">30 NĂM<\/span>[\s\S]*<span class="hero-title-main">KIÊN ĐỊNH PHỤNG SỰ<\/span>/);
+});
+
+test("build asset copier includes root-level anniversary mark", () => {
+  const script = file("scripts/copy-assets.mjs");
+  assert.match(script, /src\/a30new\.svg/);
+  assert.match(script, /dist\/src\/a30new\.svg/);
 });
 
 test("rendered hero actions and language toggle are localized and grouped", async () => {
@@ -222,10 +308,15 @@ test("css includes approved UI/UX Pro Max quality gates", () => {
   assert.doesNotMatch(css, /\.hino-logo\s*\{[^}]*border-radius/s);
   assert.doesNotMatch(css, /\.hino-logo\s*\{[^}]*box-shadow/s);
   assert.match(css, /\.hero-banner/);
+  assert.match(css, /\.hero-image-full\s*\{[^}]*object-fit:\s*contain/s);
+  assert.doesNotMatch(css, /\.hero-image-full\s*\{[^}]*object-fit:\s*cover/s);
   assert.match(css, /min-height:\s*44px/);
   assert.match(css, /@media \(max-width:\s*768px\)/);
   assert.match(css, /prefers-reduced-motion/);
   assert.match(css, /:focus-visible/);
+  assert.doesNotMatch(css, /animation:\s*grid-flow/);
+  assert.doesNotMatch(css, /@keyframes grid-flow/);
+  assert.doesNotMatch(css, /filter:\s*brightness\(0\.8\)/);
 });
 
 test("css avoids responsive overflow and focus clipping regressions", () => {
@@ -272,7 +363,8 @@ test("contest carousel implements button controls, drag, and hidden scrollbar", 
 test("rendering protects missing video and profile assets", () => {
   const render = file("src/render.js");
   assert.match(render, /Video placeholder - awaiting Hino YouTube link/);
-  assert.match(render, /aria-disabled="true"/);
+  assert.match(render, /asset-status/);
+  assert.doesNotMatch(render, /aria-disabled="true"/);
   assert.match(render, /companyProfileUrl/);
   assert.doesNotMatch(render, /fake\.pdf/);
 });

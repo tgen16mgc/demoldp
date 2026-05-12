@@ -18,7 +18,7 @@ const requiredLanguageKeys = ["assets", "lang", "languageLabel", "nav", "section
 const expectedAssets = {
   videoUrl: "",
   companyProfileUrl: "",
-  heroBannerUrl: "src/assets/hero-banner.png"
+  heroBannerUrl: "src/assets/hinobannernew.jpg"
 };
 
 const expectedViNav = {
@@ -90,10 +90,32 @@ const expectedEnMilestones = [
   ["2025", "Delivered the 60,000th truck in Vietnam"]
 ];
 
+const expectedMilestoneImageUrls = {
+  1995: "src/assets/milestone-1995.jpg",
+  1996: "src/assets/milestone-1996.jpg",
+  1997: "src/assets/milestone-1997.jpg",
+  2001: "src/assets/milestone-2001.jpg",
+  2006: "src/assets/milestone-2006.jpg",
+  2007: "src/assets/milestone-2007.jpg",
+  2008: "src/assets/milestone-2008.png",
+  2010: "src/assets/milestone-2010.jpg",
+  2011: "src/assets/milestone-2011.jpg",
+  2013: "src/assets/milestone-2013.jpg",
+  2015: "src/assets/milestone-2015.jpg",
+  2016: "src/assets/milestone-2016.jpg",
+  2018: "src/assets/milestone-2018.png",
+  2021: "src/assets/milestone-2021.png",
+  2022: "src/assets/milestone-2022.png",
+  2023: "src/assets/milestone-2023.jpg",
+  2024: "src/assets/milestone-2024.jpg",
+  2025: "src/assets/milestone-2025.jpg"
+};
+
 function expectedMilestones(rows) {
   return rows.map(([year, text]) => ({
     year,
     text,
+    imageUrl: expectedMilestoneImageUrls[year],
     imageAlt: `${year} milestone image`
   }));
 }
@@ -101,8 +123,8 @@ function expectedMilestones(rows) {
 const expectedViSections = {
   hero: {
     eyebrow: "Hino Motors Việt Nam",
-    heading: "30 NĂM BẢO CHỨNG - ĐỒNG HÀNH TRIỆU HÀNH TRÌNH",
-    subtext: "Ba thập kỷ bền bỉ cống hiến, Hino Motors Việt Nam không ngừng cung cấp những sản phẩm và giải pháp vận tải chất lượng cao, lấy sự hài lòng của khách hàng làm trọng tâm trong mọi hoạt động, qua đó góp phần nâng cao hiệu quả vận hành, cải thiện chất lượng sống và đồng hành cùng sự phát triển bền vững, thịnh vượng của Việt Nam."
+    heading: "30 NĂM KIÊN ĐỊNH PHỤNG SỰ",
+    subtext: "Ba thập kỷ kiên định phụng sự, Hino Motors Việt Nam không ngừng cung cấp những sản phẩm và giải pháp vận tải chất lượng cao, lấy sự hài lòng của khách hàng làm trọng tâm trong mọi hoạt động, qua đó góp phần nâng cao hiệu quả vận hành, cải thiện chất lượng sống và đồng hành cùng sự phát triển bền vững, thịnh vượng của Việt Nam."
   },
   appreciation: {
     heading: "LỜI TRI ÂN & CAM KẾT ĐỒNG HÀNH",
@@ -110,12 +132,12 @@ const expectedViSections = {
     nameTitle: "<Hino cung cấp>"
   },
   video: {
-    heading: "30 NĂM VƯƠN TẦM CHẤT LƯỢNG",
-    subtext: "30 năm là hành trình của niềm tin được vun đắp qua từng giá trị được tạo dựng, lặng lẽ nhưng bền bỉ, để hôm nay nhìn lại, tất cả đã trở thành một phần của ký ức và niềm tự hào.",
+    heading: "30 NĂM VỮNG MỘT TÔN CHỈ",
+    subtext: "30 năm là hành trình của niềm tin được vun đắp qua những giá trị thực chất, lặng lẽ nhưng bền bỉ. Để hôm nay, sự kiên định ấy đã kết tinh thành niềm tự hào, khẳng định vị thế một thương hiệu luôn tận tâm phụng sự vì sự phồn vinh của Việt Nam.",
     cta: "XEM NGAY"
   },
   milestones: {
-    heading: "Những cột mốc đáng nhớ",
+    heading: "NHỮNG CỘT MỐC ĐÁNG NHỚ",
     subtext: "Mỗi dấu mốc không chỉ là một bước tiến, mà còn là minh chứng cho sự kiên định, nỗ lực và khát vọng vươn xa suốt 30 năm qua.",
     items: expectedMilestones(expectedViMilestones)
   },
@@ -124,17 +146,23 @@ const expectedViSections = {
     cta: "XEM THÊM",
     items: [
       {
-        title: "HINO MOTORS VIỆT NAM GIỚI THIỆU PHIÊN BẢN KỶ NIỆM – TRI ÂN HÀNH TRÌNH ĐỒNG HÀNH CÙNG KHÁCH HÀNG",
-        excerpt: "Công ty Công ty Liên doanh TNHH Hino Motors Việt Nam trân trọng giới thiệu phiên bản đặc biệt Euro6 nhân dịp kỷ niệm 30 năm thành lập (1996 – 2026). Phiên bản này được thực hiện như một lời tri ân thiết thực tới khách hàng thông qua việc nâng cấp thiết kế và trang bị, mang lại trải nghiệm vận hành tiện nghi và an toàn hơn..."
+        title: "CHƯƠNG TRÌNH ĐÀO TẠO LÁI XE AN TOÀN – TIẾT KIỆM NHIÊN LIỆU NGÀY 22-23/08/2025 TẠI CẦN THƠ",
+        excerpt: "Chuỗi sự kiện “Chăm Sóc Khách Hàng – Đào Tạo Lái Xe Tiết Kiệm Nhiên Liệu” - Eco Driving là hoạt động nằm trong chương trình hỗ trợ tổng thể của Hino Motors Việt Nam kết hợp cùng hệ thống đại lý 3S trên toàn quốc.",
+        imageUrl: "src/assets/news-eco-driving-can-tho.jpg",
+        imageAlt: "Sự kiện Eco Driving tại Cần Thơ",
+        href: "https://hino.vn/tin-tuc/chuong-trinh-dao-tao-lai-xe-an-toan-8211-tiet-kiem-nhien-lieu-ngay-22-23082025-tai-can-tho-n13702.html"
       },
       {
-        title: "CHƯƠNG TRÌNH ĐÀO TẠO LÁI XE AN TOÀN & TIẾT KIỆM NHIÊN LIỆU",
-        excerpt: "Với mong muốn hỗ trợ tốt hơn nữa hoạt động kinh doanh của những khách hàng đã tin chọn Hino, Hino Motors Việt Nam kết hợp cùng hệ thống đại lý chính hãng tại khu vực Tp. Hồ Chí Minh đã tổ chức thành công chương trình ĐÀO TẠO LÁI XE AN TOÀN & TIẾT..."
+        title: "HINO MOTORS VIỆT NAM GHI DẤU ẤN “DẪN ĐẦU XU HƯỚNG VẬN TẢI XANH” TẠI VILOG 2025",
+        excerpt: "Ngày 31/7 - 2/8/2025, Hino Motors Việt Nam tham gia Triển lãm Quốc tế Logistics Việt Nam - VILOG 2025, giới thiệu dòng xe Hino Euro5 cùng hệ thống quản lý đội xe thông minh iHINO-CONNECT.",
+        imageUrl: "src/assets/news-vilog-2025.jpg",
+        imageAlt: "Gian hàng Hino Motors Việt Nam tại VILOG 2025",
+        href: "https://hino.vn/tin-tuc/hino-motors-viet-nam-ghi-dau-an-dan-dau-xu-huong-van-tai-xanh-tai-vilog-2025-n13677.html"
       }
     ]
   },
   contest: {
-    heading: "A30 CONTEST: TRIỆU HÀNH TRÌNH - TRIỆU CẢM XÚC",
+    heading: "A30 CONTEST: VIẾT TIẾP HÀNH TRÌNH TỰ HÀO",
     subtext: "Lắng nghe những cảm xúc chân thực đã cùng Hino viết nên dấu ấn 30 năm đáng tự hào.",
     items: [
       {
@@ -164,8 +192,8 @@ const expectedViSections = {
 const expectedEnSections = {
   hero: {
     eyebrow: "Hino Motors Vietnam",
-    heading: "30 YEARS OF TRUST - ACCOMPANYING MILLIONS OF JOURNEYS",
-    subtext: "For three decades of dedicated commitment, Hino Motors Vietnam has continuously delivered high-quality transport products and solutions, placing customer satisfaction at the center of every activity, thereby helping enhance operational efficiency, improve quality of life, and accompany Vietnam’s sustainable and prosperous development."
+    heading: "30 YEARS OF STEADFAST SERVICE",
+    subtext: "For three decades of steadfast service, Hino Motors Vietnam has continuously delivered high-quality transport products and solutions, placing customer satisfaction at the center of every activity, thereby helping enhance operational efficiency, improve quality of life, and accompany Vietnam’s sustainable and prosperous development."
   },
   appreciation: {
     heading: "GRATITUDE & COMMITMENT TO ACCOMPANY",
@@ -173,12 +201,12 @@ const expectedEnSections = {
     nameTitle: "<Hino cung cấp>"
   },
   video: {
-    heading: "30 YEARS ELEVATING QUALITY",
-    subtext: "Thirty years is a journey of trust, nurtured through every value created, quietly yet steadfastly, so that looking back today, it has all become part of our memories and pride.",
+    heading: "30 YEARS, ONE STEADFAST PRINCIPLE",
+    subtext: "Thirty years is a journey of trust, nurtured through meaningful values, quietly yet steadfastly. Today, that commitment has crystallized into pride, affirming the position of a brand devoted to serving Vietnam’s prosperity.",
     cta: "VIEW NOW"
   },
   milestones: {
-    heading: "Memorable Milestones",
+    heading: "MEMORABLE MILESTONES",
     subtext: "Each milestone is not only a step forward, but also proof of the steadfastness, effort, and aspiration to reach further over the past 30 years.",
     items: expectedMilestones(expectedEnMilestones)
   },
@@ -187,17 +215,23 @@ const expectedEnSections = {
     cta: "SEE MORE",
     items: [
       {
-        title: "HINO MOTORS VIETNAM INTRODUCES ANNIVERSARY EDITION – A TRIBUTE TO THE JOURNEY WITH CUSTOMERS",
-        excerpt: "Hino Motors Vietnam Joint Venture Co., Ltd. proudly introduces the special Euro6 edition on the occasion of its 30th anniversary (1996–2026). This edition is created as a meaningful tribute to customers through upgraded design and equipment, delivering a more comfortable and safer driving experience…"
+        title: "SAFE & FUEL-EFFICIENT DRIVING TRAINING PROGRAM ON 22-23/08/2025 IN CAN THO",
+        excerpt: "The Eco Driving customer care and fuel-efficient driving training series is part of Hino Motors Vietnam’s total support program, organized with its nationwide 3S dealer network to improve driver skills and support customers’ business operations.",
+        imageUrl: "src/assets/news-eco-driving-can-tho.jpg",
+        imageAlt: "Eco Driving event in Can Tho",
+        href: "https://hino.vn/tin-tuc/chuong-trinh-dao-tao-lai-xe-an-toan-8211-tiet-kiem-nhien-lieu-ngay-22-23082025-tai-can-tho-n13702.html"
       },
       {
-        title: "SAFE & FUEL-EFFICIENT DRIVING TRAINING PROGRAM",
-        excerpt: "With the desire to better support the business operations of customers who have trusted Hino, Hino Motors Vietnam, together with its authorized dealer network in Ho Chi Minh City, successfully organized the SAFE & FUEL-EFFICIENT DRIVING TRAINING program…"
+        title: "HINO MOTORS VIETNAM MARKS ITS LEAD IN GREEN TRANSPORT TRENDS AT VILOG 2025",
+        excerpt: "From 31/7 to 2/8/2025, Hino Motors Vietnam joined VILOG 2025, welcoming visitors to experience Hino Euro5 trucks and the iHINO-CONNECT smart fleet management system.",
+        imageUrl: "src/assets/news-vilog-2025.jpg",
+        imageAlt: "Hino Motors Vietnam booth at VILOG 2025",
+        href: "https://hino.vn/tin-tuc/hino-motors-viet-nam-ghi-dau-an-dan-dau-xu-huong-van-tai-xanh-tai-vilog-2025-n13677.html"
       }
     ]
   },
   contest: {
-    heading: "A30 CONTEST: MILLIONS OF JOURNEYS - MILLIONS OF EMOTIONS",
+    heading: "A30 CONTEST: CONTINUING A PROUD JOURNEY",
     subtext: "Listen to heartfelt emotions that have joined Hino in writing a proud 30-year legacy.",
     items: [
       {

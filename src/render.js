@@ -17,6 +17,18 @@ const heroActionLabels = {
     video: "Video"
   }
 };
+const unavailableLabels = {
+  vi: {
+    video: "Video sẽ được cập nhật",
+    profile: "Hồ sơ công ty sẽ được cập nhật",
+    card: "Sắp cập nhật"
+  },
+  en: {
+    video: "Video coming soon",
+    profile: "Company profile coming soon",
+    card: "Coming soon"
+  }
+};
 const contestCardCount = 5;
 
 function safeUrl(value, fallback = "#", options = {}) {
@@ -56,11 +68,9 @@ function hasSafeUrl(value, options = {}) {
 }
 
 function mediaPlaceholder(label, className = "") {
-  const seed = encodeURIComponent(label).replace(/%/g, '');
-  const imgUrl = `https://picsum.photos/seed/${seed}/800/600`;
   return `
-    <div class="media-placeholder ${className}" style="padding: 0; background: none; overflow: hidden;" role="img" aria-label="${escapeHtml(label)}">
-      <img src="${imgUrl}" alt="${escapeHtml(label)}" style="width: 100%; height: 100%; object-fit: cover; display: block;" loading="lazy" />
+    <div class="media-placeholder ${className}" role="img" aria-label="${escapeHtml(label)}">
+      <span>${escapeHtml(label)}</span>
     </div>
   `;
 }
@@ -75,6 +85,22 @@ function sectionHeading(section, headingId, kicker = "") {
   `;
 }
 
+function renderHeroTitle(heading) {
+  const text = String(heading || "");
+  const match = text.match(/^(30\s+(?:NĂM|YEARS))\s+(.+)$/);
+
+  if (!match) {
+    return `<h1 id="hero-title" class="hero-title">${escapeHtml(text)}</h1>`;
+  }
+
+  return `
+        <h1 id="hero-title" class="hero-title">
+          <span class="hero-title-count">${escapeHtml(match[1])}</span>
+          <span class="hero-title-main">${escapeHtml(match[2])}</span>
+        </h1>
+  `;
+}
+
 function renderNav(data, activeLang) {
   const links = data.nav.links
     .map(([id, label]) => `<a href="${safeUrl(`#${id}`)}">${escapeHtml(label)}</a>`)
@@ -83,9 +109,9 @@ function renderNav(data, activeLang) {
   return `
     <header class="site-nav" id="site-nav">
       <a class="brand-lockup" href="${safeUrl(data.nav.logoHref)}" aria-label="${escapeHtml(data.nav.homeLabel)}">
-        <img class="hino-logo" src="src/assets/image.png" width="52" height="52" alt="Hino">
+        <img class="hino-logo" src="src/assets/hinologonew.png" width="52" height="52" alt="Hino">
         <span class="logo-divider"></span>
-        <img class="a30-mark" src="src/Asset 2de.svg" width="90" height="37" alt="A30">
+        <img class="a30-mark" src="src/a30new.svg" width="72" height="50" alt="A30">
       </a>
       <button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-links">
         <span></span><span></span><span></span>
@@ -119,17 +145,17 @@ function renderHero(section, activeLang, assets) {
   const labels = heroActionLabels[activeLang] || heroActionLabels.vi;
   const hasHeroBannerUrl = hasSafeUrl(assets.heroBannerUrl, { allowHash: false });
   const heroBannerUrl = safeUrl(assets.heroBannerUrl, "", { allowHash: false });
-  
-  const heroImage = hasHeroBannerUrl
-    ? `<section class="hero-banner-only"><img class="hero-image-full" src="${heroBannerUrl}" alt="Hino 30 years hero banner"></section>`
-    : "";
 
   return `
-    ${heroImage}
-    <section class="hero-text-section" id="hero" aria-labelledby="hero-title">
-      <div class="hero-content-centered">
+    <section class="hero-banner" id="hero" aria-label="Hino 30 years anniversary banner">
+      ${hasHeroBannerUrl ? `<img class="hero-image-full" src="${heroBannerUrl}" alt="Hino 30 years hero banner">` : ""}
+    </section>
+    <section class="hero-action-strip" aria-labelledby="hero-title">
+      <div class="hero-action-copy">
         <p class="eyebrow">${escapeHtml(section.eyebrow)}</p>
-        <h1 id="hero-title">${escapeHtml(section.heading)}</h1>
+        ${renderHeroTitle(section.heading)}
+      </div>
+      <div class="hero-action-side">
         <p class="hero-copy">${escapeHtml(section.subtext)}</p>
         <div class="hero-actions">
           <a class="button primary" href="#milestones">${escapeHtml(labels.milestones)}</a>
@@ -153,7 +179,8 @@ function renderAppreciation(section) {
   `;
 }
 
-function renderVideo(section, assets) {
+function renderVideo(section, assets, activeLang) {
+  const labels = unavailableLabels[activeLang] || unavailableLabels.vi;
   const hasVideoUrl = hasSafeUrl(assets.videoUrl, { allowHash: false });
   const videoUrl = safeUrl(assets.videoUrl, "#", { allowHash: false });
   const videoBody = hasVideoUrl
@@ -161,7 +188,7 @@ function renderVideo(section, assets) {
     : mediaPlaceholder("Video placeholder - awaiting Hino YouTube link", "video-placeholder");
   const cta = hasVideoUrl
     ? `<a class="button primary" href="${videoUrl}">${escapeHtml(section.cta)}</a>`
-    : `<span class="button primary is-disabled" aria-disabled="true">${escapeHtml(section.cta)}</span>`;
+    : `<p class="asset-status">${escapeHtml(labels.video)}</p>`;
 
   return `
     <section class="content-band section-pattern" id="video" aria-labelledby="video-title">
@@ -176,10 +203,15 @@ function renderMilestones(section) {
   const items = section.items
     .map((item, index) => {
       const position = index % 2 === 0 ? "top" : "bottom";
+      const hasImage = hasSafeUrl(item.imageUrl, { allowHash: false });
+      const image = hasImage
+        ? `<img class="milestone-image" src="${safeUrl(item.imageUrl, "", { allowHash: false })}" alt="${escapeHtml(item.imageAlt || `${item.year} milestone image`)}" loading="lazy">`
+        : mediaPlaceholder(item.imageAlt, "milestone-image");
+
       return `
       <div class="milestone-column" data-position="${position}" data-index="${index}">
         <div class="milestone-card" tabindex="0">
-          ${mediaPlaceholder(item.imageAlt, "milestone-image")}
+          ${image}
           <div class="milestone-card-body">
             <p class="milestone-year">${escapeHtml(item.year)}</p>
             <p class="milestone-text">${escapeHtml(item.text)}</p>
@@ -205,19 +237,24 @@ function renderMilestones(section) {
   `;
 }
 
-function renderCards(section, type) {
+function renderCards(section, type, activeLang) {
+  const labels = unavailableLabels[activeLang] || unavailableLabels.vi;
   const items = section.items
     .map((item) => {
       const hasHref = hasSafeUrl(item.href);
+      const hasImage = hasSafeUrl(item.imageUrl, { allowHash: false });
+      const image = hasImage
+        ? `<img class="card-image" src="${safeUrl(item.imageUrl, "", { allowHash: false })}" alt="${escapeHtml(item.imageAlt || `${type} image`)}" loading="lazy">`
+        : mediaPlaceholder(`${type} image placeholder`, "card-image");
       const cta = section.cta
         ? hasHref
           ? `<a class="text-link" href="${safeUrl(item.href)}">${escapeHtml(section.cta)}</a>`
-          : `<span class="text-link is-disabled" aria-disabled="true">${escapeHtml(section.cta)}</span>`
+          : `<span class="text-status">${escapeHtml(labels.card)}</span>`
         : "";
 
       return `
         <article class="${type}-card">
-          ${mediaPlaceholder(`${type} image placeholder`, "card-image")}
+          ${image}
           <div class="card-copy">
             <h3>${escapeHtml(item.title || item.name)}</h3>
             <p>${escapeHtml(item.excerpt || item.quote)}</p>
@@ -287,12 +324,13 @@ function renderContest(section) {
   `;
 }
 
-function renderProfile(section, assets) {
+function renderProfile(section, assets, activeLang) {
+  const labels = unavailableLabels[activeLang] || unavailableLabels.vi;
   const hasProfileUrl = hasSafeUrl(assets.companyProfileUrl);
   const href = safeUrl(assets.companyProfileUrl);
   const cta = hasProfileUrl
     ? `<a class="button primary" href="${href}">${escapeHtml(section.cta)}</a>`
-    : `<span class="button primary is-disabled" aria-disabled="true">${escapeHtml(section.cta)}</span>`;
+    : `<p class="asset-status">${escapeHtml(labels.profile)}</p>`;
 
   return `
     <section class="profile-cta section-pattern" id="profile" aria-labelledby="profile-title">
@@ -343,7 +381,7 @@ function renderFooter() {
             <strong>CÔNG TY LD TNHH HINO MOTORS VIỆT NAM</strong>
             <span>Ngõ 83 Đường Ngọc Hồi, Phường Yên Sở, Thành phố Hà Nội, Việt Nam</span>
             <span>Mã số thuế: 0100114272</span>
-            <span><strong>Hotline:</strong> <b>18009280</b></span>
+            <span><strong>Hotline:</strong> <a href="tel:18009280"><b>18009280</b></a></span>
           </address>
         </section>
       </div>
@@ -372,11 +410,11 @@ export function renderPage(data, activeLang) {
     ${renderNav(data, activeLang)}
     ${renderHero(sections.hero, activeLang, data.assets)}
     ${renderAppreciation(sections.appreciation)}
-    ${renderVideo(sections.video, data.assets)}
+    ${renderVideo(sections.video, data.assets, activeLang)}
     ${renderMilestones(sections.milestones)}
-    ${renderCards(sections.news, "news")}
+    ${renderCards(sections.news, "news", activeLang)}
     ${renderContest(sections.contest)}
-    ${renderProfile(sections.profile, data.assets)}
+    ${renderProfile(sections.profile, data.assets, activeLang)}
     ${renderFooter()}
   `;
 }
