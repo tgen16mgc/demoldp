@@ -417,7 +417,7 @@ h1 {
   display: grid;
   grid-template-columns: minmax(260px, 42%) minmax(0, 1fr);
   min-height: 420px;
-  background: #ffffff;
+  background: transparent;
 }
 
 .media-placeholder {
@@ -487,10 +487,13 @@ blockquote {
   text-align: center;
 }
 
-.content-band:nth-of-type(even),
 .timeline-section,
 .profile-cta {
   background: var(--soft);
+}
+
+#video {
+  background: transparent;
 }
 
 .section-heading {
@@ -559,14 +562,12 @@ blockquote {
 .timeline-viewport {
   width: 100%;
   overflow-x: auto;
-  overflow-y: visible;
+  overflow-y: hidden;
   cursor: grab;
   scrollbar-width: none;
   overscroll-behavior-x: contain;
   touch-action: pan-x;
   user-select: none;
-  padding-top: 12px;
-  padding-bottom: 12px;
 }
 
 .timeline-viewport::-webkit-scrollbar {
@@ -585,7 +586,7 @@ blockquote {
   gap: 0;
   width: max-content;
   min-width: 100%;
-  height: 580px;
+  height: 720px;
   padding: 0 clamp(18px, 6vw, 84px);
 }
 

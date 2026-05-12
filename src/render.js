@@ -167,11 +167,16 @@ function renderHero(section, activeLang, assets) {
 }
 
 function renderAppreciation(section) {
+  const headingParts = section.heading.split(" & ");
+  const headingHtml = headingParts.length === 2
+    ? `${escapeHtml(headingParts[0])} &amp;<br>${escapeHtml(headingParts[1])}`
+    : escapeHtml(section.heading);
+
   return `
     <section class="split-section section-pattern" id="appreciation" aria-labelledby="appreciation-title">
       ${mediaPlaceholder("TGĐ photo placeholder", "portrait-placeholder")}
       <div class="split-copy">
-        <h2 id="appreciation-title">${escapeHtml(section.heading)}</h2>
+        <h2 id="appreciation-title">${headingHtml}</h2>
         <blockquote>${escapeHtml(section.quote)}</blockquote>
         <p class="person-line">${escapeHtml(section.nameTitle)}</p>
       </div>
