@@ -95,10 +95,15 @@ export function setupPageMotion(root) {
       });
     }
 
+    const navIntroTargets = [".brand-lockup", ".language-toggle button"];
+    if (window.matchMedia("(min-width: 901px)").matches) {
+      navIntroTargets.splice(1, 0, ".nav-links a");
+    }
+
     loadTimeline
       .from(".site-nav", { y: -18, autoAlpha: 0, duration: 0.62 })
       .from(
-        ".brand-lockup, .nav-links a, .language-toggle button",
+        navIntroTargets.join(", "),
         { y: -10, autoAlpha: 0, duration: 0.48, stagger: 0.035 },
         "-=0.34"
       )
