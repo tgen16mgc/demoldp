@@ -149,6 +149,9 @@ function renderHero(section, activeLang, assets) {
   return `
     <section class="hero-banner" id="hero" aria-label="Hino 30 years anniversary banner">
       ${hasHeroBannerUrl ? `<img class="hero-image-full" src="${heroBannerUrl}" alt="Hino 30 years hero banner">` : ""}
+      <a class="scroll-cue" href="#hero-title" aria-label="Scroll down">
+        <span></span>
+      </a>
     </section>
     <section class="hero-action-strip" aria-labelledby="hero-title">
       <div class="hero-action-copy">

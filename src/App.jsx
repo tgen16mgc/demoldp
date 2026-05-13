@@ -3,6 +3,7 @@ import { content } from "./content.js";
 import { renderPage } from "./render.js";
 import { setupContestCarousel } from "./carousel.js";
 import { setupTimeline } from "./timeline.js";
+import { setupPageMotion } from "./motion.js";
 
 export function App() {
   const [activeLang, setActiveLang] = useState("vi");
@@ -22,6 +23,7 @@ export function App() {
 
     const cleanupTimeline = setupTimeline(root.querySelector(".timeline-section"));
     const cleanupContestCarousel = setupContestCarousel(root.querySelector(".contest-section"));
+    const cleanupPageMotion = setupPageMotion(root);
     const menu = root.querySelector(".menu-toggle");
     const navLinks = root.querySelector("#nav-links");
     const languageButtons = Array.from(root.querySelectorAll("[data-lang]"));
@@ -46,6 +48,7 @@ export function App() {
     languageButtons.forEach((button) => button.addEventListener("click", onLanguageClick));
 
     return () => {
+      cleanupPageMotion();
       cleanupTimeline();
       cleanupContestCarousel();
       menu?.removeEventListener("click", onMenuClick);
