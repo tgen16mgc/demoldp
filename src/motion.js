@@ -39,16 +39,28 @@ function revealOnEntry(targets, options = {}) {
 
   gsap.from(elements, {
     y: options.y ?? 28,
+    scale: options.scale ?? 0.96,
+    rotateX: options.rotateX ?? -8,
+    clipPath: options.clipPath ?? "inset(0 0 18% 0 round 8px)",
     autoAlpha: 0,
-    duration: options.duration ?? 0.78,
+    duration: options.duration ?? 0.86,
     stagger: options.stagger ?? 0.08,
-    ease: "power3.out",
+    ease: "power4.out",
+    transformOrigin: "50% 100%",
     scrollTrigger: {
       trigger: options.trigger || elements[0],
       start: options.start || "top 88%",
       once: true
     }
   });
+}
+
+function formatCount(value, suffix, decimals = Number.isInteger(value) ? 0 : 1, locale = "en-US") {
+  const numberLocale = locale === "vi-VN" && decimals === 0 ? "vi-VN" : "en-US";
+  return `${value.toLocaleString(numberLocale, {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals
+  })}${suffix || ""}`;
 }
 
 export function setupPageMotion(root) {
@@ -62,38 +74,8 @@ export function setupPageMotion(root) {
   }
 
   const splitCleanups = [];
-  const eventCleanups = [];
   const ctx = gsap.context(() => {
-    const heroBanner = root.querySelector(".hero-banner");
-    const heroImage = root.querySelector(".hero-image-full");
     const loadTimeline = gsap.timeline({ defaults: { ease: "power3.out" } });
-
-    if (heroBanner && heroImage && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
-      function zoomHeroIn() {
-        gsap.to(heroImage, {
-          scale: 1.045,
-          duration: 0.9,
-          ease: "power3.out",
-          overwrite: "auto"
-        });
-      }
-
-      function zoomHeroOut() {
-        gsap.to(heroImage, {
-          scale: 1,
-          duration: 0.9,
-          ease: "power3.out",
-          overwrite: "auto"
-        });
-      }
-
-      heroBanner.addEventListener("mouseenter", zoomHeroIn);
-      heroBanner.addEventListener("mouseleave", zoomHeroOut);
-      eventCleanups.push(() => {
-        heroBanner.removeEventListener("mouseenter", zoomHeroIn);
-        heroBanner.removeEventListener("mouseleave", zoomHeroOut);
-      });
-    }
 
     const navIntroTargets = [".brand-lockup", ".language-toggle button"];
     if (window.matchMedia("(min-width: 901px)").matches) {
@@ -107,14 +89,14 @@ export function setupPageMotion(root) {
         { y: -10, autoAlpha: 0, duration: 0.48, stagger: 0.035 },
         "-=0.34"
       )
-      .from(".hero-image-full", { scale: 1.035, autoAlpha: 0.82, duration: 1.08 }, "-=0.16")
+      .from(".hero-image-full", { y: 16, autoAlpha: 0.82, duration: 1.08 }, "-=0.16")
       .from(
         ".hero-action-copy > *, .hero-action-side > *",
         { y: 22, autoAlpha: 0, duration: 0.72, stagger: 0.09 },
         "-=0.48"
       );
 
-    root.querySelectorAll(".hero-copy, .section-heading p").forEach((element) => {
+    root.querySelectorAll(".section-heading p").forEach((element) => {
       splitCleanups.push(splitTextForScrub(element));
       const words = element.querySelectorAll(".motion-word");
 
@@ -139,11 +121,37 @@ export function setupPageMotion(root) {
       );
     });
 
-    root.querySelectorAll(".split-section, .content-band, .timeline-section, .card-section, .profile-cta, .site-footer")
+    root.querySelectorAll("[data-count-to]").forEach((element, index) => {
+      const target = Number.parseFloat(element.dataset.countTo || "0");
+      const suffix = element.dataset.countSuffix || "";
+      const locale = element.dataset.countLocale || "en-US";
+      const decimals = Number.isInteger(target) ? 0 : 1;
+      const counter = { value: 0 };
+
+      gsap.to(counter, {
+        value: target,
+        duration: 2.45,
+        delay: index * 0.05,
+        ease: "power2.out",
+        onUpdate() {
+          element.textContent = formatCount(counter.value, suffix, decimals, locale);
+        },
+        onComplete() {
+          element.textContent = formatCount(target, suffix, decimals, locale);
+        },
+        scrollTrigger: {
+          trigger: element.closest(".stats-grid") || element.closest(".stats-section") || element,
+          start: "top 72%",
+          once: true
+        }
+      });
+    });
+
+    root.querySelectorAll(".split-section, .stats-section, .content-band, .timeline-section, .card-section, .profile-cta, .site-footer")
       .forEach((section) => {
         revealOnEntry(
           section.querySelectorAll(
-            ".portrait-placeholder, .split-copy > *, .section-heading > *, .video-frame, .asset-status, .timeline-pin, .news-card, .contest-heading-row, .marquee-wrapper, .profile-cta .button, .footer-group, .footer-contact, .footer-bottom-inner > *"
+            ".portrait-placeholder, .split-copy > *, .section-heading > *, .video-frame, .asset-status, .timeline-pin, .news-card, .profile-cta .button, .footer-group, .footer-contact, .footer-bottom-inner > *"
           ),
           { trigger: section }
         );
@@ -171,7 +179,6 @@ export function setupPageMotion(root) {
   }, root);
 
   return () => {
-    eventCleanups.forEach((cleanup) => cleanup());
     ctx.revert();
     splitCleanups.forEach((cleanup) => cleanup());
   };

@@ -10,24 +10,24 @@ function escapeRegExp(text) {
 
 test("Vietnamese source strings remain unedited", () => {
   [
-    "30 NĂM KIÊN ĐỊNH PHỤNG SỰ",
-    "LỜI TRI ÂN & CAM KẾT ĐỒNG HÀNH",
+    "VỮNG VÀNG CÙNG PHÁT TRIỂN",
+    "LỜI TRI ÂN",
+    "NHỮNG CON SỐ ẤN TƯỢNG",
     "30 NĂM VỮNG MỘT TÔN CHỈ",
     "NHỮNG CỘT MỐC ĐÁNG NHỚ",
-    "A30 CONTEST: VIẾT TIẾP HÀNH TRÌNH TỰ HÀO",
     "VỀ HINO MOTORS VIỆT NAM",
-    "CÔNG TY LD TNHH HINO MOTORS VIỆT NAM"
+    "CÔNG TY LIÊN DOANH TNHH HINO MOTORS VIỆT NAM"
   ].forEach((text) => assert.match(contentJs, new RegExp(escapeRegExp(text))));
 });
 
 test("English source strings remain unedited", () => {
   [
-    "30 YEARS OF STEADFAST SERVICE",
-    "GRATITUDE & COMMITMENT TO ACCOMPANY",
-    "30 YEARS, ONE STEADFAST PRINCIPLE",
+    "Advancing together",
+    "MESSAGE OF GRATITUDE",
+    "OUTSTANDING STATISTICS",
+    "30 Years, One Guiding Principle",
     "MEMORABLE MILESTONES",
-    "A30 CONTEST: CONTINUING A PROUD JOURNEY",
     "ABOUT HINO MOTORS VIETNAM",
-    "HINO MOTORS VIETNAM JOINT VENTURE CO., LTD."
+    "HINO MOTORS VIETNAM, LTD."
   ].forEach((text) => assert.match(contentJs, new RegExp(escapeRegExp(text))));
 });

@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { createRoot } from "react-dom/client";
 import { content } from "./content.js";
+import GradientText from "./components/GradientText";
 import { renderPage } from "./render.js";
-import { setupContestCarousel } from "./carousel.js";
 import { setupTimeline } from "./timeline.js";
 import { setupPageMotion } from "./motion.js";
+import { setupSmoothScroll } from "./smoothScroll.js";
 
 export function App() {
   const [activeLang, setActiveLang] = useState("vi");
@@ -21,14 +23,37 @@ export function App() {
       return undefined;
     }
 
+    const cleanupSmoothScroll = setupSmoothScroll();
     const cleanupTimeline = setupTimeline(root.querySelector(".timeline-section"));
-    const cleanupContestCarousel = setupContestCarousel(root.querySelector(".contest-section"));
     const cleanupPageMotion = setupPageMotion(root);
     const siteNav = root.querySelector(".site-nav");
     const menu = root.querySelector(".menu-toggle");
     const navLinks = root.querySelector("#nav-links");
     const navAnchors = Array.from(root.querySelectorAll("#nav-links a"));
     const languageButtons = Array.from(root.querySelectorAll("[data-lang]"));
+    const gradientTargets = Array.from(root.querySelectorAll("[data-gradient-text]"));
+    const gradientTextRoots = [];
+    const gradientMountId = window.setTimeout(() => {
+      gradientTargets.forEach((container) => {
+        container.textContent = "";
+        const gradientRoot = createRoot(container);
+        gradientRoot.render(
+          <GradientText
+            colors={["#ff8827", "#910808", "#1f1717"]}
+            animationSpeed={3}
+            showBorder={false}
+            className="hero-gradient-text"
+          >
+            {container.dataset.gradientText}
+          </GradientText>
+        );
+        gradientTextRoots.push(gradientRoot);
+      });
+    }, 0);
+
+    function updateNavSurface() {
+      siteNav?.classList.toggle("is-scrolled", window.scrollY > 24);
+    }
 
     function setMenuOpen(open) {
       const isMobile = window.innerWidth <= 900;
@@ -85,9 +110,11 @@ export function App() {
     }
 
     onResize();
+    updateNavSurface();
     menu?.addEventListener("click", onMenuClick);
     document.addEventListener("click", onDocumentClick);
     document.addEventListener("keydown", onKeyDown);
+    window.addEventListener("scroll", updateNavSurface, { passive: true });
     window.addEventListener("resize", onResize);
     navAnchors.forEach((anchor) => anchor.addEventListener("click", onNavAnchorClick));
     languageButtons.forEach((button) => button.addEventListener("click", onLanguageClick));
@@ -95,14 +122,19 @@ export function App() {
     return () => {
       cleanupPageMotion();
       cleanupTimeline();
-      cleanupContestCarousel();
+      cleanupSmoothScroll();
       menu?.removeEventListener("click", onMenuClick);
       document.removeEventListener("click", onDocumentClick);
       document.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("scroll", updateNavSurface);
       window.removeEventListener("resize", onResize);
       document.body.classList.remove("nav-lock");
+      window.clearTimeout(gradientMountId);
       navAnchors.forEach((anchor) => anchor.removeEventListener("click", onNavAnchorClick));
       languageButtons.forEach((button) => button.removeEventListener("click", onLanguageClick));
+      gradientTextRoots.forEach((gradientRoot) => {
+        window.setTimeout(() => gradientRoot.unmount(), 0);
+      });
     };
   }, [activeLang, html]);
 

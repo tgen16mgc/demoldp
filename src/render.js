@@ -19,17 +19,26 @@ const heroActionLabels = {
 };
 const unavailableLabels = {
   vi: {
-    video: "Video sẽ được cập nhật",
-    profile: "Hồ sơ công ty sẽ được cập nhật",
-    card: "Sắp cập nhật"
+    video: "Video sẽ được cập nhật"
   },
   en: {
-    video: "Video coming soon",
-    profile: "Company profile coming soon",
-    card: "Coming soon"
+    video: "Video coming soon"
   }
 };
-const contestCardCount = 5;
+const milestoneControlLabels = {
+  vi: {
+    headingLines: ["NHỮNG", "CỘT MỐC", "ĐÁNG NHỚ"],
+    sectionIndex: "II",
+    previous: "Cột mốc trước",
+    next: "Cột mốc tiếp theo"
+  },
+  en: {
+    headingLines: ["MEMORABLE", "MILESTONES"],
+    sectionIndex: "II",
+    previous: "Previous milestone",
+    next: "Next milestone"
+  }
+};
 
 function safeUrl(value, fallback = "#", options = {}) {
   const { allowHash = true } = options;
@@ -85,18 +94,67 @@ function sectionHeading(section, headingId, kicker = "") {
   `;
 }
 
+function renderPhraseGradientHeading(section, headingId, activeLang, phrase) {
+  const heading = String(section.heading || "");
+  const shouldGradientPhrase = activeLang === "vi" && heading.includes(phrase);
+
+  if (!shouldGradientPhrase) {
+    return sectionHeading(section, headingId);
+  }
+
+  const [before, after] = heading.split(phrase);
+  const beforeText = before.trim();
+  const afterText = after.trim();
+
+  return `
+    <div class="section-heading">
+      <h2 id="${escapeHtml(headingId)}" aria-label="${escapeHtml(heading)}">
+        ${beforeText ? `<span>${escapeHtml(beforeText)}</span> ` : ""}
+        <span class="heading-gradient-text">${escapeHtml(phrase)}</span>
+        ${afterText ? ` <span>${escapeHtml(afterText)}</span>` : ""}
+      </h2>
+      ${section.subtext ? `<p>${escapeHtml(section.subtext)}</p>` : ""}
+    </div>
+  `;
+}
+
+function renderCutReveal(text, className = "") {
+  const words = String(text || "").split(" ");
+  const visibleText = words
+    .map((word, index) => {
+      const space = index < words.length - 1 ? `<span class="cut-reveal-space"> </span>` : "";
+      return `<span class="cut-reveal-word" style="--reveal-index: ${index}"><span>${escapeHtml(word)}</span></span>${space}`;
+    })
+    .join("");
+
+  return `<span class="cut-reveal ${className}" aria-label="${escapeHtml(text)}">${visibleText}</span>`;
+}
+
+function renderBlockCutReveal(text, className = "") {
+  return `<span class="block-cut-reveal ${className}">${escapeHtml(text)}</span>`;
+}
+
 function renderHeroTitle(heading) {
   const text = String(heading || "");
   const match = text.match(/^(30\s+(?:NĂM|YEARS))\s+(.+)$/);
 
   if (!match) {
-    return `<h1 id="hero-title" class="hero-title">${escapeHtml(text)}</h1>`;
+    if (text === "VỮNG VÀNG CÙNG PHÁT TRIỂN") {
+      return `
+        <h1 id="hero-title" class="hero-title">
+          <span class="hero-title-line"><span class="hero-gradient-text-host" data-gradient-text="VỮNG VÀNG" aria-label="VỮNG VÀNG">VỮNG VÀNG</span></span>
+          <span class="hero-title-line">${renderCutReveal("CÙNG PHÁT TRIỂN", "hero-title-reveal")}</span>
+        </h1>
+      `;
+    }
+
+    return `<h1 id="hero-title" class="hero-title">${renderCutReveal(text, "hero-title-reveal")}</h1>`;
   }
 
   return `
         <h1 id="hero-title" class="hero-title">
-          <span class="hero-title-count">${escapeHtml(match[1])}</span>
-          <span class="hero-title-main">${escapeHtml(match[2])}</span>
+          <span class="hero-title-count">${renderCutReveal(match[1], "hero-title-count-reveal")}</span>
+          <span class="hero-title-main">${renderCutReveal(match[2], "hero-title-reveal")}</span>
         </h1>
   `;
 }
@@ -111,7 +169,10 @@ function renderNav(data, activeLang) {
       <a class="brand-lockup" href="${safeUrl(data.nav.logoHref)}" aria-label="${escapeHtml(data.nav.homeLabel)}">
         <img class="hino-logo" src="src/assets/hinologonew.png" width="52" height="52" alt="Hino">
         <span class="logo-divider"></span>
-        <img class="a30-mark" src="src/a30new.svg" width="72" height="50" alt="A30">
+        <span class="a30-mark">
+          <img class="a30-mark-image a30-mark-default" src="src/a30new.svg" width="72" height="50" alt="A30">
+          <img class="a30-mark-image a30-mark-hero" src="src/assets/a30-nav-white.svg" width="72" height="50" alt="" aria-hidden="true">
+        </span>
       </a>
       <button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-links">
         <span></span><span></span><span></span>
@@ -127,20 +188,6 @@ function renderNav(data, activeLang) {
   `;
 }
 
-function renderCarouselButton(direction, label) {
-  const path = direction === "prev"
-    ? "M15 18l-6-6 6-6M9 12h12"
-    : "M9 6l6 6-6 6m-6-6h12";
-
-  return `
-    <button class="carousel-button" type="button" data-carousel-${direction} aria-label="${escapeHtml(label)}">
-      <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20">
-        <path d="${path}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-      </svg>
-    </button>
-  `;
-}
-
 function renderHero(section, activeLang, assets) {
   const labels = heroActionLabels[activeLang] || heroActionLabels.vi;
   const hasHeroBannerUrl = hasSafeUrl(assets.heroBannerUrl, { allowHash: false });
@@ -148,7 +195,7 @@ function renderHero(section, activeLang, assets) {
 
   return `
     <section class="hero-banner" id="hero" aria-label="Hino 30 years anniversary banner">
-      ${hasHeroBannerUrl ? `<img class="hero-image-full" src="${heroBannerUrl}" alt="Hino 30 years hero banner">` : ""}
+      ${hasHeroBannerUrl ? `<img class="hero-image-full" src="${heroBannerUrl}" width="2752" height="1536" alt="Hino 30 years hero banner" fetchpriority="high">` : ""}
       <a class="scroll-cue" href="#hero-title" aria-label="Scroll down">
         <span></span>
       </a>
@@ -159,7 +206,7 @@ function renderHero(section, activeLang, assets) {
         ${renderHeroTitle(section.heading)}
       </div>
       <div class="hero-action-side">
-        <p class="hero-copy">${escapeHtml(section.subtext)}</p>
+        <p class="hero-copy">${renderBlockCutReveal(section.subtext, "hero-copy-reveal")}</p>
         <div class="hero-actions">
           <a class="button primary" href="#milestones">${escapeHtml(labels.milestones)}</a>
           <a class="button secondary" href="#video">${escapeHtml(labels.video)}</a>
@@ -187,6 +234,59 @@ function renderAppreciation(section) {
   `;
 }
 
+function renderStatistics(section, activeLang = "vi") {
+  const countLocale = activeLang === "vi" ? "vi-VN" : "en-US";
+  const fallbackEyebrow = activeLang === "vi" ? "HƠN" : "OVER";
+  const items = section.items
+    .map((item, i) => {
+      const rawEyebrow = item.eyebrow || fallbackEyebrow;
+      const displayEyebrow = activeLang === "vi" && rawEyebrow.toLowerCase() === "about"
+        ? "HƠN"
+        : rawEyebrow;
+      const eyebrow = escapeHtml(displayEyebrow);
+      return `
+      <article class="stat-cell" style="--stat-i:${i}" role="listitem">
+        <div class="stat-hex">
+          <span class="stat-hex-shape" aria-hidden="true"></span>
+          <span class="stat-hex-shape stat-hex-shape--inner" aria-hidden="true"></span>
+          <div class="stat-hex-inner">
+            <span class="stat-eyebrow">${eyebrow}</span>
+            <div class="stat-figure">
+              <span
+                class="stat-number"
+                data-count-to="${escapeHtml(item.value)}"
+                data-count-suffix="${escapeHtml(item.suffix || "")}"
+                data-count-locale="${escapeHtml(countLocale)}"
+              >0${escapeHtml(item.suffix || "")}</span>
+              <p class="stat-unit">${escapeHtml(item.unit || "")}</p>
+            </div>
+          </div>
+        </div>
+        <div class="stat-info">
+          <h3 class="stat-label">${escapeHtml(item.label)}</h3>
+          <p class="stat-meta">${escapeHtml(item.meta || "")}</p>
+        </div>
+      </article>
+    `;
+    })
+    .join("");
+
+  return `
+    <section class="stats-section section-pattern" id="statistics" aria-labelledby="statistics-title">
+      <div class="stats-section-bg" aria-hidden="true">
+        <span class="stats-glow stats-glow--a"></span>
+        <span class="stats-glow stats-glow--b"></span>
+      </div>
+      <div class="stats-shell">
+        <div class="stats-intro">
+          ${renderPhraseGradientHeading(section, "statistics-title", activeLang, "CON SỐ ẤN TƯỢNG")}
+        </div>
+        <div class="stats-grid" role="list">${items}</div>
+      </div>
+    </section>
+  `;
+}
+
 function renderVideo(section, assets, activeLang) {
   const labels = unavailableLabels[activeLang] || unavailableLabels.vi;
   const hasVideoUrl = hasSafeUrl(assets.videoUrl, { allowHash: false });
@@ -200,69 +300,99 @@ function renderVideo(section, assets, activeLang) {
 
   return `
     <section class="content-band section-pattern" id="video" aria-labelledby="video-title">
-      ${sectionHeading(section, "video-title")}
+      ${renderPhraseGradientHeading(section, "video-title", activeLang, "30 NĂM")}
       <div class="video-frame">${videoBody}</div>
       ${cta}
     </section>
   `;
 }
 
-function renderMilestones(section) {
+function renderMilestones(section, activeLang) {
+  const labels = milestoneControlLabels[activeLang] || milestoneControlLabels.vi;
+  const headingLines = labels.headingLines
+    .map((line) => `<span>${escapeHtml(line)}</span>`)
+    .join("");
+  const introPanel = `
+    <article class="timeline-intro-panel">
+      <div class="timeline-intro-top">
+        <img class="timeline-intro-mark" src="src/a30new.svg" alt="A30" loading="lazy">
+        <p class="timeline-intro-small">${escapeHtml(section.subtext || "")}</p>
+      </div>
+      <span class="timeline-section-index" aria-hidden="true">${escapeHtml(labels.sectionIndex)}</span>
+      <div class="timeline-intro-main">
+        <h2 id="milestones-title">${headingLines}</h2>
+      </div>
+    </article>
+  `;
+  const controls = `
+    <div class="timeline-controls" aria-label="Timeline controls">
+      <button class="timeline-arrow timeline-arrow-prev" type="button" data-timeline-prev aria-label="${escapeHtml(labels.previous)}">
+        <span class="sr-only">${escapeHtml(labels.previous)}</span>
+      </button>
+      <button class="timeline-arrow timeline-arrow-next" type="button" data-timeline-next aria-label="${escapeHtml(labels.next)}">
+        <span class="sr-only">${escapeHtml(labels.next)}</span>
+      </button>
+    </div>
+  `;
   const items = section.items
     .map((item, index) => {
-      const position = index % 2 === 0 ? "top" : "bottom";
       const hasImage = hasSafeUrl(item.imageUrl, { allowHash: false });
+      const isAnniversaryMilestone = item.year === "2026";
+      const eventClass = `milestone-event${isAnniversaryMilestone ? " is-anniversary" : ""}`;
+      const imageClass = `milestone-image${isAnniversaryMilestone ? " milestone-image-anniversary" : ""}`;
+      const displayIndex = String(section.items.length - index).padStart(2, "0");
       const image = hasImage
-        ? `<img class="milestone-image" src="${safeUrl(item.imageUrl, "", { allowHash: false })}" alt="${escapeHtml(item.imageAlt || `${item.year} milestone image`)}" loading="lazy">`
-        : mediaPlaceholder(item.imageAlt, "milestone-image");
+        ? `<img class="${imageClass}" src="${safeUrl(item.imageUrl, "", { allowHash: false })}" alt="${escapeHtml(item.imageAlt || `${item.year} milestone image`)}" loading="lazy">`
+        : `<div class="milestone-image milestone-image-placeholder" role="img" aria-label="${escapeHtml(item.imageAlt || `${item.year} milestone image`)}"></div>`;
 
       return `
-      <div class="milestone-column" data-position="${position}" data-index="${index}">
-        <div class="milestone-card" tabindex="0">
-          ${image}
-          <div class="milestone-card-body">
-            <p class="milestone-year">${escapeHtml(item.year)}</p>
-            <p class="milestone-text">${escapeHtml(item.text)}</p>
-          </div>
+      <article class="${eventClass}">
+        <span class="milestone-index" aria-hidden="true">${escapeHtml(displayIndex)}</span>
+        <div class="milestone-copy">
+          <p class="milestone-date">${escapeHtml(item.year)}</p>
+          <h3 class="milestone-title">${escapeHtml(item.text)}</h3>
         </div>
-        <div class="milestone-connector" aria-hidden="true"></div>
-        <div class="milestone-dot" aria-hidden="true"></div>
-      </div>
+        <figure class="milestone-card">
+          ${image}
+        </figure>
+      </article>
     `;
     })
     .join("");
 
   return `
     <section class="timeline-section section-pattern" id="milestones" aria-labelledby="milestones-title">
-      ${sectionHeading(section, "milestones-title")}
       <div class="timeline-pin">
         <div class="timeline-viewport" tabindex="0" aria-label="${escapeHtml(section.heading)}">
-          <div class="timeline-track">${items}</div>
+          <div class="timeline-track">
+            <div class="timeline-canvas">
+              ${introPanel}
+              ${items}
+            </div>
+          </div>
         </div>
-        <div class="timeline-progress" aria-hidden="true"><span></span></div>
+        ${controls}
       </div>
     </section>
   `;
 }
 
-function renderCards(section, type, activeLang) {
-  const labels = unavailableLabels[activeLang] || unavailableLabels.vi;
+function renderCards(section, type) {
   const items = section.items
     .map((item) => {
       const hasHref = hasSafeUrl(item.href);
+      const href = hasHref ? safeUrl(item.href) : `#${escapeHtml(type)}`;
       const hasImage = hasSafeUrl(item.imageUrl, { allowHash: false });
       const image = hasImage
         ? `<img class="card-image" src="${safeUrl(item.imageUrl, "", { allowHash: false })}" alt="${escapeHtml(item.imageAlt || `${type} image`)}" loading="lazy">`
         : mediaPlaceholder(`${type} image placeholder`, "card-image");
       const cta = section.cta
-        ? hasHref
-          ? `<a class="text-link" href="${safeUrl(item.href)}">${escapeHtml(section.cta)}</a>`
-          : `<span class="text-status">${escapeHtml(labels.card)}</span>`
+        ? `<a class="text-link" href="${href}">${escapeHtml(section.cta)}</a>`
         : "";
 
       return `
         <article class="${type}-card">
-          ${image}
+          <figure class="card-media">${image}</figure>
           <div class="card-copy">
             <h3>${escapeHtml(item.title || item.name)}</h3>
             <p>${escapeHtml(item.excerpt || item.quote)}</p>
@@ -282,66 +412,12 @@ function renderCards(section, type, activeLang) {
     `;
   }
 
-  return `
-    <section class="card-section" id="contest" aria-labelledby="contest-title">
-      ${sectionHeading(section, "contest-title")}
-      <div class="card-grid">${items}</div>
-    </section>
-  `;
 }
 
-function renderContest(section) {
-  const items = [...section.items];
-
-  while (items.length < contestCardCount) {
-    items.push({
-      name: "<Hino cung cấp>",
-      quote: "<Hino cung cấp>",
-      isPlaceholder: true
-    });
-  }
-
-  const makeCard = (item, index) => `
-    <article class="contest-card${item.isPlaceholder ? " is-placeholder" : ""}" aria-label="A30 contest card ${index + 1}">
-      <div class="contest-card-media">
-        ${mediaPlaceholder("Contest image placeholder", "contest-card-img")}
-        <div class="contest-card-overlay">
-          <blockquote class="contest-quote">${escapeHtml(item.quote)}</blockquote>
-        </div>
-      </div>
-      <p class="contest-name">${escapeHtml(item.name)}</p>
-    </article>
-  `;
-
-  const row1 = items.slice(0, contestCardCount).map(makeCard).join("");
-  const row2 = [...items].reverse().slice(0, contestCardCount).map(makeCard).join("");
-
-  return `
-    <section class="card-section contest-section section-pattern" id="contest" aria-labelledby="contest-title">
-      <div class="contest-heading-row">
-        ${sectionHeading(section, "contest-title")}
-      </div>
-      <div class="marquee-wrapper">
-        <div class="marquee-row">
-          <div class="marquee-set">${row1}</div>
-          <div class="marquee-set" aria-hidden="true">${row1}</div>
-        </div>
-        <div class="marquee-row marquee-row--reverse">
-          <div class="marquee-set">${row2}</div>
-          <div class="marquee-set" aria-hidden="true">${row2}</div>
-        </div>
-      </div>
-    </section>
-  `;
-}
-
-function renderProfile(section, assets, activeLang) {
-  const labels = unavailableLabels[activeLang] || unavailableLabels.vi;
+function renderProfile(section, assets) {
   const hasProfileUrl = hasSafeUrl(assets.companyProfileUrl);
-  const href = safeUrl(assets.companyProfileUrl);
-  const cta = hasProfileUrl
-    ? `<a class="button primary" href="${href}">${escapeHtml(section.cta)}</a>`
-    : `<p class="asset-status">${escapeHtml(labels.profile)}</p>`;
+  const href = hasProfileUrl ? safeUrl(assets.companyProfileUrl) : "#profile";
+  const cta = `<a class="button primary" href="${href}">${escapeHtml(section.cta)}</a>`;
 
   return `
     <section class="profile-cta section-pattern" id="profile" aria-labelledby="profile-title">
@@ -351,7 +427,17 @@ function renderProfile(section, assets, activeLang) {
   `;
 }
 
-function renderFooter() {
+function renderFooter(contact) {
+  const offices = (contact.offices || [])
+    .map((office) => `
+      <div class="footer-office">
+        <strong>${escapeHtml(office.label)}</strong>
+        <span>${escapeHtml(office.address)}</span>
+        <span>${escapeHtml(office.phoneFax)}</span>
+      </div>
+    `)
+    .join("");
+
   return `
     <footer class="site-footer" id="contact" aria-labelledby="footer-contact-title">
       <div class="footer-main">
@@ -387,12 +473,10 @@ function renderFooter() {
           </div>
         </section>
         <section class="footer-contact" aria-labelledby="footer-contact-title">
-          <h2 id="footer-contact-title">LIÊN HỆ</h2>
+          <h2 id="footer-contact-title">${escapeHtml(contact.heading)}</h2>
           <address>
-            <strong>CÔNG TY LD TNHH HINO MOTORS VIỆT NAM</strong>
-            <span>Ngõ 83 Đường Ngọc Hồi, Phường Yên Sở, Thành phố Hà Nội, Việt Nam</span>
-            <span>Mã số thuế: 0100114272</span>
-            <span><strong>Hotline:</strong> <a href="tel:18009280"><b>18009280</b></a></span>
+            <strong>${escapeHtml(contact.company)}</strong>
+            ${offices}
           </address>
         </section>
       </div>
@@ -421,11 +505,11 @@ export function renderPage(data, activeLang) {
     ${renderNav(data, activeLang)}
     ${renderHero(sections.hero, activeLang, data.assets)}
     ${renderAppreciation(sections.appreciation)}
+    ${renderStatistics(sections.statistics, activeLang)}
     ${renderVideo(sections.video, data.assets, activeLang)}
-    ${renderMilestones(sections.milestones)}
-    ${renderCards(sections.news, "news", activeLang)}
-    ${renderContest(sections.contest)}
-    ${renderProfile(sections.profile, data.assets, activeLang)}
-    ${renderFooter()}
+    ${renderMilestones(sections.milestones, activeLang)}
+    ${renderCards(sections.news, "news")}
+    ${renderProfile(sections.profile, data.assets)}
+    ${renderFooter(sections.contact)}
   `;
 }

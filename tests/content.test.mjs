@@ -5,10 +5,10 @@ import { content, sectionOrder } from "../src/content.js";
 const requiredSections = [
   "hero",
   "appreciation",
+  "statistics",
   "video",
   "milestones",
   "news",
-  "contest",
   "profile",
   "contact"
 ];
@@ -16,9 +16,9 @@ const requiredSections = [
 const requiredLanguageKeys = ["assets", "lang", "languageLabel", "nav", "sections"];
 
 const expectedAssets = {
-  videoUrl: "",
+  videoUrl: "https://www.youtube.com/embed/DYeqHUOq-ho",
   companyProfileUrl: "",
-  heroBannerUrl: "src/assets/hinobannernew.jpg"
+  heroBannerUrl: "src/assets/new1.png"
 };
 
 const expectedViNav = {
@@ -27,8 +27,9 @@ const expectedViNav = {
   links: [
     ["appreciation", "Thư cảm ơn"],
     ["milestones", "Hành trình 30 năm"],
+    ["news", "Tin tức"],
     ["profile", "Hồ sơ công ty"],
-    ["contest", "Cuộc thi ảnh A30"]
+    ["contact", "Liên hệ"]
   ]
 };
 
@@ -38,14 +39,16 @@ const expectedEnNav = {
   links: [
     ["appreciation", "Appreciation Letter"],
     ["milestones", "Milestones"],
+    ["news", "News"],
     ["profile", "Company Profile"],
-    ["contest", "A30 Contest"]
+    ["contact", "Contact"]
   ]
 };
 
 const expectedYears = [
   "1995", "1996", "1997", "2001", "2006", "2007", "2008", "2010", "2011",
-  "2013", "2015", "2016", "2018", "2021", "2022", "2023", "2024", "2025"
+  "2013", "2015", "2016", "2018", "2021", "2022", "2023", "2024", "2025",
+  "2026"
 ];
 
 const expectedViMilestones = [
@@ -53,20 +56,21 @@ const expectedViMilestones = [
   ["1996", "Hino Motors Việt Nam chính thức thành lập tại Hà Nội"],
   ["1997", "Khai trương nhà máy Hino Motors Việt Nam tại Hà Nội/Xuất xưởng chiếc xe đầu tiên - FF3H"],
   ["2001", "Khai trương đại lý Hino Trường Long (Hồ Chí Minh)"],
-  ["2006", "Khai trương đại lý Hino Sao Bắc (Hà Nội)/Khai trương đại lý Hino Lexim (Hà Nội)/ Kỉ niệm 10 năm thành lập"],
+  ["2006", "Khai trương đại lý Hino Sao Bắc (Hà Nội)/Khai trương đại lý Hino Lexim (Hà Nội)/ Kỷ niệm 10 năm thành lập"],
   ["2007", "Khai trương trung tâm đào tạo đầu tiên tại nhà máy Hino"],
   ["2008", "Giới thiệu các dòng sản phẩm mới: WU, FC, FG, FL, FM/ Ra mắt dòng xe tải nhẹ đầu tiên của Hino - Series 300/ Khai trương đại lý Hino Trường Vinh (Vũng Tàu) và Hino Việt Đằng (Hà Nội)"],
   ["2010", "Khai trương đại lý Hino Đại Phát Tín (Cà Mau)/ HMSV chính thức thành lập tại Hồ Chí Minh"],
   ["2011", "Hino đạt chứng nhận ISO về hệ thống quản lý môi trường"],
   ["2013", "Hino ra mắt Series 300 hoàn toàn mới"],
   ["2015", "Khai trương đại lý Hino Vĩnh Thịnh (Bình Dương)"],
-  ["2016", "Khai trương đại lý Hino Việt Nhật (Hải Phòng)/ Khai trương đại lý Hino Vân Đạo (Thái Nguyên)/ Kỉ niệm 20 năm thành lập"],
+  ["2016", "Khai trương đại lý Hino Việt Nhật (Hải Phòng)/ Khai trương đại lý Hino Vân Đạo (Thái Nguyên)/ Kỷ niệm 20 năm thành lập"],
   ["2018", "Ra mắt dòng xe Euro 4"],
   ["2021", "Ra mắt dòng xe tải nhẹ mới"],
   ["2022", "Khai trương đại lý Hino Miền Trung (Thanh Hoá)"],
-  ["2023", "Kỉ niệm chiếc xe thứ 50.000 được sản xuất"],
+  ["2023", "Kỷ niệm chiếc xe thứ 50.000 được sản xuất"],
   ["2024", "Xuất xưởng xe XZU Euro5"],
-  ["2025", "Bàn giao xe tải thứ 60.000 tại Việt Nam"]
+  ["2025", "Bàn giao xe tải thứ 60.000 tại Việt Nam"],
+  ["2026", "Kỷ niệm 30 năm thành lập"]
 ];
 
 const expectedEnMilestones = [
@@ -87,7 +91,8 @@ const expectedEnMilestones = [
   ["2022", "Opened Hino Mien Trung dealership in Thanh Hoa"],
   ["2023", "Celebrated the 50,000th vehicle produced"],
   ["2024", "Rolled out XZU Euro5 vehicle"],
-  ["2025", "Delivered the 60,000th truck in Vietnam"]
+  ["2025", "Delivered the 60,000th truck in Vietnam"],
+  ["2026", "Celebrating the 30th anniversary"]
 ];
 
 const expectedMilestoneImageUrls = {
@@ -108,7 +113,12 @@ const expectedMilestoneImageUrls = {
   2022: "src/assets/milestone-2022.png",
   2023: "src/assets/milestone-2023.jpg",
   2024: "src/assets/milestone-2024.jpg",
-  2025: "src/assets/milestone-2025.jpg"
+  2025: "src/assets/milestone-2025.jpg",
+  2026: "src/a30new.svg"
+};
+
+const expectedMilestoneImageAlts = {
+  2026: "A30 anniversary logo"
 };
 
 function expectedMilestones(rows) {
@@ -116,24 +126,37 @@ function expectedMilestones(rows) {
     year,
     text,
     imageUrl: expectedMilestoneImageUrls[year],
-    imageAlt: `${year} milestone image`
+    imageAlt: expectedMilestoneImageAlts[year] || `${year} milestone image`
   }));
 }
 
 const expectedViSections = {
   hero: {
     eyebrow: "Hino Motors Việt Nam",
-    heading: "30 NĂM KIÊN ĐỊNH PHỤNG SỰ",
-    subtext: "Ba thập kỷ kiên định phụng sự, Hino Motors Việt Nam không ngừng cung cấp những sản phẩm và giải pháp vận tải chất lượng cao, lấy sự hài lòng của khách hàng làm trọng tâm trong mọi hoạt động, qua đó góp phần nâng cao hiệu quả vận hành, cải thiện chất lượng sống và đồng hành cùng sự phát triển bền vững, thịnh vượng của Việt Nam."
+    heading: "VỮNG VÀNG CÙNG PHÁT TRIỂN",
+    subtext: "Ba thập kỷ bền bỉ đồng hành, Hino Motors Việt Nam không ngừng cung cấp những sản phẩm và giải pháp vận tải chất lượng cao, lấy sự hài lòng của khách hàng làm trọng tâm trong mọi hoạt động, qua đó góp phần nâng cao hiệu quả vận hành, cải thiện chất lượng sống và đồng hành cùng sự phát triển bền vững, thịnh vượng của Việt Nam."
   },
   appreciation: {
-    heading: "LỜI TRI ÂN & CAM KẾT ĐỒNG HÀNH",
+    heading: "LỜI TRI ÂN",
     quote: "<Hino cung cấp>",
     nameTitle: "<Hino cung cấp>"
   },
+  statistics: {
+    heading: "NHỮNG CON SỐ ẤN TƯỢNG",
+    items: [
+      { eyebrow: "about", value: 354, suffix: "", unit: "NHÂN VIÊN", label: "HMV & HMSV", meta: "tính đến 31/03/2024" },
+      { eyebrow: "about", value: 1313, suffix: "", unit: "NHÂN VIÊN", label: "Đại lý Hino tại Việt Nam", meta: "tính đến 31/03/2024" },
+      { eyebrow: "about", value: 51, suffix: "K", unit: "XE", label: "Sản lượng sản xuất", meta: "lũy kế FY2018-2024" },
+      { eyebrow: "about", value: 56, suffix: "K", unit: "XE", label: "Doanh số bán xe", meta: "lũy kế FY2018-2024" },
+      { eyebrow: "about", value: 6.2, suffix: "B", unit: "VND", label: "Phụ tùng & vật tư", meta: "lũy kế FY2023" },
+      { eyebrow: "about", value: 1.7, suffix: "B", unit: "VND", label: "Doanh số phụ tùng dịch vụ", meta: "lũy kế FY2023" },
+      { eyebrow: "about", value: 591, suffix: "K", unit: "LƯỢT", label: "Bảo dưỡng dịch vụ", meta: "lũy kế FY2018-2023" },
+      { eyebrow: "about", value: 143, suffix: "B", unit: "VND", label: "Đầu tư", meta: "lũy kế FY2018-2023" }
+    ]
+  },
   video: {
     heading: "30 NĂM VỮNG MỘT TÔN CHỈ",
-    subtext: "30 năm là hành trình của niềm tin được vun đắp qua những giá trị thực chất, lặng lẽ nhưng bền bỉ. Để hôm nay, sự kiên định ấy đã kết tinh thành niềm tự hào, khẳng định vị thế một thương hiệu luôn tận tâm phụng sự vì sự phồn vinh của Việt Nam.",
+    subtext: "30 năm là hành trình của niềm tin được vun đắp qua những giá trị bền bỉ. Để hôm nay, hành trình ấy trở thành niềm tự hào, khẳng định vị thế của một thương hiệu luôn đồng hành trách nhiệm, đóng góp thiết thực cho sự phát triển và phồn vinh của Việt Nam.",
     cta: "XEM NGAY"
   },
   milestones: {
@@ -146,32 +169,10 @@ const expectedViSections = {
     cta: "XEM THÊM",
     items: [
       {
-        title: "CHƯƠNG TRÌNH ĐÀO TẠO LÁI XE AN TOÀN – TIẾT KIỆM NHIÊN LIỆU NGÀY 22-23/08/2025 TẠI CẦN THƠ",
-        excerpt: "Chuỗi sự kiện “Chăm Sóc Khách Hàng – Đào Tạo Lái Xe Tiết Kiệm Nhiên Liệu” - Eco Driving là hoạt động nằm trong chương trình hỗ trợ tổng thể của Hino Motors Việt Nam kết hợp cùng hệ thống đại lý 3S trên toàn quốc.",
-        imageUrl: "src/assets/news-eco-driving-can-tho.jpg",
-        imageAlt: "Sự kiện Eco Driving tại Cần Thơ",
-        href: "https://hino.vn/tin-tuc/chuong-trinh-dao-tao-lai-xe-an-toan-8211-tiet-kiem-nhien-lieu-ngay-22-23082025-tai-can-tho-n13702.html"
-      },
-      {
-        title: "HINO MOTORS VIỆT NAM GHI DẤU ẤN “DẪN ĐẦU XU HƯỚNG VẬN TẢI XANH” TẠI VILOG 2025",
-        excerpt: "Ngày 31/7 - 2/8/2025, Hino Motors Việt Nam tham gia Triển lãm Quốc tế Logistics Việt Nam - VILOG 2025, giới thiệu dòng xe Hino Euro5 cùng hệ thống quản lý đội xe thông minh iHINO-CONNECT.",
+        title: "RECAP SỰ KIỆN KỶ NIỆM 30 NĂM HINO MOTORS VIỆT NAM",
+        excerpt: "Không khí trang trọng và ấm áp của sự kiện kỷ niệm 30 năm đã ghi lại những khoảnh khắc đáng nhớ cùng khách hàng, đại lý và đối tác. Đây là dịp Hino Motors Việt Nam nhìn lại hành trình đã qua, tri ân sự đồng hành bền bỉ và tiếp tục khẳng định cam kết phát triển cùng ngành vận tải Việt Nam.",
         imageUrl: "src/assets/news-vilog-2025.jpg",
-        imageAlt: "Gian hàng Hino Motors Việt Nam tại VILOG 2025",
-        href: "https://hino.vn/tin-tuc/hino-motors-viet-nam-ghi-dau-an-dan-dau-xu-huong-van-tai-xanh-tai-vilog-2025-n13677.html"
-      }
-    ]
-  },
-  contest: {
-    heading: "A30 CONTEST: VIẾT TIẾP HÀNH TRÌNH TỰ HÀO",
-    subtext: "Lắng nghe những cảm xúc chân thực đã cùng Hino viết nên dấu ấn 30 năm đáng tự hào.",
-    items: [
-      {
-        name: "Anh Nguyễn Văn A - Trưởng nhóm Cố vấn Dịch vụ - Công ty Hino Vĩnh Thịnh (Bình Dương)",
-        quote: "Nhân dịp kỉ niệm 30 năm, tôi mong rằng sẽ còn được chứng kiến một HINO phát triển và thành công, để không chỉ khách hàng an tâm về sản phẩm và chất lượng dịch vụ, mà với nhân viên như tôi, những giá trị và tâm huyết đó vẫn sẽ được phát huy."
-      },
-      {
-        name: "Anh Nguyễn Văn B - Trưởng khối Sản xuất - Công ty Hino Sao Bắc (Hà Nội)",
-        quote: "Chúc cho HINO Việt Nam sẽ luôn vững vàng và phát triển mạnh mẽ hơn nữa trong tương lai. Từ đó, tiếp tục sứ mệnh đóng góp cho ngành công nghiệp ô tô Việt Nam."
+        imageAlt: "Recap sự kiện kỷ niệm 30 năm Hino Motors Việt Nam"
       }
     ]
   },
@@ -182,28 +183,50 @@ const expectedViSections = {
   },
   contact: {
     heading: "Liên hệ",
-    company: "CÔNG TY LD TNHH HINO MOTORS VIỆT NAM",
-    address: "Ngõ 83 Đường Ngọc Hồi, Phường Yên Sở, Thành phố Hà Nội, Việt Nam",
-    tax: "Mã số thuế: 0100114272",
-    hotline: "Hotline:18009280"
+    company: "CÔNG TY LIÊN DOANH TNHH HINO MOTORS VIỆT NAM",
+    offices: [
+      {
+        label: "Trụ sở tại Hà Nội",
+        address: "Tầng 15 - Tòa nhà Diamond Park Plaza, số 16 Láng Hạ, Phường Ba Đình, Thành phố Hà Nội, Việt Nam",
+        phoneFax: "+8424 73 016 017 | +8424 3861 6018"
+      },
+      {
+        label: "Chi nhánh tại Hồ Chí Minh",
+        address: "Tầng 22 - Cao ốc Saigon Trade Center, số 37 Tôn Đức Thắng, Phường Sài Gòn, Thành phố Hồ Chí Minh, Việt Nam",
+        phoneFax: "+8428 73 016 017 | +8424 3861 6018"
+      }
+    ]
   }
 };
 
 const expectedEnSections = {
   hero: {
     eyebrow: "Hino Motors Vietnam",
-    heading: "30 YEARS OF STEADFAST SERVICE",
-    subtext: "For three decades of steadfast service, Hino Motors Vietnam has continuously delivered high-quality transport products and solutions, placing customer satisfaction at the center of every activity, thereby helping enhance operational efficiency, improve quality of life, and accompany Vietnam’s sustainable and prosperous development."
+    heading: "Advancing together",
+    subtext: "For three decades of enduring companionship, Hino Motors Vietnam has continuously delivered high-quality transport products and solutions, placing customer satisfaction at the center of every activity, thereby helping enhance operational efficiency, improve quality of life, and accompany Vietnam’s sustainable and prosperous development."
   },
   appreciation: {
-    heading: "GRATITUDE & COMMITMENT TO ACCOMPANY",
+    heading: "MESSAGE OF GRATITUDE",
     quote: "<Hino cung cấp>",
     nameTitle: "<Hino cung cấp>"
   },
+  statistics: {
+    heading: "OUTSTANDING STATISTICS",
+    items: [
+      { eyebrow: "about", value: 354, suffix: "", unit: "EMPLOYEES", label: "HMV & HMSV", meta: "as of Mar 31, 2024" },
+      { eyebrow: "about", value: 1313, suffix: "", unit: "EMPLOYEES", label: "Hino dealers in Vietnam", meta: "as of Mar 31, 2024" },
+      { eyebrow: "about", value: 51, suffix: "K", unit: "UNITS", label: "Production", meta: "cumulative FY2018-2024" },
+      { eyebrow: "about", value: 56, suffix: "K", unit: "UNITS", label: "Vehicle sales", meta: "cumulative FY2018-2024" },
+      { eyebrow: "about", value: 6.2, suffix: "B", unit: "VND", label: "Parts & materials", meta: "cumulative FY2023" },
+      { eyebrow: "about", value: 1.7, suffix: "B", unit: "VND", label: "Service parts sales", meta: "cumulative FY2023" },
+      { eyebrow: "about", value: 591, suffix: "K", unit: "UNITS", label: "Service maintenance", meta: "cumulative FY2018-2023" },
+      { eyebrow: "about", value: 143, suffix: "B", unit: "VND", label: "Investment", meta: "cumulative FY2018-2023" }
+    ]
+  },
   video: {
-    heading: "30 YEARS, ONE STEADFAST PRINCIPLE",
-    subtext: "Thirty years is a journey of trust, nurtured through meaningful values, quietly yet steadfastly. Today, that commitment has crystallized into pride, affirming the position of a brand devoted to serving Vietnam’s prosperity.",
-    cta: "VIEW NOW"
+    heading: "30 Years, One Guiding Principle",
+    subtext: "For 30 years, the journey has been shaped by trust built on enduring values. Today, that journey stands as a source of pride, affirming the position of a brand that has consistently stood beside its partners with responsibility, making meaningful contributions to Vietnam’s growth and prosperity.",
+    cta: "WATCH NOW"
   },
   milestones: {
     heading: "MEMORABLE MILESTONES",
@@ -215,32 +238,10 @@ const expectedEnSections = {
     cta: "SEE MORE",
     items: [
       {
-        title: "SAFE & FUEL-EFFICIENT DRIVING TRAINING PROGRAM ON 22-23/08/2025 IN CAN THO",
-        excerpt: "The Eco Driving customer care and fuel-efficient driving training series is part of Hino Motors Vietnam’s total support program, organized with its nationwide 3S dealer network to improve driver skills and support customers’ business operations.",
-        imageUrl: "src/assets/news-eco-driving-can-tho.jpg",
-        imageAlt: "Eco Driving event in Can Tho",
-        href: "https://hino.vn/tin-tuc/chuong-trinh-dao-tao-lai-xe-an-toan-8211-tiet-kiem-nhien-lieu-ngay-22-23082025-tai-can-tho-n13702.html"
-      },
-      {
-        title: "HINO MOTORS VIETNAM MARKS ITS LEAD IN GREEN TRANSPORT TRENDS AT VILOG 2025",
-        excerpt: "From 31/7 to 2/8/2025, Hino Motors Vietnam joined VILOG 2025, welcoming visitors to experience Hino Euro5 trucks and the iHINO-CONNECT smart fleet management system.",
+        title: "RECAP: HINO MOTORS VIETNAM 30TH ANNIVERSARY EVENT",
+        excerpt: "The 30th anniversary event brought together customers, dealers and partners in a warm, meaningful setting. It was a moment for Hino Motors Vietnam to look back on its journey, express gratitude for long-standing support and reaffirm its commitment to growing with Vietnam’s transport industry.",
         imageUrl: "src/assets/news-vilog-2025.jpg",
-        imageAlt: "Hino Motors Vietnam booth at VILOG 2025",
-        href: "https://hino.vn/tin-tuc/hino-motors-viet-nam-ghi-dau-an-dan-dau-xu-huong-van-tai-xanh-tai-vilog-2025-n13677.html"
-      }
-    ]
-  },
-  contest: {
-    heading: "A30 CONTEST: CONTINUING A PROUD JOURNEY",
-    subtext: "Listen to heartfelt emotions that have joined Hino in writing a proud 30-year legacy.",
-    items: [
-      {
-        name: "Mr. Nguyen Van A - Service Advisor Team Leader - Hino Vinh Thinh Company (Binh Duong)",
-        quote: "On the occasion of the 30th anniversary, I hope to continue witnessing HINO grow and succeed, so that not only customers feel confident in the products and service quality, but employees like me can also see those values and dedication carried forward."
-      },
-      {
-        name: "Mr. Nguyen Van B - Head of Production Division - Hino Sao Bac Company (Hanoi)",
-        quote: "I wish HINO Vietnam continued stability and even stronger growth in the future, thereby continuing its mission of contributing to Vietnam’s automotive industry."
+        imageAlt: "Hino Motors Vietnam 30th anniversary event recap"
       }
     ]
   },
@@ -251,10 +252,19 @@ const expectedEnSections = {
   },
   contact: {
     heading: "Contact",
-    company: "HINO MOTORS VIETNAM JOINT VENTURE CO., LTD.",
-    address: "Alley 83 Ngoc Hoi Street, Yen So Ward, Hanoi City, Vietnam",
-    tax: "Tax code: 0100114272",
-    hotline: "Hotline: 18009280"
+    company: "HINO MOTORS VIETNAM, LTD.",
+    offices: [
+      {
+        label: "Office in Ha Noi",
+        address: "15th floor - Diamond Park Plaza, 16 Lang Ha Street, Ba Dinh Ward, Hanoi, Vietnam",
+        phoneFax: "+8424 73 016 017 | +8424 3861 6018"
+      },
+      {
+        label: "Office in Ho Chi Minh",
+        address: "22nd Floor - Saigon Trade Center, 37 Ton Duc Thang Street, Sai Gon Ward, Ho Chi Minh City, Vietnam",
+        phoneFax: "+8428 73 016 017 | +8424 3861 6018"
+      }
+    ]
   }
 };
 
@@ -347,14 +357,19 @@ test("appreciation copy is exact and bilingual", () => {
   assert.deepEqual(content.en.sections.appreciation, expectedEnSections.appreciation);
 });
 
+test("statistics copy is exact and bilingual", () => {
+  assert.deepEqual(content.vi.sections.statistics, expectedViSections.statistics);
+  assert.deepEqual(content.en.sections.statistics, expectedEnSections.statistics);
+});
+
 test("video copy is exact and bilingual", () => {
   assert.deepEqual(content.vi.sections.video, expectedViSections.video);
   assert.deepEqual(content.en.sections.video, expectedEnSections.video);
 });
 
 test("milestones keep all source entries in order and exact text", () => {
-  assert.equal(content.vi.sections.milestones.items.length, 18);
-  assert.equal(content.en.sections.milestones.items.length, 18);
+  assert.equal(content.vi.sections.milestones.items.length, 19);
+  assert.equal(content.en.sections.milestones.items.length, 19);
   assert.deepEqual(content.vi.sections.milestones.items.map((item) => item.year), expectedYears);
   assert.deepEqual(content.en.sections.milestones.items.map((item) => item.year), expectedYears);
   assert.deepEqual(content.vi.sections.milestones, expectedViSections.milestones);
@@ -362,17 +377,10 @@ test("milestones keep all source entries in order and exact text", () => {
 });
 
 test("news examples remain limited to source examples and exact text", () => {
-  assert.equal(content.vi.sections.news.items.length, 2);
-  assert.equal(content.en.sections.news.items.length, 2);
+  assert.equal(content.vi.sections.news.items.length, 1);
+  assert.equal(content.en.sections.news.items.length, 1);
   assert.deepEqual(content.vi.sections.news, expectedViSections.news);
   assert.deepEqual(content.en.sections.news, expectedEnSections.news);
-});
-
-test("contest examples remain limited to source examples and exact text", () => {
-  assert.equal(content.vi.sections.contest.items.length, 2);
-  assert.equal(content.en.sections.contest.items.length, 2);
-  assert.deepEqual(content.vi.sections.contest, expectedViSections.contest);
-  assert.deepEqual(content.en.sections.contest, expectedEnSections.contest);
 });
 
 test("profile copy is exact and bilingual", () => {
