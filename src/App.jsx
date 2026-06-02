@@ -39,7 +39,7 @@ export function App() {
         const gradientRoot = createRoot(container);
         gradientRoot.render(
           <GradientText
-            colors={["#ff8827", "#910808", "#1f1717"]}
+            colors={["#111111", "#c90000", "#5f0505", "#111111"]}
             animationSpeed={3}
             showBorder={false}
             className="hero-gradient-text"

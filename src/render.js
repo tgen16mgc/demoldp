@@ -28,15 +28,43 @@ const unavailableLabels = {
 const milestoneControlLabels = {
   vi: {
     headingLines: ["NHỮNG", "CỘT MỐC", "ĐÁNG NHỚ"],
-    sectionIndex: "II",
     previous: "Cột mốc trước",
-    next: "Cột mốc tiếp theo"
+    next: "Cột mốc tiếp theo",
+    skip: "Đến phần tiếp theo"
   },
   en: {
     headingLines: ["MEMORABLE", "MILESTONES"],
-    sectionIndex: "II",
     previous: "Previous milestone",
-    next: "Next milestone"
+    next: "Next milestone",
+    skip: "Continue"
+  }
+};
+const footerLabels = {
+  vi: {
+    products: "SẢN PHẨM",
+    about: "VỀ CHÚNG TÔI",
+    services: "DỊCH VỤ VÀ PHỤ TÙNG",
+    follow: "THEO DÕI CHÚNG TÔI",
+    productItems: ["Series 300", "Series 500", "Series 700"],
+    aboutItems: ["Hino Motors Việt Nam", "Chặng đường", "Tuyển dụng"],
+    serviceItems: ["Dịch vụ sau bán hàng", "Chính sách bảo hành", "Phụ tùng chính hãng"],
+    policyItems: ["Quy định & Điều khoản", "Chính sách bảo mật", "Chính sách nhân quyền"],
+    copyright: "© 2017 Xe tải Hino. Bản quyền đã được bảo hộ.",
+    backToTop: "Lên đầu trang",
+    policyAria: "Liên kết chính sách chân trang"
+  },
+  en: {
+    products: "PRODUCTS",
+    about: "ABOUT US",
+    services: "SERVICE AND PARTS",
+    follow: "FOLLOW US",
+    productItems: ["Series 300", "Series 500", "Series 700"],
+    aboutItems: ["Hino Motors Vietnam", "Milestones", "Careers"],
+    serviceItems: ["After-sales service", "Warranty policy", "Genuine parts"],
+    policyItems: ["Terms and Conditions", "Privacy Policy", "Human Rights Policy"],
+    copyright: "© 2017 Hino Trucks. All rights reserved.",
+    backToTop: "Back to top",
+    policyAria: "Footer policy links"
   }
 };
 
@@ -139,11 +167,11 @@ function renderHeroTitle(heading) {
   const match = text.match(/^(30\s+(?:NĂM|YEARS))\s+(.+)$/);
 
   if (!match) {
-    if (text === "VỮNG VÀNG CÙNG PHÁT TRIỂN") {
+    if (text === "GIÁ TRỊ VƯỢT THỜI GIAN") {
       return `
         <h1 id="hero-title" class="hero-title">
-          <span class="hero-title-line"><span class="hero-gradient-text-host" data-gradient-text="VỮNG VÀNG" aria-label="VỮNG VÀNG">VỮNG VÀNG</span></span>
-          <span class="hero-title-line">${renderCutReveal("CÙNG PHÁT TRIỂN", "hero-title-reveal")}</span>
+          <span class="hero-title-line">${renderCutReveal("GIÁ TRỊ", "hero-title-reveal")}</span>
+          <span class="hero-title-line"><span class="hero-gradient-text-host" data-gradient-text="VƯỢT THỜI GIAN" aria-label="VƯỢT THỜI GIAN">VƯỢT THỜI GIAN</span></span>
         </h1>
       `;
     }
@@ -171,7 +199,7 @@ function renderNav(data, activeLang) {
         <span class="logo-divider"></span>
         <span class="a30-mark">
           <img class="a30-mark-image a30-mark-default" src="src/a30new.svg" width="72" height="50" alt="A30">
-          <img class="a30-mark-image a30-mark-hero" src="src/assets/a30-nav-white.svg" width="72" height="50" alt="" aria-hidden="true">
+          <img class="a30-mark-image a30-mark-hero" src="src/assets/a30-nav-white-new.svg" width="72" height="50" alt="" aria-hidden="true">
         </span>
       </a>
       <button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-links">
@@ -216,19 +244,52 @@ function renderHero(section, activeLang, assets) {
   `;
 }
 
-function renderAppreciation(section) {
+function renderAppreciation(section, activeLang) {
   const headingParts = section.heading.split(" & ");
-  const headingHtml = headingParts.length === 2
+  const headingText = headingParts.length === 2
     ? `${escapeHtml(headingParts[0])} &amp;<br>${escapeHtml(headingParts[1])}`
     : escapeHtml(section.heading);
+  const headingHtml = activeLang === "vi"
+    ? `<span class="heading-gradient-text">${headingText}</span>`
+    : headingText;
+  const bodyParagraphs = Array.isArray(section.body) ? section.body : [section.quote || ""];
+  const bodyHtml = bodyParagraphs
+    .filter((paragraph) => String(paragraph || "").trim())
+    .map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`)
+    .join("");
+  const signatureLines = [
+    section.signatureName || "",
+    section.signatureTitle || section.nameTitle || "",
+    section.signatureCompany || ""
+  ].filter((line) => String(line || "").trim());
+  const signatureHtml = signatureLines
+    .map((line, index) => `<span class="${index === 0 ? "signature-name" : "signature-meta"}">${escapeHtml(line)}</span>`)
+    .join("");
+  const imageUrl = safeUrl(section.imageUrl, "", { allowHash: false });
+  const portrait = imageUrl
+    ? `<img class="director-image" src="${imageUrl}" width="2582" height="3872" alt="${escapeHtml(section.imageAlt || section.signatureName || "Director portrait")}" loading="lazy">`
+    : mediaPlaceholder("Director photo", "portrait-placeholder");
 
   return `
-    <section class="split-section section-pattern" id="appreciation" aria-labelledby="appreciation-title">
-      ${mediaPlaceholder("TGĐ photo placeholder", "portrait-placeholder")}
-      <div class="split-copy">
+    <section class="appreciation-section section-pattern" id="appreciation" aria-labelledby="appreciation-title">
+      <div class="appreciation-portrait-panel">
+        <figure class="director-portrait">
+          <div class="director-image-frame">
+            ${portrait}
+          </div>
+          <figcaption>
+            <strong>${escapeHtml(section.signatureName || "")}</strong>
+            <span>${escapeHtml(section.signatureTitle || section.nameTitle || "")}</span>
+          </figcaption>
+        </figure>
+      </div>
+      <div class="appreciation-letter">
         <h2 id="appreciation-title">${headingHtml}</h2>
-        <blockquote>${escapeHtml(section.quote)}</blockquote>
-        <p class="person-line">${escapeHtml(section.nameTitle)}</p>
+        <div class="letter-body">
+          ${section.salutation ? `<p class="letter-salutation">${escapeHtml(section.salutation)}</p>` : ""}
+          ${bodyHtml}
+        </div>
+        <p class="person-line">${signatureHtml}</p>
       </div>
     </section>
   `;
@@ -236,35 +297,21 @@ function renderAppreciation(section) {
 
 function renderStatistics(section, activeLang = "vi") {
   const countLocale = activeLang === "vi" ? "vi-VN" : "en-US";
-  const fallbackEyebrow = activeLang === "vi" ? "HƠN" : "OVER";
   const items = section.items
     .map((item, i) => {
-      const rawEyebrow = item.eyebrow || fallbackEyebrow;
-      const displayEyebrow = activeLang === "vi" && rawEyebrow.toLowerCase() === "about"
-        ? "HƠN"
-        : rawEyebrow;
-      const eyebrow = escapeHtml(displayEyebrow);
       return `
       <article class="stat-cell" style="--stat-i:${i}" role="listitem">
-        <div class="stat-hex">
-          <span class="stat-hex-shape" aria-hidden="true"></span>
-          <span class="stat-hex-shape stat-hex-shape--inner" aria-hidden="true"></span>
-          <div class="stat-hex-inner">
-            <span class="stat-eyebrow">${eyebrow}</span>
-            <div class="stat-figure">
-              <span
-                class="stat-number"
-                data-count-to="${escapeHtml(item.value)}"
-                data-count-suffix="${escapeHtml(item.suffix || "")}"
-                data-count-locale="${escapeHtml(countLocale)}"
-              >0${escapeHtml(item.suffix || "")}</span>
-              <p class="stat-unit">${escapeHtml(item.unit || "")}</p>
-            </div>
-          </div>
-        </div>
         <div class="stat-info">
           <h3 class="stat-label">${escapeHtml(item.label)}</h3>
-          <p class="stat-meta">${escapeHtml(item.meta || "")}</p>
+        </div>
+        <div class="stat-figure">
+          <span
+            class="stat-number"
+            data-count-to="${escapeHtml(item.value)}"
+            data-count-suffix="${escapeHtml(item.suffix || "")}"
+            data-count-locale="${escapeHtml(countLocale)}"
+          >0${escapeHtml(item.suffix || "")}</span>
+          <p class="stat-unit">${escapeHtml(item.unit || "")}</p>
         </div>
       </article>
     `;
@@ -282,6 +329,7 @@ function renderStatistics(section, activeLang = "vi") {
           ${renderPhraseGradientHeading(section, "statistics-title", activeLang, "CON SỐ ẤN TƯỢNG")}
         </div>
         <div class="stats-grid" role="list">${items}</div>
+        ${section.note ? `<p class="stats-note">${escapeHtml(section.note)}</p>` : ""}
       </div>
     </section>
   `;
@@ -318,9 +366,8 @@ function renderMilestones(section, activeLang) {
         <img class="timeline-intro-mark" src="src/a30new.svg" alt="A30" loading="lazy">
         <p class="timeline-intro-small">${escapeHtml(section.subtext || "")}</p>
       </div>
-      <span class="timeline-section-index" aria-hidden="true">${escapeHtml(labels.sectionIndex)}</span>
       <div class="timeline-intro-main">
-        <h2 id="milestones-title">${headingLines}</h2>
+        <h2 id="milestones-title" class="heading-gradient-text" aria-label="${escapeHtml(section.heading)}">${headingLines}</h2>
       </div>
     </article>
   `;
@@ -332,6 +379,7 @@ function renderMilestones(section, activeLang) {
       <button class="timeline-arrow timeline-arrow-next" type="button" data-timeline-next aria-label="${escapeHtml(labels.next)}">
         <span class="sr-only">${escapeHtml(labels.next)}</span>
       </button>
+      <a class="timeline-skip button secondary" href="#news">${escapeHtml(labels.skip)}</a>
     </div>
   `;
   const items = section.items
@@ -340,14 +388,12 @@ function renderMilestones(section, activeLang) {
       const isAnniversaryMilestone = item.year === "2026";
       const eventClass = `milestone-event${isAnniversaryMilestone ? " is-anniversary" : ""}`;
       const imageClass = `milestone-image${isAnniversaryMilestone ? " milestone-image-anniversary" : ""}`;
-      const displayIndex = String(section.items.length - index).padStart(2, "0");
       const image = hasImage
         ? `<img class="${imageClass}" src="${safeUrl(item.imageUrl, "", { allowHash: false })}" alt="${escapeHtml(item.imageAlt || `${item.year} milestone image`)}" loading="lazy">`
         : `<div class="milestone-image milestone-image-placeholder" role="img" aria-label="${escapeHtml(item.imageAlt || `${item.year} milestone image`)}"></div>`;
 
       return `
       <article class="${eventClass}">
-        <span class="milestone-index" aria-hidden="true">${escapeHtml(displayIndex)}</span>
         <div class="milestone-copy">
           <p class="milestone-date">${escapeHtml(item.year)}</p>
           <h3 class="milestone-title">${escapeHtml(item.text)}</h3>
@@ -417,7 +463,8 @@ function renderCards(section, type) {
 function renderProfile(section, assets) {
   const hasProfileUrl = hasSafeUrl(assets.companyProfileUrl);
   const href = hasProfileUrl ? safeUrl(assets.companyProfileUrl) : "#profile";
-  const cta = `<a class="button primary" href="${href}">${escapeHtml(section.cta)}</a>`;
+  const downloadAttr = hasProfileUrl ? ` download` : "";
+  const cta = `<a class="button primary" href="${href}"${downloadAttr}>${escapeHtml(section.cta)}</a>`;
 
   return `
     <section class="profile-cta section-pattern" id="profile" aria-labelledby="profile-title">
@@ -427,7 +474,8 @@ function renderProfile(section, assets) {
   `;
 }
 
-function renderFooter(contact) {
+function renderFooter(contact, activeLang = "vi") {
+  const labels = footerLabels[activeLang] || footerLabels.vi;
   const offices = (contact.offices || [])
     .map((office) => `
       <div class="footer-office">
@@ -442,31 +490,25 @@ function renderFooter(contact) {
     <footer class="site-footer" id="contact" aria-labelledby="footer-contact-title">
       <div class="footer-main">
         <section class="footer-group" aria-labelledby="footer-products-title">
-          <h2 id="footer-products-title">SẢN PHẨM</h2>
+          <h2 id="footer-products-title">${escapeHtml(labels.products)}</h2>
           <ul class="footer-list">
-            <li>Series 300</li>
-            <li>Series 500</li>
-            <li>Series 700</li>
+            ${labels.productItems.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
           </ul>
         </section>
         <section class="footer-group" aria-labelledby="footer-about-title">
-          <h2 id="footer-about-title">VỀ CHÚNG TÔI</h2>
+          <h2 id="footer-about-title">${escapeHtml(labels.about)}</h2>
           <ul class="footer-list">
-            <li>Hino Motors Việt Nam</li>
-            <li>Chặng đường</li>
-            <li>Tuyển dụng</li>
+            ${labels.aboutItems.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
           </ul>
         </section>
         <section class="footer-group" aria-labelledby="footer-service-title">
-          <h2 id="footer-service-title">DỊCH VỤ VÀ PHỤ TÙNG</h2>
+          <h2 id="footer-service-title">${escapeHtml(labels.services)}</h2>
           <ul class="footer-list">
-            <li>Dịch vụ sau bán hàng</li>
-            <li>Chính sách bảo hành</li>
-            <li>Phụ tùng chính hãng</li>
+            ${labels.serviceItems.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
           </ul>
         </section>
         <section class="footer-group footer-follow" aria-labelledby="footer-follow-title">
-          <h2 id="footer-follow-title">FOLLOW US</h2>
+          <h2 id="footer-follow-title">${escapeHtml(labels.follow)}</h2>
           <div class="footer-social-list">
             <span class="footer-social-item"><span class="social-icon social-facebook" aria-hidden="true">f</span>Facebook</span>
             <span class="footer-social-item"><span class="social-icon social-youtube" aria-hidden="true"></span>Youtube</span>
@@ -482,13 +524,11 @@ function renderFooter(contact) {
       </div>
       <div class="footer-bottom">
         <div class="footer-bottom-inner">
-          <nav class="footer-policy" aria-label="Footer policy">
-            <span>Quy định &amp; Điều khoản</span>
-            <span>Chính sách bảo mật</span>
-            <span>Chính sách nhân quyền</span>
+          <nav class="footer-policy" aria-label="${escapeHtml(labels.policyAria)}">
+            ${labels.policyItems.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
           </nav>
-          <p>© 2017 Xe tải Hino. Bản quyền đã được bảo hộ.</p>
-          <a class="back-to-top" href="#hero">Lên đầu trang <span aria-hidden="true">^</span></a>
+          <p>${escapeHtml(labels.copyright)}</p>
+          <a class="back-to-top" href="#hero">${escapeHtml(labels.backToTop)} <span aria-hidden="true">^</span></a>
         </div>
       </div>
     </footer>
@@ -504,12 +544,12 @@ export function renderPage(data, activeLang) {
   return `
     ${renderNav(data, activeLang)}
     ${renderHero(sections.hero, activeLang, data.assets)}
-    ${renderAppreciation(sections.appreciation)}
+    ${renderAppreciation(sections.appreciation, activeLang)}
     ${renderStatistics(sections.statistics, activeLang)}
     ${renderVideo(sections.video, data.assets, activeLang)}
     ${renderMilestones(sections.milestones, activeLang)}
     ${renderCards(sections.news, "news")}
     ${renderProfile(sections.profile, data.assets)}
-    ${renderFooter(sections.contact)}
+    ${renderFooter(sections.contact, activeLang)}
   `;
 }

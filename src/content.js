@@ -95,46 +95,54 @@ export const content = {
     assets: {
       videoUrl: "https://www.youtube.com/embed/DYeqHUOq-ho",
       companyProfileUrl: "",
-      heroBannerUrl: "src/assets/new1.png"
+      heroBannerUrl: "src/assets/nbannervi.webp"
     },
     nav: {
       logoHref: "https://hino.vn/",
       homeLabel: "Hino",
       links: [
-        ["appreciation", "Thư cảm ơn"],
-        ["milestones", "Hành trình 30 năm"],
+        ["appreciation", "Lời tri ân"],
+        ["milestones", "Hành trình phát triển"],
+        ["profile", "Kỷ yếu 30 năm"],
         ["news", "Tin tức"],
-        ["profile", "Hồ sơ công ty"],
         ["contact", "Liên hệ"]
       ]
     },
     sections: {
       hero: {
         eyebrow: "Hino Motors Việt Nam",
-        heading: "VỮNG VÀNG CÙNG PHÁT TRIỂN",
-        subtext: "Ba thập kỷ bền bỉ đồng hành, Hino Motors Việt Nam không ngừng cung cấp những sản phẩm và giải pháp vận tải chất lượng cao, lấy sự hài lòng của khách hàng làm trọng tâm trong mọi hoạt động, qua đó góp phần nâng cao hiệu quả vận hành, cải thiện chất lượng sống và đồng hành cùng sự phát triển bền vững, thịnh vượng của Việt Nam."
+        heading: "GIÁ TRỊ VƯỢT THỜI GIAN",
+        subtext: "Trong hơn ba thập kỷ đồng hành, Hino Motors Việt Nam không ngừng mang đến các sản phẩm và giải pháp vận tải chất lượng cao, luôn đặt sự hài lòng của khách hàng làm trọng tâm trong mọi hoạt động. Qua đó, doanh nghiệp góp phần nâng cao hiệu quả vận hành, cải thiện chất lượng cuộc sống và chung tay thúc đẩy sự phát triển bền vững, thịnh vượng của Việt Nam."
       },
       appreciation: {
         heading: "LỜI TRI ÂN",
-        quote: "<Hino cung cấp>",
-        nameTitle: "<Hino cung cấp>"
+        salutation: "Thân gửi Quý khách hàng và Quý Đại lý,",
+        body: [
+          "Trước hết tôi xin bày tỏ sự cảm ơn chân thành tới các Quý khách hàng thân thiết đã tin tưởng lựa chọn, sử dụng sản phẩm của chúng tôi; và lời chúc mừng tới các Quý Đại lý với những thành công kinh doanh rực rỡ.",
+          "Là thương hiệu tiên phong trong lĩnh vực sản xuất xe thương mại tại Việt Nam, chúng tôi luôn cố gắng hết sức mình để đáp ứng yêu cầu của thị trường cũng như sự kỳ vọng của khách hàng bằng các sản phẩm có chất lượng tốt, độ bền cao cùng với các hoạt động hỗ trợ tổng thể, toàn diện.",
+          "Từ năm 2022, tôi có vinh dự đảm nhận vai trò trọng trách là Tổng Giám đốc của Hino Motors Việt Nam. Với nền tảng vững chắc được xây dựng hơn 25 năm qua, chúng tôi sẽ nỗ lực không ngừng để tiếp tục đồng hành với Quý vị hướng tới những mục tiêu cao hơn, xa hơn trong thời gian tới.",
+          "Thay mặt công ty Hino Motors Việt Nam, tôi xin gửi tới toàn thể các Quý vị lời chúc sức khỏe dồi dào, thành công viên mãn và luôn luôn kết nối bền chặt với thương hiệu Hino."
+        ],
+        signatureName: "YOSHIO OSAKA",
+        signatureTitle: "Tổng Giám đốc",
+        signatureCompany: "Hino Motors Việt Nam",
+        imageUrl: "src/assets/director-yoshio-osaka.png",
+        imageAlt: "Ông Yoshio Osaka, Tổng Giám đốc Hino Motors Việt Nam"
       },
       statistics: {
         heading: "NHỮNG CON SỐ ẤN TƯỢNG",
+        note: "* Số liệu ghi nhận tính đến ngày 25/05/2026",
         items: [
-          { eyebrow: "about", value: 354, suffix: "", unit: "NHÂN VIÊN", label: "HMV & HMSV", meta: "tính đến 31/03/2024" },
-          { eyebrow: "about", value: 1313, suffix: "", unit: "NHÂN VIÊN", label: "Đại lý Hino tại Việt Nam", meta: "tính đến 31/03/2024" },
-          { eyebrow: "about", value: 51, suffix: "K", unit: "XE", label: "Sản lượng sản xuất", meta: "lũy kế FY2018-2024" },
-          { eyebrow: "about", value: 56, suffix: "K", unit: "XE", label: "Doanh số bán xe", meta: "lũy kế FY2018-2024" },
-          { eyebrow: "about", value: 6.2, suffix: "B", unit: "VND", label: "Phụ tùng & vật tư", meta: "lũy kế FY2023" },
-          { eyebrow: "about", value: 1.7, suffix: "B", unit: "VND", label: "Doanh số phụ tùng dịch vụ", meta: "lũy kế FY2023" },
-          { eyebrow: "about", value: 591, suffix: "K", unit: "LƯỢT", label: "Bảo dưỡng dịch vụ", meta: "lũy kế FY2018-2023" },
-          { eyebrow: "about", value: 143, suffix: "B", unit: "VND", label: "Đầu tư", meta: "lũy kế FY2018-2023" }
+          { value: 354, suffix: "+", unit: "nhân viên", label: "Nhân sự" },
+          { value: 51, suffix: "K+", unit: "xe", label: "Sản lượng sản xuất" },
+          { value: 56, suffix: "K+", unit: "xe", label: "Doanh số bán xe" },
+          { value: 1.7, suffix: "B+", unit: "VND", label: "Doanh thu bán phụ tùng" },
+          { value: 591, suffix: "K+", unit: "lượt", label: "Dịch vụ bảo dưỡng" }
         ]
       },
       video: {
         heading: "30 NĂM VỮNG MỘT TÔN CHỈ",
-        subtext: "30 năm là hành trình của niềm tin được vun đắp qua những giá trị bền bỉ. Để hôm nay, hành trình ấy trở thành niềm tự hào, khẳng định vị thế của một thương hiệu luôn đồng hành trách nhiệm, đóng góp thiết thực cho sự phát triển và phồn vinh của Việt Nam.",
+        subtext: "30 năm là hành trình của niềm tin được vun đắp qua những giá trị bền bỉ. Để hôm nay, hành trình ấy trở thành niềm tự hào, khẳng định vị thế của một thương hiệu luôn đồng hành đầy trách nhiệm cùng khách hàng, đối tác, đóng góp thiết thực cho sự phát triển và phồn vinh của Việt Nam.",
         cta: "XEM NGAY"
       },
       milestones: {
@@ -157,7 +165,7 @@ export const content = {
       profile: {
         heading: "VỀ HINO MOTORS VIỆT NAM",
         subtext: "Khám phá sâu hơn về hành trình phát triển của Hino Motors Việt Nam, những giá trị cốt lõi và nền tảng tạo nên chúng tôi ngày hôm nay.",
-        cta: "XEM NGAY"
+        cta: "TẢI PROFILE"
       },
       contact: {
         heading: "Liên hệ",
@@ -183,41 +191,49 @@ export const content = {
     assets: {
       videoUrl: "https://www.youtube.com/embed/DYeqHUOq-ho",
       companyProfileUrl: "",
-      heroBannerUrl: "src/assets/new1.png"
+      heroBannerUrl: "src/assets/nbanneren.webp"
     },
     nav: {
       logoHref: "https://hino.vn/",
       homeLabel: "Hino",
       links: [
-        ["appreciation", "Appreciation Letter"],
+        ["appreciation", "Appreciation letter"],
         ["milestones", "Milestones"],
+        ["profile", "Company profile"],
         ["news", "News"],
-        ["profile", "Company Profile"],
         ["contact", "Contact"]
       ]
     },
     sections: {
       hero: {
         eyebrow: "Hino Motors Vietnam",
-        heading: "Advancing together",
+        heading: "TIMELESS VALUE",
         subtext: "For three decades of enduring companionship, Hino Motors Vietnam has continuously delivered high-quality transport products and solutions, placing customer satisfaction at the center of every activity, thereby helping enhance operational efficiency, improve quality of life, and accompany Vietnam’s sustainable and prosperous development."
       },
       appreciation: {
-        heading: "MESSAGE OF GRATITUDE",
-        quote: "<Hino cung cấp>",
-        nameTitle: "<Hino cung cấp>"
+        heading: "APPRECIATION LETTER",
+        salutation: "Dear our customers and dealers,",
+        body: [
+          "I would like to express our gratitude to Hino loyal customers for always believing in us for your business, as well as our dedicated dealers for a successful 2022.",
+          "As the leader of Vietnam commercial vehicles manufacturer, we always do our best to satisfy the market demand and the customers’ expectations through our best products and total support activities for our customers.",
+          "Since 2022, it has been an honor to serve as General Director of Hino Motors Vietnam. Heritage from 25 years of success, we determine to continue reaching higher goals with you, our customers and dealers.",
+          "On behalf of Hino Motors Vietnam, I would like to wish you the best of health and a successful year together with Hino Vietnam."
+        ],
+        signatureName: "Mr. YOSHIO OSAKA",
+        signatureTitle: "General Director of Hino Motors Vietnam",
+        signatureCompany: "",
+        imageUrl: "src/assets/director-yoshio-osaka.png",
+        imageAlt: "Mr. Yoshio Osaka, General Director of Hino Motors Vietnam"
       },
       statistics: {
         heading: "OUTSTANDING STATISTICS",
+        note: "* Data recorded as of 25/05/2026",
         items: [
-          { eyebrow: "about", value: 354, suffix: "", unit: "EMPLOYEES", label: "HMV & HMSV", meta: "as of Mar 31, 2024" },
-          { eyebrow: "about", value: 1313, suffix: "", unit: "EMPLOYEES", label: "Hino dealers in Vietnam", meta: "as of Mar 31, 2024" },
-          { eyebrow: "about", value: 51, suffix: "K", unit: "UNITS", label: "Production", meta: "cumulative FY2018-2024" },
-          { eyebrow: "about", value: 56, suffix: "K", unit: "UNITS", label: "Vehicle sales", meta: "cumulative FY2018-2024" },
-          { eyebrow: "about", value: 6.2, suffix: "B", unit: "VND", label: "Parts & materials", meta: "cumulative FY2023" },
-          { eyebrow: "about", value: 1.7, suffix: "B", unit: "VND", label: "Service parts sales", meta: "cumulative FY2023" },
-          { eyebrow: "about", value: 591, suffix: "K", unit: "UNITS", label: "Service maintenance", meta: "cumulative FY2018-2023" },
-          { eyebrow: "about", value: 143, suffix: "B", unit: "VND", label: "Investment", meta: "cumulative FY2018-2023" }
+          { value: 354, suffix: "+", unit: "employees", label: "Employees" },
+          { value: 51, suffix: "K+", unit: "vehicles", label: "Production volume" },
+          { value: 56, suffix: "K+", unit: "vehicles", label: "Vehicle sales" },
+          { value: 1.7, suffix: "B+", unit: "VND", label: "Part sales" },
+          { value: 591, suffix: "K+", unit: "visits", label: "Service Maintenance" }
         ]
       },
       video: {
@@ -245,7 +261,7 @@ export const content = {
       profile: {
         heading: "ABOUT HINO MOTORS VIETNAM",
         subtext: "Explore further the development journey of Hino Motors Vietnam, the core values and foundations that have shaped who we are today.",
-        cta: "VIEW NOW"
+        cta: "DOWNLOAD PROFILE"
       },
       contact: {
         heading: "Contact",

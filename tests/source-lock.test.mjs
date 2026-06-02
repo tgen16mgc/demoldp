@@ -10,7 +10,7 @@ function escapeRegExp(text) {
 
 test("Vietnamese source strings remain unedited", () => {
   [
-    "VỮNG VÀNG CÙNG PHÁT TRIỂN",
+    "GIÁ TRỊ VƯỢT THỜI GIAN",
     "LỜI TRI ÂN",
     "NHỮNG CON SỐ ẤN TƯỢNG",
     "30 NĂM VỮNG MỘT TÔN CHỈ",
@@ -22,8 +22,8 @@ test("Vietnamese source strings remain unedited", () => {
 
 test("English source strings remain unedited", () => {
   [
-    "Advancing together",
-    "MESSAGE OF GRATITUDE",
+    "TIMELESS VALUE",
+    "APPRECIATION LETTER",
     "OUTSTANDING STATISTICS",
     "30 Years, One Guiding Principle",
     "MEMORABLE MILESTONES",

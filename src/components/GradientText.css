@@ -46,13 +46,26 @@
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
+  overflow: visible;
 }
 
 .hero-gradient-text {
+  overflow: visible;
+  padding-block: 0.06em 0.28em;
+  margin-block: -0.06em 0;
+  line-height: 1.28;
   vertical-align: baseline;
 }
 
 .hero-gradient-text-host {
   display: inline-flex;
-  min-height: 1.15em;
+  align-items: flex-start;
+  min-height: 1.48em;
+  overflow: visible;
+}
+
+.hero-gradient-text .text-content {
+  padding-block: 0.02em 0.22em;
+  line-height: 1.28;
+  overflow: visible;
 }

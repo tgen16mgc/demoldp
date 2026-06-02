@@ -27,7 +27,9 @@ test("project shell files exist", () => {
     "src/assets/hinobannernew.jpg",
     "src/assets/new1.png",
     "src/assets/new2.png",
-    "src/assets/a30-nav-white.svg",
+    "src/assets/nbannervi.webp",
+    "src/assets/nbanneren.webp",
+    "src/assets/a30-nav-white-new.svg",
     "src/assets/news-eco-driving-can-tho.jpg",
     "src/assets/news-vilog-2025.jpg",
     "src/assets/milestone-1995.jpg",
@@ -153,7 +155,7 @@ test("rendered page uses requested Hino logo and copied footer", async () => {
 
   assert.match(html, /src="src\/assets\/hinologonew\.png"/);
   assert.match(html, /src="src\/a30new\.svg"/);
-  assert.match(html, /src="src\/assets\/new1\.png"/);
+  assert.match(html, /src="src\/assets\/nbannervi\.webp"/);
   assert.doesNotMatch(html, /src="src\/assets\/hino-logo\.svg"/);
   assert.doesNotMatch(html, /src="src\/assets\/a30-mark\.svg"/);
   assert.doesNotMatch(html, /src="src\/assets\/hero-banner\.png"/);
@@ -162,7 +164,7 @@ test("rendered page uses requested Hino logo and copied footer", async () => {
   assert.match(html, /SẢN PHẨM/);
   assert.match(html, /Series 300/);
   assert.match(html, /DỊCH VỤ VÀ PHỤ TÙNG/);
-  assert.match(html, /FOLLOW US/);
+  assert.match(html, /THEO DÕI CHÚNG TÔI/);
   assert.match(html, /CÔNG TY LIÊN DOANH TNHH HINO MOTORS VIỆT NAM/);
   assert.match(html, /Tầng 15 - Tòa nhà Diamond Park Plaza/);
   assert.match(html, /Tầng 22 - Cao ốc Saigon Trade Center/);
@@ -180,9 +182,12 @@ test("rendered statistics expose animated numeric counters", async () => {
   const html = renderPage(content.vi, "vi");
 
   assert.match(html, /class="stat-number"[\s\S]*data-count-to="354"/);
-  assert.match(html, /data-count-to="6.2"[\s\S]*data-count-suffix="B"/);
-  assert.match(html, /class="stat-unit">NHÂN VIÊN<\/p>/);
-  assert.match(html, /class="stat-meta">lũy kế FY2018-2023<\/p>/);
+  assert.match(html, /data-count-to="354"[\s\S]*data-count-suffix="\+"/);
+  assert.match(html, /data-count-to="1.7"[\s\S]*data-count-suffix="B\+"/);
+  assert.match(html, /class="stat-unit">nhân viên<\/p>/);
+  assert.match(html, /class="stats-note">\* Số liệu ghi nhận tính đến ngày 25\/05\/2026<\/p>/);
+  assert.doesNotMatch(html, /class="stat-hex"/);
+  assert.doesNotMatch(html, /Đại lý Hino tại Việt Nam/);
 });
 
 
@@ -291,6 +296,7 @@ test("rendered milestones expose horizontal scroll-pinned timeline", async () =>
   assert.match(html, /class="timeline-intro-mark" src="src\/a30new\.svg" alt="A30" loading="lazy"/);
   assert.match(html, /data-timeline-prev/);
   assert.match(html, /data-timeline-next/);
+  assert.match(html, /class="timeline-skip button secondary" href="#news">Đến phần tiếp theo<\/a>/);
   assert.doesNotMatch(html, /class="timeline-rail"/);
   assert.doesNotMatch(html, /class="timeline-progress"/);
 });
@@ -304,8 +310,7 @@ test("rendered milestones use coded reference-style timeline structure", async (
   const html = renderPage(content.vi, "vi");
 
   assert.match(html, /class="timeline-canvas"/);
-  assert.match(html, /class="timeline-section-index" aria-hidden="true">II<\/span>/);
-  assert.match(html, /class="milestone-index" aria-hidden="true">19<\/span>/);
+  assert.match(html, /id="milestones-title" class="heading-gradient-text"/);
   assert.match(html, /class="milestone-date">1995<\/p>/);
   assert.match(html, /class="milestone-title">Mở văn phòng đại diện tại Hà Nội<\/h3>/);
   assert.match(html, /class="milestone-event is-anniversary"/);
@@ -317,7 +322,9 @@ test("rendered milestones use coded reference-style timeline structure", async (
   assert.match(css, /\.milestone-event\s*\{[^}]*position:\s*relative/s);
   assert.match(css, /\.timeline-section\s*\{[^}]*min-height:\s*100svh/s);
   assert.match(css, /\.timeline-intro-panel\s*\{[^}]*border-right:\s*1px solid rgba\(201,\s*0,\s*0,\s*0\.12\)/s);
-  assert.match(css, /\.milestone-index\s*\{[^}]*color:\s*rgba\(201,\s*0,\s*0,\s*0\.075\)/s);
+  assert.doesNotMatch(css, /\.milestone-index\s*\{/);
+  assert.match(css, /\.milestone-image\s*\{[^}]*object-fit:\s*contain/s);
+  assert.match(css, /\.timeline-skip\s*\{/);
   assert.match(css, /\.milestone-event\.is-current/);
   assert.match(css, /\.milestone-image-anniversary/);
 });
@@ -329,16 +336,18 @@ test("rendered page avoids design-slop placeholders and preserves the supplied b
   ]);
 
   const html = renderPage(content.vi, "vi");
+  const htmlEn = renderPage(content.en, "en");
   const heroBanner = html.match(/<section class="hero-banner"[\s\S]*?<\/section>/)?.[0] || "";
 
   assert.doesNotMatch(html, /picsum\.photos/);
   assert.match(html, /<section class="hero-banner" id="hero" aria-label="Hino 30 years anniversary banner">/);
   assert.match(html, /<img class="a30-mark-image a30-mark-default" src="src\/a30new\.svg" width="72" height="50" alt="A30">/);
-  assert.match(html, /<img class="a30-mark-image a30-mark-hero" src="src\/assets\/a30-nav-white\.svg" width="72" height="50" alt="" aria-hidden="true">/);
-  assert.match(html, /<img class="hero-image-full" src="src\/assets\/new1\.png" width="2752" height="1536" alt="Hino 30 years hero banner" fetchpriority="high">/);
+  assert.match(html, /<img class="a30-mark-image a30-mark-hero" src="src\/assets\/a30-nav-white-new\.svg" width="72" height="50" alt="" aria-hidden="true">/);
+  assert.match(html, /<img class="hero-image-full" src="src\/assets\/nbannervi\.webp" width="2752" height="1536" alt="Hino 30 years hero banner" fetchpriority="high">/);
+  assert.match(htmlEn, /<img class="hero-image-full" src="src\/assets\/nbanneren\.webp" width="2752" height="1536" alt="Hino 30 years hero banner" fetchpriority="high">/);
   assert.doesNotMatch(heroBanner, /<h1 id="hero-title">/);
   assert.match(html, /<section class="hero-action-strip" aria-labelledby="hero-title">[\s\S]*class="hero-actions"/);
-  assert.match(html, /<h1 id="hero-title" class="hero-title">[\s\S]*hero-title-line[\s\S]*VỮNG[\s\S]*VÀNG[\s\S]*hero-title-line[\s\S]*CÙNG[\s\S]*PHÁT[\s\S]*TRIỂN[\s\S]*<\/h1>/);
+  assert.match(html, /<h1 id="hero-title" class="hero-title">[\s\S]*hero-title-line[\s\S]*GIÁ[\s\S]*TRỊ[\s\S]*hero-title-line[\s\S]*data-gradient-text="VƯỢT THỜI GIAN"[\s\S]*VƯỢT THỜI GIAN[\s\S]*<\/h1>/);
   assert.match(html, /<p class="hero-copy">[\s\S]*hero-copy-reveal/);
 });
 
@@ -358,14 +367,37 @@ test("rendered hero actions and language toggle are localized and grouped", asyn
   const en = renderPage(content.en, "en");
 
   assert.match(vi, /<div class="language-toggle" role="group" aria-label="Switch language">/);
-  assert.match(vi, /href="#milestones">Hành trình 30 năm<\/a>/);
+  assert.match(vi, /href="#appreciation">Lời tri ân<\/a>/);
+  assert.match(vi, /href="#milestones">Hành trình phát triển<\/a>/);
+  assert.match(vi, /href="#profile">Kỷ yếu 30 năm<\/a>/);
   assert.match(vi, /href="#news">Tin tức<\/a>/);
   assert.match(vi, /href="#contact">Liên hệ<\/a>/);
   assert.match(vi, /href="#video">Video<\/a>/);
+  assert.match(en, /href="#appreciation">Appreciation letter<\/a>/);
   assert.match(en, /href="#milestones">Milestones<\/a>/);
+  assert.match(en, /href="#profile">Company profile<\/a>/);
   assert.match(en, /href="#news">News<\/a>/);
   assert.match(en, /href="#contact">Contact<\/a>/);
   assert.match(en, /href="#video">Video<\/a>/);
+});
+
+test("rendered appreciation letter uses director portrait and real copy", async () => {
+  const [{ content }, { renderPage }] = await Promise.all([
+    import("../src/content.js"),
+    import("../src/render.js")
+  ]);
+
+  const vi = renderPage(content.vi, "vi");
+  const en = renderPage(content.en, "en");
+
+  assert.match(vi, /<section class="appreciation-section section-pattern" id="appreciation" aria-labelledby="appreciation-title">/);
+  assert.match(vi, /<img class="director-image" src="src\/assets\/director-yoshio-osaka\.png" width="2582" height="3872" alt="Ông Yoshio Osaka, Tổng Giám đốc Hino Motors Việt Nam" loading="lazy">/);
+  assert.match(vi, /Thân gửi Quý khách hàng và Quý Đại lý,/);
+  assert.match(vi, /YOSHIO OSAKA/);
+  assert.match(en, /APPRECIATION LETTER/);
+  assert.match(en, /Dear our customers and dealers,/);
+  assert.match(en, /Mr\. YOSHIO OSAKA/);
+  assert.doesNotMatch(vi + en, /TGĐ photo placeholder|&lt;Hino cung cấp&gt;/);
 });
 
 test("css includes approved UI/UX Pro Max quality gates", () => {
@@ -373,7 +405,10 @@ test("css includes approved UI/UX Pro Max quality gates", () => {
   assert.match(css, /--hino-red:\s*#c90000/);
   assert.match(css, /Helvetica Neue/);
   assert.match(css, /section-pattern/);
-  assert.match(css, /url\("\.\/assets\/back-milestone\.jpg"\)/);
+  assert.match(css, /#video\s*\{[^}]*url\("\.\/assets\/back-milestone\.jpg"\)/s);
+  assert.doesNotMatch(css, /body::before\s*\{[^}]*url\("\.\/assets\/back-milestone\.jpg"\)/s);
+  assert.doesNotMatch(css, /\.timeline-section\s*\{[^}]*url\("\.\/assets\/back-milestone\.jpg"\)/s);
+  assert.doesNotMatch(css, /\.profile-cta\s*\{[^}]*url\("\.\/assets\/back-milestone\.jpg"\)/s);
   assert.doesNotMatch(css, /\.hino-logo\s*\{[^}]*border-radius/s);
   assert.doesNotMatch(css, /\.hino-logo\s*\{[^}]*box-shadow/s);
   assert.match(css, /\.hero-banner/);
@@ -420,6 +455,8 @@ test("timeline uses GSAP ScrollTrigger pin and respects reduced motion", () => {
   const js = file("src/timeline.js");
   const css = file("src/styles.css");
   assert.match(js, /setupTimeline/);
+  assert.match(js, /scrollToProgress/);
+  assert.match(js, /goToIndex/);
   assert.match(js, /ScrollTrigger/);
   assert.match(js, /pin:\s*true/);
   assert.match(js, /scrub/);
