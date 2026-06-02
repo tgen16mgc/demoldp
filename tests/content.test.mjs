@@ -18,13 +18,13 @@ const requiredLanguageKeys = ["assets", "lang", "languageLabel", "nav", "section
 const expectedViAssets = {
   videoUrl: "https://www.youtube.com/embed/DYeqHUOq-ho",
   companyProfileUrl: "",
-  heroBannerUrl: "src/assets/nbannervi.webp"
+  heroBannerUrl: "src/assets/finalvi.webp"
 };
 
 const expectedEnAssets = {
   videoUrl: "https://www.youtube.com/embed/DYeqHUOq-ho",
   companyProfileUrl: "",
-  heroBannerUrl: "src/assets/nbanneren.webp"
+  heroBannerUrl: "src/assets/finalen.webp"
 };
 
 const expectedViNav = {

@@ -27,8 +27,8 @@ test("project shell files exist", () => {
     "src/assets/hinobannernew.jpg",
     "src/assets/new1.png",
     "src/assets/new2.png",
-    "src/assets/nbannervi.webp",
-    "src/assets/nbanneren.webp",
+    "src/assets/finalvi.webp",
+    "src/assets/finalen.webp",
     "src/assets/a30-nav-white-new.svg",
     "src/assets/news-eco-driving-can-tho.jpg",
     "src/assets/news-vilog-2025.jpg",
@@ -155,7 +155,7 @@ test("rendered page uses requested Hino logo and copied footer", async () => {
 
   assert.match(html, /src="src\/assets\/hinologonew\.png"/);
   assert.match(html, /src="src\/a30new\.svg"/);
-  assert.match(html, /src="src\/assets\/nbannervi\.webp"/);
+  assert.match(html, /src="src\/assets\/finalvi\.webp"/);
   assert.doesNotMatch(html, /src="src\/assets\/hino-logo\.svg"/);
   assert.doesNotMatch(html, /src="src\/assets\/a30-mark\.svg"/);
   assert.doesNotMatch(html, /src="src\/assets\/hero-banner\.png"/);
@@ -343,8 +343,8 @@ test("rendered page avoids design-slop placeholders and preserves the supplied b
   assert.match(html, /<section class="hero-banner" id="hero" aria-label="Hino 30 years anniversary banner">/);
   assert.match(html, /<img class="a30-mark-image a30-mark-default" src="src\/a30new\.svg" width="72" height="50" alt="A30">/);
   assert.match(html, /<img class="a30-mark-image a30-mark-hero" src="src\/assets\/a30-nav-white-new\.svg" width="72" height="50" alt="" aria-hidden="true">/);
-  assert.match(html, /<img class="hero-image-full" src="src\/assets\/nbannervi\.webp" width="2752" height="1536" alt="Hino 30 years hero banner" fetchpriority="high">/);
-  assert.match(htmlEn, /<img class="hero-image-full" src="src\/assets\/nbanneren\.webp" width="2752" height="1536" alt="Hino 30 years hero banner" fetchpriority="high">/);
+  assert.match(html, /<img class="hero-image-full" src="src\/assets\/finalvi\.webp" width="2752" height="1536" alt="Hino 30 years hero banner" fetchpriority="high">/);
+  assert.match(htmlEn, /<img class="hero-image-full" src="src\/assets\/finalen\.webp" width="2752" height="1536" alt="Hino 30 years hero banner" fetchpriority="high">/);
   assert.doesNotMatch(heroBanner, /<h1 id="hero-title">/);
   assert.match(html, /<section class="hero-action-strip" aria-labelledby="hero-title">[\s\S]*class="hero-actions"/);
   assert.match(html, /<h1 id="hero-title" class="hero-title">[\s\S]*hero-title-line[\s\S]*GIÁ[\s\S]*TRỊ[\s\S]*hero-title-line[\s\S]*data-gradient-text="VƯỢT THỜI GIAN"[\s\S]*VƯỢT THỜI GIAN[\s\S]*<\/h1>/);

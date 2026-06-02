@@ -95,7 +95,7 @@ export const content = {
     assets: {
       videoUrl: "https://www.youtube.com/embed/DYeqHUOq-ho",
       companyProfileUrl: "",
-      heroBannerUrl: "src/assets/nbannervi.webp"
+      heroBannerUrl: "src/assets/finalvi.webp"
     },
     nav: {
       logoHref: "https://hino.vn/",
@@ -191,7 +191,7 @@ export const content = {
     assets: {
       videoUrl: "https://www.youtube.com/embed/DYeqHUOq-ho",
       companyProfileUrl: "",
-      heroBannerUrl: "src/assets/nbanneren.webp"
+      heroBannerUrl: "src/assets/finalen.webp"
     },
     nav: {
       logoHref: "https://hino.vn/",
