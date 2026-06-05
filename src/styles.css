@@ -361,8 +361,8 @@ iframe {
 .hero-action-strip {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(420px, 0.8fr) minmax(0, 1fr);
-  gap: clamp(48px, 7vw, 128px);
+  grid-template-columns: minmax(360px, 0.68fr) minmax(0, 1fr);
+  gap: clamp(44px, 6vw, 112px);
   align-items: center;
   min-height: clamp(520px, 58vh, 720px);
   padding: clamp(72px, 9vw, 132px) clamp(32px, 7vw, 128px);
@@ -404,9 +404,9 @@ h3 {
 }
 
 h1 {
-  max-width: 760px;
+  max-width: 620px;
   margin: 0;
-  font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+  font-size: clamp(2rem, 3.6vw, 3.1rem);
   font-weight: 800;
   line-height: 1.15;
 }
@@ -414,7 +414,7 @@ h1 {
 .hero-title {
   display: grid;
   gap: clamp(14px, 1.5vw, 22px);
-  max-width: 760px;
+  max-width: 620px;
 }
 
 .hero-title-line {
@@ -441,17 +441,17 @@ h1 {
 
 .hero-title-main {
   color: var(--ink);
-  font-size: clamp(2.25rem, 5.6vw, 4.9rem);
+  font-size: clamp(2rem, 4.35vw, 3.7rem);
   font-weight: 800;
   line-height: 1.12;
   text-wrap: balance;
 }
 
 .hero-copy {
-  max-width: 940px;
+  max-width: 620px;
   margin: 0;
   color: var(--text);
-  font-size: clamp(1.38rem, 1.8vw, 1.72rem);
+  font-size: clamp(0.9rem, 1.05vw, 1.14rem);
   line-height: 1.62;
 }
 
@@ -608,7 +608,9 @@ h1 {
   min-height: 100%;
   padding: clamp(42px, 5vw, 76px) clamp(18px, 4vw, 52px);
   border-right: 1px solid rgba(13, 20, 38, 0.08);
-  background: #f3f5f8;
+  background:
+    radial-gradient(circle at 20% 18%, rgba(201, 0, 0, 0.12), transparent 28%),
+    linear-gradient(135deg, #ffffff 0%, #f2f5f8 48%, #e6ebf0 100%);
   isolation: isolate;
 }
 
@@ -617,20 +619,7 @@ h1 {
   inset: clamp(20px, 3vw, 42px);
   z-index: 0;
   border: 1px solid rgba(13, 20, 38, 0.08);
-  border-left: 5px solid rgba(201, 0, 0, 0.86);
   content: "";
-}
-
-.appreciation-portrait-panel::after {
-  position: absolute;
-  right: clamp(26px, 4vw, 62px);
-  bottom: clamp(82px, 8vw, 132px);
-  z-index: 0;
-  width: clamp(250px, 26vw, 440px);
-  aspect-ratio: 860 / 591;
-  background: url("./a30new.svg") center / contain no-repeat;
-  content: "";
-  opacity: 0.075;
 }
 
 .director-portrait {
@@ -670,38 +659,6 @@ h1 {
   height: auto;
   max-height: none;
   filter: drop-shadow(0 20px 28px rgba(13, 20, 38, 0.16));
-}
-
-.director-portrait figcaption {
-  position: relative;
-  z-index: 2;
-  width: min(100%, 400px);
-  margin-top: -48px;
-  padding: 18px 20px 19px;
-  border: 1px solid rgba(13, 20, 38, 0.12);
-  border-left: 5px solid var(--hino-red);
-  background: #ffffff;
-  color: var(--ink);
-  font-family: "Plus Jakarta Sans", sans-serif;
-  text-align: center;
-  box-shadow: 0 16px 32px rgba(13, 20, 38, 0.1);
-}
-
-.director-portrait figcaption strong,
-.director-portrait figcaption span {
-  display: block;
-}
-
-.director-portrait figcaption strong {
-  font-size: clamp(0.9rem, 1.2vw, 1.05rem);
-  font-weight: 900;
-}
-
-.director-portrait figcaption span {
-  margin-top: 4px;
-  color: var(--muted);
-  font-size: 0.9rem;
-  font-weight: 700;
 }
 
 .split-copy {
@@ -964,7 +921,7 @@ blockquote {
 .stat-cell {
   position: relative;
   display: grid;
-  grid-template-rows: repeat(3, minmax(0, 1fr));
+  grid-template-rows: auto 1fr;
   align-items: center;
   justify-content: center;
   gap: 0;
@@ -1018,7 +975,7 @@ blockquote {
   align-self: center;
   justify-self: center;
   color: var(--hino-red);
-  font-size: clamp(2.55rem, 3.65vw, 3.55rem);
+  font-size: clamp(1.72rem, 2.45vw, 2.65rem);
   font-weight: 900;
   letter-spacing: 0;
   line-height: 0.96;
@@ -1065,7 +1022,7 @@ blockquote {
   color: var(--muted);
   font-size: clamp(0.9rem, 1vw, 1rem);
   font-style: italic;
-  font-weight: 600;
+  font-weight: 400;
   line-height: 1.45;
   text-align: right;
 }
@@ -1098,19 +1055,6 @@ blockquote {
   isolation: isolate;
 }
 
-.timeline-section::before {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: clamp(430px, 48vw, 680px);
-  z-index: 0;
-  background:
-    linear-gradient(90deg, #ffffff 0%, rgba(255, 255, 255, 0.42) 13%, rgba(255, 255, 255, 0.08) 100%),
-    url("./assets/background-30-nam.jpg") right center / cover no-repeat;
-  content: "";
-  pointer-events: none;
-}
 
 .timeline-controls {
   position: absolute;
@@ -1168,17 +1112,6 @@ blockquote {
 
 .timeline-arrow:active {
   transform: translateY(-50%) scale(0.98);
-}
-
-.timeline-skip {
-  position: absolute;
-  right: clamp(18px, 3vw, 48px);
-  bottom: clamp(64px, 7vh, 92px);
-  min-height: 46px;
-  padding: 0 18px;
-  background: rgba(255, 255, 255, 0.94);
-  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.1);
-  pointer-events: auto;
 }
 
 .timeline-pin {
@@ -1321,10 +1254,10 @@ blockquote {
   position: relative;
   z-index: 1;
   display: flex;
-  min-height: clamp(124px, 18vh, 190px);
+  min-height: clamp(112px, 16vh, 170px);
   flex-direction: column;
   justify-content: flex-start;
-  margin-top: clamp(178px, 38vh, 330px);
+  margin-top: clamp(118px, 24vh, 210px);
   padding: 0;
   text-align: left;
   opacity: 0.52;
@@ -1511,7 +1444,9 @@ blockquote {
 }
 
 .profile-cta {
-  background: #f8fafc;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.9)),
+    url("./assets/back-milestone.jpg") center / cover no-repeat;
 }
 
 .profile-cta .button {
@@ -1546,6 +1481,7 @@ blockquote {
   gap: 10px;
   margin: 0;
   padding: 0;
+  font-weight: 400;
   list-style: none;
 }
 
@@ -1613,6 +1549,7 @@ blockquote {
 
 .footer-contact strong {
   color: #747474;
+  font-weight: 400;
 }
 
 .footer-contact b {
@@ -1630,7 +1567,7 @@ blockquote {
 
 .footer-bottom-inner {
   display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(260px, 1fr) auto;
+  grid-template-columns: minmax(0, 1.35fr) minmax(260px, 1fr);
   align-items: center;
   gap: 24px;
   width: min(var(--container), calc(100% - 36px));
@@ -1643,22 +1580,12 @@ blockquote {
   flex-wrap: wrap;
   gap: 22px;
   color: #4d4d4d;
-  font-weight: 800;
+  font-weight: 400;
 }
 
 .footer-bottom p {
   margin: 0;
   text-align: center;
-}
-
-.back-to-top {
-  min-height: 44px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: flex-end;
-  color: #4d4d4d;
-  font-weight: 800;
-  text-decoration: none;
 }
 
 @media (max-width: 900px) {
@@ -2004,8 +1931,8 @@ blockquote {
   }
 
   .milestone-copy {
-    min-height: clamp(132px, 20vh, 210px);
-    margin-top: clamp(176px, 36vh, 300px);
+    min-height: clamp(112px, 16vh, 180px);
+    margin-top: clamp(118px, 24vh, 210px);
   }
 
   .footer-main {
@@ -2026,9 +1953,6 @@ blockquote {
     text-align: left;
   }
 
-  .back-to-top {
-    justify-content: flex-start;
-  }
 }
 
 @media (max-width: 1100px) and (min-width: 769px) {
@@ -2225,12 +2149,6 @@ blockquote {
 
   .director-image {
     width: min(100%, 310px);
-  }
-
-  .director-portrait figcaption {
-    width: min(100%, 320px);
-    margin-top: -38px;
-    padding: 15px 16px 17px;
   }
 
   .appreciation-letter {

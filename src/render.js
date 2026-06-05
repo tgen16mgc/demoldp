@@ -277,10 +277,6 @@ function renderAppreciation(section, activeLang) {
           <div class="director-image-frame">
             ${portrait}
           </div>
-          <figcaption>
-            <strong>${escapeHtml(section.signatureName || "")}</strong>
-            <span>${escapeHtml(section.signatureTitle || section.nameTitle || "")}</span>
-          </figcaption>
         </figure>
       </div>
       <div class="appreciation-letter">
@@ -379,7 +375,6 @@ function renderMilestones(section, activeLang) {
       <button class="timeline-arrow timeline-arrow-next" type="button" data-timeline-next aria-label="${escapeHtml(labels.next)}">
         <span class="sr-only">${escapeHtml(labels.next)}</span>
       </button>
-      <a class="timeline-skip button secondary" href="#news">${escapeHtml(labels.skip)}</a>
     </div>
   `;
   const items = section.items
@@ -528,7 +523,6 @@ function renderFooter(contact, activeLang = "vi") {
             ${labels.policyItems.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
           </nav>
           <p>${escapeHtml(labels.copyright)}</p>
-          <a class="back-to-top" href="#hero">${escapeHtml(labels.backToTop)} <span aria-hidden="true">^</span></a>
         </div>
       </div>
     </footer>

@@ -159,19 +159,13 @@ export function setupTimeline(section) {
       return;
     }
 
-    const finalHold = Math.min(window.innerHeight * 0.55, 680);
-    const totalDistance = distance + finalHold;
+    const totalDistance = distance;
     ratios = eventCenterRatios(distance, totalDistance);
 
     const tween = gsap.timeline()
       .to(canvas, {
         x: -distance,
         duration: distance,
-        ease: "none"
-      })
-      .to(canvas, {
-        x: -distance,
-        duration: finalHold,
         ease: "none"
       });
 
