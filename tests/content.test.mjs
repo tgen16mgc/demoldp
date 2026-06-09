@@ -18,13 +18,13 @@ const requiredLanguageKeys = ["assets", "lang", "languageLabel", "nav", "section
 const expectedViAssets = {
   videoUrl: "https://www.youtube.com/embed/DYeqHUOq-ho",
   companyProfileUrl: "",
-  heroBannerUrl: "src/assets/finalvi.webp"
+  heroBannerUrl: "src/assets/banner vi.webp"
 };
 
 const expectedEnAssets = {
   videoUrl: "https://www.youtube.com/embed/DYeqHUOq-ho",
   companyProfileUrl: "",
-  heroBannerUrl: "src/assets/finalen.webp"
+  heroBannerUrl: "src/assets/banner en.webp"
 };
 
 const expectedViNav = {
@@ -159,13 +159,13 @@ const expectedViSections = {
   },
   statistics: {
     heading: "NHỮNG CON SỐ ẤN TƯỢNG",
-    note: "* Số liệu ghi nhận tính đến ngày 25/05/2026",
+    note: "* Số liệu ghi nhận tính đến ngày 18/06/2026",
     items: [
-      { value: 354, suffix: "+", unit: "nhân viên", label: "Nhân sự" },
-      { value: 51, suffix: "K+", unit: "xe", label: "Sản lượng sản xuất" },
-      { value: 56, suffix: "K+", unit: "xe", label: "Doanh số bán xe" },
-      { value: 1.7, suffix: "B+", unit: "VND", label: "Doanh thu bán phụ tùng" },
-      { value: 591, suffix: "K+", unit: "lượt", label: "Dịch vụ bảo dưỡng" }
+      { value: 354, suffix: "", unit: "nhân viên", label: "Nhân sự" },
+      { value: 51123, suffix: "", unit: "xe", label: "Sản lượng sản xuất" },
+      { value: 56123, suffix: "", unit: "xe", label: "Doanh số bán xe" },
+      { value: 1712345, suffix: "", unit: "VND", label: "Doanh thu bán phụ tùng" },
+      { value: 591123, suffix: "", unit: "lượt", label: "Dịch vụ bảo dưỡng" }
     ]
   },
   video: {
@@ -193,7 +193,7 @@ const expectedViSections = {
   profile: {
     heading: "VỀ HINO MOTORS VIỆT NAM",
     subtext: "Khám phá sâu hơn về hành trình phát triển của Hino Motors Việt Nam, những giá trị cốt lõi và nền tảng tạo nên chúng tôi ngày hôm nay.",
-    cta: "TẢI PROFILE"
+    cta: "KỶ YẾU 30 NĂM"
   },
   contact: {
     heading: "Liên hệ",
@@ -236,13 +236,13 @@ const expectedEnSections = {
   },
   statistics: {
     heading: "OUTSTANDING STATISTICS",
-    note: "* Data recorded as of 25/05/2026",
+    note: "* Data recorded as of 18/06/2026",
     items: [
-      { value: 354, suffix: "+", unit: "employees", label: "Employees" },
-      { value: 51, suffix: "K+", unit: "vehicles", label: "Production volume" },
-      { value: 56, suffix: "K+", unit: "vehicles", label: "Vehicle sales" },
-      { value: 1.7, suffix: "B+", unit: "VND", label: "Part sales" },
-      { value: 591, suffix: "K+", unit: "visits", label: "Service Maintenance" }
+      { value: 354, suffix: "", unit: "employees", label: "Employees" },
+      { value: 51123, suffix: "", unit: "vehicles", label: "Production volume" },
+      { value: 56123, suffix: "", unit: "vehicles", label: "Vehicle sales" },
+      { value: 1712345, suffix: "", unit: "VND", label: "Part sales" },
+      { value: 591123, suffix: "", unit: "visits", label: "Service Maintenance" }
     ]
   },
   video: {
@@ -270,7 +270,7 @@ const expectedEnSections = {
   profile: {
     heading: "ABOUT HINO MOTORS VIETNAM",
     subtext: "Explore further the development journey of Hino Motors Vietnam, the core values and foundations that have shaped who we are today.",
-    cta: "DOWNLOAD PROFILE"
+    cta: "30 YEARS YEARBOOK"
   },
   contact: {
     heading: "Contact",

@@ -155,7 +155,7 @@ test("rendered page uses requested Hino logo and copied footer", async () => {
 
   assert.match(html, /src="src\/assets\/hinologonew\.png"/);
   assert.match(html, /src="src\/a30new\.svg"/);
-  assert.match(html, /src="src\/assets\/finalvi\.webp"/);
+  assert.match(html, /src="src\/assets\/banner vi\.webp"/);
   assert.doesNotMatch(html, /src="src\/assets\/hino-logo\.svg"/);
   assert.doesNotMatch(html, /src="src\/assets\/a30-mark\.svg"/);
   assert.doesNotMatch(html, /src="src\/assets\/hero-banner\.png"/);
@@ -182,10 +182,10 @@ test("rendered statistics expose animated numeric counters", async () => {
   const html = renderPage(content.vi, "vi");
 
   assert.match(html, /class="stat-number"[\s\S]*data-count-to="354"/);
-  assert.match(html, /data-count-to="354"[\s\S]*data-count-suffix="\+"/);
-  assert.match(html, /data-count-to="1.7"[\s\S]*data-count-suffix="B\+"/);
+  assert.match(html, /data-count-to="354"[\s\S]*data-count-suffix=""/);
+  assert.match(html, /data-count-to="1712345"[\s\S]*data-count-suffix=""/);
   assert.match(html, /class="stat-unit">nhân viên<\/p>/);
-  assert.match(html, /class="stats-note">\* Số liệu ghi nhận tính đến ngày 25\/05\/2026<\/p>/);
+  assert.match(html, /class="stats-note">\* Số liệu ghi nhận tính đến ngày 18\/06\/2026<\/p>/);
   assert.doesNotMatch(html, /class="stat-hex"/);
   assert.doesNotMatch(html, /Đại lý Hino tại Việt Nam/);
 });
@@ -283,7 +283,7 @@ test("rendered news and milestones use real local images", async () => {
   assert.match(html, /<img class="milestone-image milestone-image-anniversary" src="src\/a30new\.svg" alt="A30 anniversary logo" loading="lazy">/);
 });
 
-test("rendered milestones expose horizontal scroll-pinned timeline", async () => {
+test("rendered milestones expose unpinned horizontal timeline", async () => {
   const [{ content }, { renderPage }] = await Promise.all([
     import("../src/content.js"),
     import("../src/render.js")
@@ -291,14 +291,16 @@ test("rendered milestones expose horizontal scroll-pinned timeline", async () =>
 
   const html = renderPage(content.vi, "vi");
 
-  assert.match(html, /class="timeline-viewport" tabindex="0"/);
-  assert.match(html, /class="timeline-intro-panel"/);
+  assert.match(html, /class="timeline-header"/);
   assert.match(html, /class="timeline-intro-mark" src="src\/a30new\.svg" alt="A30" loading="lazy"/);
+  assert.match(html, /class="timeline-viewport" tabindex="0"/);
+  assert.match(html, /class="timeline-rail"/);
+  assert.match(html, /data-timeline-marker data-year="1995"/);
+  assert.match(html, /class="timeline-dot"/);
+  assert.match(html, /class="timeline-marker-year">Now<\/span>/);
   assert.match(html, /data-timeline-prev/);
   assert.match(html, /data-timeline-next/);
-  assert.match(html, /class="timeline-skip button secondary" href="#news">Đến phần tiếp theo<\/a>/);
-  assert.doesNotMatch(html, /class="timeline-rail"/);
-  assert.doesNotMatch(html, /class="timeline-progress"/);
+  assert.match(html, /class="timeline-progress"/);
 });
 
 test("rendered milestones use coded reference-style timeline structure", async () => {
@@ -309,23 +311,33 @@ test("rendered milestones use coded reference-style timeline structure", async (
   const css = file("src/styles.css");
   const html = renderPage(content.vi, "vi");
 
+  assert.match(html, /class="timeline-header"/);
   assert.match(html, /class="timeline-canvas"/);
   assert.match(html, /id="milestones-title" class="heading-gradient-text"/);
+  assert.match(html, /class="timeline-rail"/);
+  assert.match(html, /class="timeline-marker"/);
+  assert.match(html, /class="timeline-dot"/);
   assert.match(html, /class="milestone-date">1995<\/p>/);
   assert.match(html, /class="milestone-title">Mở văn phòng đại diện tại Hà Nội<\/h3>/);
-  assert.match(html, /class="milestone-event is-anniversary"/);
+  assert.match(html, /class="milestone-event milestone-year-2026 is-anniversary"/);
   assert.match(html, /class="milestone-image milestone-image-anniversary"/);
+  assert.doesNotMatch(html, /class="timeline-intro-panel"/);
   assert.doesNotMatch(html, /class="milestone-stem"/);
   assert.doesNotMatch(html, /class="milestone-node"/);
   assert.doesNotMatch(html, /milestone-reference\.png/);
+  assert.match(css, /\.timeline-header\s*\{/);
+  assert.match(css, /\.timeline-rail\s*\{/);
+  assert.match(css, /\.timeline-dot\s*\{/);
   assert.match(css, /\.timeline-canvas\s*\{[^}]*display:\s*flex/s);
   assert.match(css, /\.milestone-event\s*\{[^}]*position:\s*relative/s);
-  assert.match(css, /\.timeline-section\s*\{[^}]*min-height:\s*100svh/s);
-  assert.match(css, /\.timeline-intro-panel\s*\{[^}]*border-right:\s*1px solid rgba\(201,\s*0,\s*0,\s*0\.12\)/s);
+  assert.match(css, /\.timeline-section\s*\{[^}]*min-height:\s*auto/s);
+  assert.match(css, /\.timeline-viewport\s*\{[^}]*overflow-x:\s*auto/s);
+  assert.doesNotMatch(css, /\.timeline-intro-panel\s*\{/);
   assert.doesNotMatch(css, /\.milestone-index\s*\{/);
-  assert.match(css, /\.milestone-image\s*\{[^}]*object-fit:\s*contain/s);
-  assert.match(css, /\.timeline-skip\s*\{/);
+  assert.match(css, /\.milestone-image\s*\{[^}]*object-fit:\s*cover/s);
+  assert.match(css, /\.milestone-image-anniversary\s*\{[^}]*object-fit:\s*contain/s);
   assert.match(css, /\.milestone-event\.is-current/);
+  assert.match(css, /\.timeline-marker\.is-active/);
   assert.match(css, /\.milestone-image-anniversary/);
 });
 
@@ -343,8 +355,8 @@ test("rendered page avoids design-slop placeholders and preserves the supplied b
   assert.match(html, /<section class="hero-banner" id="hero" aria-label="Hino 30 years anniversary banner">/);
   assert.match(html, /<img class="a30-mark-image a30-mark-default" src="src\/a30new\.svg" width="72" height="50" alt="A30">/);
   assert.match(html, /<img class="a30-mark-image a30-mark-hero" src="src\/assets\/a30-nav-white-new\.svg" width="72" height="50" alt="" aria-hidden="true">/);
-  assert.match(html, /<img class="hero-image-full" src="src\/assets\/finalvi\.webp" width="2752" height="1536" alt="Hino 30 years hero banner" fetchpriority="high">/);
-  assert.match(htmlEn, /<img class="hero-image-full" src="src\/assets\/finalen\.webp" width="2752" height="1536" alt="Hino 30 years hero banner" fetchpriority="high">/);
+  assert.match(html, /<img class="hero-image-full" src="src\/assets\/banner vi\.webp" width="2752" height="1536" alt="Hino 30 years hero banner" fetchpriority="high">/);
+  assert.match(htmlEn, /<img class="hero-image-full" src="src\/assets\/banner en\.webp" width="2752" height="1536" alt="Hino 30 years hero banner" fetchpriority="high">/);
   assert.doesNotMatch(heroBanner, /<h1 id="hero-title">/);
   assert.match(html, /<section class="hero-action-strip" aria-labelledby="hero-title">[\s\S]*class="hero-actions"/);
   assert.match(html, /<h1 id="hero-title" class="hero-title">[\s\S]*hero-title-line[\s\S]*GIÁ[\s\S]*TRỊ[\s\S]*hero-title-line[\s\S]*data-gradient-text="VƯỢT THỜI GIAN"[\s\S]*VƯỢT THỜI GIAN[\s\S]*<\/h1>/);
@@ -451,24 +463,27 @@ test("css avoids responsive overflow and focus clipping regressions", () => {
   );
 });
 
-test("timeline uses GSAP ScrollTrigger pin and respects reduced motion", () => {
+test("timeline uses native horizontal scrolling and respects reduced motion", () => {
   const js = file("src/timeline.js");
   const css = file("src/styles.css");
   assert.match(js, /setupTimeline/);
   assert.match(js, /scrollToProgress/);
   assert.match(js, /goToIndex/);
-  assert.match(js, /ScrollTrigger/);
-  assert.match(js, /pin:\s*true/);
-  assert.match(js, /scrub/);
+  assert.match(js, /viewport\.scrollTo/);
+  assert.match(js, /viewport\.scrollLeft/);
+  assert.doesNotMatch(js, /ScrollTrigger/);
+  assert.doesNotMatch(js, /pin:\s*true/);
+  assert.doesNotMatch(js, /scrub/);
   assert.match(js, /is-active/);
   assert.match(js, /is-current/);
   assert.match(js, /aria-current/);
   assert.match(js, /setInterval/);
   assert.match(js, /data-timeline-next/);
   assert.match(js, /prefers-reduced-motion:\s*reduce/);
+  assert.match(css, /\.timeline-viewport\s*\{[^}]*overflow-x:\s*auto/s);
   assert.match(css, /\.milestone-event\.is-active/);
-  assert.match(css, /\.timeline-intro-panel/);
-  assert.doesNotMatch(css, /\.timeline-progress\s*\{/);
+  assert.match(css, /\.timeline-header/);
+  assert.match(css, /\.timeline-progress\s*\{/);
 });
 
 test("smooth scrolling uses Lenis and stays synchronized with ScrollTrigger", () => {

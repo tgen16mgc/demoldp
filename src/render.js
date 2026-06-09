@@ -356,16 +356,12 @@ function renderMilestones(section, activeLang) {
   const headingLines = labels.headingLines
     .map((line) => `<span>${escapeHtml(line)}</span>`)
     .join("");
-  const introPanel = `
-    <article class="timeline-intro-panel">
-      <div class="timeline-intro-top">
-        <img class="timeline-intro-mark" src="src/a30new.svg" alt="A30" loading="lazy">
-        <p class="timeline-intro-small">${escapeHtml(section.subtext || "")}</p>
-      </div>
-      <div class="timeline-intro-main">
-        <h2 id="milestones-title" class="heading-gradient-text" aria-label="${escapeHtml(section.heading)}">${headingLines}</h2>
-      </div>
-    </article>
+  const header = `
+    <div class="timeline-header">
+      <img class="timeline-intro-mark" src="src/a30new.svg" alt="A30" loading="lazy">
+      <h2 id="milestones-title" class="heading-gradient-text" aria-label="${escapeHtml(section.heading)}">${headingLines}</h2>
+      <p class="timeline-intro-small">${escapeHtml(section.subtext || "")}</p>
+    </div>
   `;
   const controls = `
     <div class="timeline-controls" aria-label="Timeline controls">
@@ -377,18 +373,26 @@ function renderMilestones(section, activeLang) {
       </button>
     </div>
   `;
+  const markers = section.items
+    .map((item) => `
+      <button class="timeline-marker" type="button" data-timeline-marker data-year="${escapeHtml(item.year)}" aria-label="${escapeHtml(item.year)}">
+        <span class="timeline-dot" aria-hidden="true"></span>
+        <span class="timeline-marker-year">${escapeHtml(item.year === "2026" ? "Now" : item.year)}</span>
+      </button>
+    `)
+    .join("");
   const items = section.items
-    .map((item, index) => {
+    .map((item) => {
       const hasImage = hasSafeUrl(item.imageUrl, { allowHash: false });
       const isAnniversaryMilestone = item.year === "2026";
-      const eventClass = `milestone-event${isAnniversaryMilestone ? " is-anniversary" : ""}`;
+      const eventClass = `milestone-event milestone-year-${escapeHtml(item.year)}${isAnniversaryMilestone ? " is-anniversary" : ""}`;
       const imageClass = `milestone-image${isAnniversaryMilestone ? " milestone-image-anniversary" : ""}`;
       const image = hasImage
         ? `<img class="${imageClass}" src="${safeUrl(item.imageUrl, "", { allowHash: false })}" alt="${escapeHtml(item.imageAlt || `${item.year} milestone image`)}" loading="lazy">`
         : `<div class="milestone-image milestone-image-placeholder" role="img" aria-label="${escapeHtml(item.imageAlt || `${item.year} milestone image`)}"></div>`;
 
       return `
-      <article class="${eventClass}">
+      <article class="${eventClass}" data-year="${escapeHtml(item.year)}">
         <div class="milestone-copy">
           <p class="milestone-date">${escapeHtml(item.year)}</p>
           <h3 class="milestone-title">${escapeHtml(item.text)}</h3>
@@ -403,14 +407,18 @@ function renderMilestones(section, activeLang) {
 
   return `
     <section class="timeline-section section-pattern" id="milestones" aria-labelledby="milestones-title">
+      ${header}
       <div class="timeline-pin">
         <div class="timeline-viewport" tabindex="0" aria-label="${escapeHtml(section.heading)}">
           <div class="timeline-track">
+            <div class="timeline-rail" aria-hidden="true">${markers}</div>
             <div class="timeline-canvas">
-              ${introPanel}
               ${items}
             </div>
           </div>
+        </div>
+        <div class="timeline-progress">
+          <div class="timeline-progress-fill" data-timeline-progress role="progressbar" aria-label="Timeline scroll progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
         </div>
         ${controls}
       </div>
@@ -523,6 +531,7 @@ function renderFooter(contact, activeLang = "vi") {
             ${labels.policyItems.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
           </nav>
           <p>${escapeHtml(labels.copyright)}</p>
+          <a class="back-to-top" href="#hero">${escapeHtml(labels.backToTop)} <span aria-hidden="true">^</span></a>
         </div>
       </div>
     </footer>

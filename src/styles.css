@@ -24,6 +24,7 @@
   --radius: 0.625rem;
   --container: 1180px;
   --nav-height: 76px;
+  --timeline-item-width: clamp(390px, 25vw, 460px);
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -53,6 +54,8 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --timeline-leading-gutter: clamp(18px, 14vw, 280px);
+  --timeline-gutter: max(clamp(18px, 4vw, 56px), calc((100vw - 1180px) / 2));
 }
 
 *,
@@ -583,15 +586,19 @@ h1 {
 
 .appreciation-section {
   display: grid;
-  grid-template-columns: minmax(300px, 38%) minmax(0, 1fr);
-  align-items: stretch;
-  min-height: min(820px, 92dvh);
-  padding-inline: clamp(0px, 3vw, 72px);
+  grid-template-columns: minmax(340px, 430px) minmax(0, 900px);
+  align-items: center;
+  justify-content: center;
+  gap: clamp(44px, 4vw, 72px);
+  min-height: auto;
+  padding: clamp(32px, 4vw, 56px) clamp(20px, 5vw, 78px);
   overflow: hidden;
   scroll-margin-top: var(--nav-height);
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
-  background: #ffffff;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0.64)),
+    url("./assets/back-milestone.jpg") center / cover no-repeat;
 }
 
 .portrait-placeholder {
@@ -602,24 +609,47 @@ h1 {
 
 .appreciation-portrait-panel {
   position: relative;
+  z-index: 1;
   display: flex;
-  align-items: center;
+  align-items: end;
   justify-content: center;
-  min-height: 100%;
-  padding: clamp(42px, 5vw, 76px) clamp(18px, 4vw, 52px);
-  border-right: 1px solid rgba(13, 20, 38, 0.08);
+  width: 100%;
+  min-width: 0;
+  min-height: clamp(430px, 30vw, 560px);
+  padding: clamp(18px, 2.4vw, 28px) clamp(16px, 2vw, 24px) 0;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 26px;
   background:
-    radial-gradient(circle at 20% 18%, rgba(201, 0, 0, 0.12), transparent 28%),
-    linear-gradient(135deg, #ffffff 0%, #f2f5f8 48%, #e6ebf0 100%);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 248, 244, 0.82) 58%, rgba(139, 0, 0, 0.08) 100%),
+    radial-gradient(circle at 50% 16%, rgba(211, 47, 47, 0.14), transparent 48%);
+  box-shadow:
+    0 22px 54px rgba(98, 24, 24, 0.13),
+    inset 0 1px 0 rgba(255, 255, 255, 0.86);
   isolation: isolate;
 }
 
 .appreciation-portrait-panel::before {
   position: absolute;
-  inset: clamp(20px, 3vw, 42px);
-  z-index: 0;
-  border: 1px solid rgba(13, 20, 38, 0.08);
+  inset: 14px;
+  z-index: 1;
+  border: 1px solid rgba(139, 0, 0, 0.08);
+  border-radius: 20px;
   content: "";
+  pointer-events: none;
+}
+
+.appreciation-portrait-panel::after {
+  position: absolute;
+  right: 18px;
+  bottom: 0;
+  left: 18px;
+  z-index: 1;
+  height: 34%;
+  border-radius: 0 0 22px 22px;
+  background: linear-gradient(180deg, transparent 0%, rgba(87, 18, 18, 0.12) 100%);
+  content: "";
+  pointer-events: none;
 }
 
 .director-portrait {
@@ -627,38 +657,36 @@ h1 {
   z-index: 1;
   display: grid;
   justify-items: center;
-  width: min(100%, 500px);
+  width: min(100%, 356px);
   margin: 0;
   gap: 0;
 }
 
 .director-image-frame {
   position: relative;
-  width: min(100%, 410px);
+  z-index: 2;
+  width: min(100%, 344px);
   overflow: visible;
   display: flex;
-  align-items: center;
+  align-items: end;
   justify-content: center;
 }
 
 .director-image-frame::after {
-  position: absolute;
-  right: 3%;
-  bottom: 0;
-  left: 3%;
-  height: 26px;
-  background: #f3f5f8;
-  border-top: 1px solid rgba(13, 20, 38, 0.1);
-  content: "";
+  content: none;
 }
 
 .director-image {
   display: block;
-  width: min(100%, 380px);
+  position: relative;
+  z-index: 2;
+  width: min(100%, 332px);
   max-width: none;
   height: auto;
-  max-height: none;
-  filter: drop-shadow(0 20px 28px rgba(13, 20, 38, 0.16));
+  max-height: clamp(390px, 28vw, 505px);
+  object-fit: contain;
+  object-position: bottom center;
+  filter: drop-shadow(0 18px 26px rgba(70, 35, 24, 0.2));
 }
 
 .split-copy {
@@ -669,11 +697,29 @@ h1 {
 }
 
 .appreciation-letter {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  max-width: 940px;
-  padding: clamp(46px, 7vw, 90px) clamp(24px, 7vw, 104px);
+  max-width: 900px;
+  min-height: clamp(280px, 30vw, 390px);
+  margin-left: 0;
+  padding: clamp(24px, 3vw, 38px) clamp(34px, 3.4vw, 48px) clamp(24px, 3vw, 38px) clamp(66px, 4.8vw, 76px);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 22px 52px rgba(15, 23, 42, 0.1);
+}
+
+.appreciation-letter::before {
+  content: "";
+  position: absolute;
+  top: clamp(20px, 2.2vw, 30px);
+  bottom: clamp(20px, 2.2vw, 30px);
+  left: clamp(24px, 2vw, 30px);
+  width: 4px;
+  border-radius: 999px;
+  background: var(--hino-red);
 }
 
 .split-copy h2,
@@ -686,10 +732,10 @@ h1 {
 }
 
 .appreciation-letter h2 {
-  max-width: 13ch;
+  max-width: 16ch;
   color: var(--ink);
-  font-size: clamp(2.15rem, 4.1vw, 4.8rem);
-  line-height: 0.98;
+  font-size: clamp(1.75rem, 2.7vw, 3rem);
+  line-height: 1.04;
   text-wrap: balance;
 }
 
@@ -701,17 +747,22 @@ blockquote {
 }
 
 .letter-body {
-  display: grid;
-  gap: clamp(14px, 1.4vw, 20px);
-  max-width: 76ch;
-  margin: clamp(28px, 4vw, 48px) 0 0;
+  column-count: 2;
+  column-gap: clamp(28px, 3vw, 42px);
+  max-width: none;
+  margin: clamp(14px, 1.8vw, 22px) 0 0;
   color: var(--text);
-  font-size: clamp(1rem, 1.15vw, 1.12rem);
-  line-height: 1.78;
+  font-size: clamp(0.92rem, 0.9vw, 0.98rem);
+  line-height: 1.52;
 }
 
 .letter-body p {
-  margin: 0;
+  margin: 0 0 8px;
+  break-inside: avoid;
+}
+
+.letter-body p:last-child {
+  margin-bottom: 0;
 }
 
 .letter-salutation {
@@ -727,10 +778,12 @@ blockquote {
 
 .appreciation-letter .person-line {
   display: grid;
-  gap: 3px;
-  margin-top: clamp(26px, 3vw, 40px);
+  gap: 2px;
+  margin-top: clamp(12px, 1.6vw, 20px);
+  padding-top: clamp(10px, 1.2vw, 14px);
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
   color: var(--ink);
-  line-height: 1.35;
+  line-height: 1.25;
 }
 
 .signature-name {
@@ -1048,17 +1101,65 @@ blockquote {
 
 .timeline-section {
   position: relative;
-  min-height: 100svh;
-  padding: 0;
+  min-height: auto;
+  padding: clamp(76px, 9vw, 126px) 0 clamp(64px, 8vw, 104px);
+  scroll-margin-top: calc(var(--nav-height) + clamp(24px, 4vw, 56px));
   background: #ffffff;
   color: var(--ink);
   isolation: isolate;
 }
 
+.timeline-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(760px, calc(100% - 36px));
+  margin: 0 auto clamp(64px, 7vw, 102px);
+  text-align: center;
+}
+
+.timeline-intro-mark {
+  display: block;
+  width: clamp(54px, 5vw, 76px);
+  height: auto;
+  margin: 0 0 18px;
+}
+
+.timeline-header h2 {
+  display: block;
+  margin: 0;
+  padding: 0.08em 0 0.16em;
+  color: transparent;
+  font-family: "Plus Jakarta Sans", "Geist Variable", Arial, sans-serif;
+  font-size: clamp(2.45rem, 5.4vw, 4.6rem);
+  font-weight: 800;
+  line-height: 1.18;
+  letter-spacing: 0;
+  overflow: visible;
+}
+
+.timeline-header h2 span {
+  display: inline;
+  white-space: normal;
+}
+
+.timeline-header h2 span + span::before {
+  content: " ";
+}
+
+.timeline-intro-small {
+  max-width: 62ch;
+  margin: clamp(18px, 2vw, 24px) auto 0;
+  color: #7a8594;
+  font-size: clamp(1rem, 1.18vw, 1.24rem);
+  font-weight: 500;
+  line-height: 1.58;
+  text-wrap: balance;
+}
 
 .timeline-controls {
   position: absolute;
-  inset: var(--nav-height) 0 0;
+  inset: clamp(72px, 9vw, 118px) 0 auto;
   z-index: 20;
   pointer-events: none;
 }
@@ -1117,150 +1218,160 @@ blockquote {
 .timeline-pin {
   position: relative;
   z-index: 1;
-  display: flex;
-  align-items: stretch;
   width: 100%;
-  height: 100svh;
-  padding-top: var(--nav-height);
 }
 
 .timeline-viewport {
   width: 100%;
-  height: 100%;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
   user-select: none;
   background: transparent;
+  cursor: grab;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-left: var(--timeline-leading-gutter);
+  scroll-padding-left: var(--timeline-leading-gutter);
+}
+
+.timeline-viewport::-webkit-scrollbar {
+  display: none;
+}
+
+.timeline-viewport:active {
+  cursor: grabbing;
 }
 
 .timeline-track {
   position: relative;
-  display: flex;
-  align-items: stretch;
   width: max-content;
   min-width: 100%;
-  height: 100%;
   padding: 0;
+}
+
+.timeline-rail {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(19, minmax(var(--timeline-item-width), 1fr));
+  align-items: start;
+  width: max-content;
+  min-width: 100%;
+  margin: 0 0 28px;
+  padding-right: var(--timeline-gutter);
+}
+
+.timeline-rail::before {
+  position: absolute;
+  top: 8px;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: #e5e7eb;
+  content: "";
+}
+
+.timeline-marker {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: start;
+  gap: 26px;
+  min-width: var(--timeline-item-width);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #171717;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.timeline-dot {
+  width: 17px;
+  height: 17px;
+  border: 4px solid #f1f3f6;
+  border-radius: 999px;
+  background: #dfe3e9;
+  transition: border-color 180ms ease, background 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+
+.timeline-marker.is-active .timeline-dot,
+.timeline-marker:hover .timeline-dot,
+.timeline-marker:focus-visible .timeline-dot {
+  border-color: rgba(201, 0, 0, 0.16);
+  background: var(--hino-red);
+  box-shadow: 0 0 0 1px rgba(201, 0, 0, 0.22);
+  transform: scale(1.04);
+}
+
+.timeline-marker-year {
+  font-size: clamp(1.2rem, 2vw, 1.85rem);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: 0;
 }
 
 .timeline-canvas {
   position: relative;
   display: flex;
-  align-items: stretch;
-  gap: 0;
-  flex: 0 0 auto;
-  min-height: 100%;
-  padding: 0;
-  will-change: transform;
-}
-
-.timeline-intro-panel {
-  position: relative;
-  z-index: 2;
-  flex: 0 0 clamp(430px, 48vw, 680px);
-  width: clamp(430px, 48vw, 680px);
-  min-height: 100%;
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  padding: clamp(22px, 3vw, 42px) clamp(26px, 4vw, 58px);
-  border-right: 1px solid rgba(201, 0, 0, 0.12);
-  background: #ffffff;
-}
-
-.timeline-intro-top {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 18px;
   align-items: start;
+  gap: 0;
+  width: max-content;
+  padding: 0;
 }
 
-.timeline-intro-mark {
-  display: block;
-  width: clamp(58px, 7vw, 88px);
-  height: auto;
-  margin-top: 2px;
+.timeline-canvas::after {
+  content: "";
+  flex: 0 0 var(--timeline-gutter);
+  width: var(--timeline-gutter);
 }
 
-.timeline-intro-small {
-  max-width: 34ch;
-  margin: 0;
-  color: #7a8594;
-  font-size: clamp(0.7rem, 0.78vw, 0.82rem);
-  font-weight: 600;
-  line-height: 1.48;
-}
-
-.timeline-intro-main {
+.timeline-progress {
   position: relative;
-  align-self: center;
-  padding-left: clamp(30px, 3.4vw, 48px);
-  transform: none;
+  width: min(320px, calc(100% - 36px));
+  height: 4px;
+  margin: 32px auto 0;
+  background: #e2e8f0;
+  border-radius: 2px;
+  overflow: hidden;
 }
 
-.timeline-intro-main h2 {
-  display: block;
-  max-width: none;
-  margin: 0;
-  color: transparent;
-  font-family: "Plus Jakarta Sans", "Geist Variable", Arial, sans-serif;
-  font-size: clamp(2rem, 3.05vw, 3.05rem);
-  font-weight: 800;
-  line-height: 1.32;
-  letter-spacing: 0;
-  text-wrap: nowrap;
-}
-
-.timeline-intro-main h2 span {
-  display: block;
-  white-space: nowrap;
-  padding: 0.08em 0 0.11em;
-}
-
-.timeline-intro-main h2 span + span {
-  margin-top: 0.03em;
+.timeline-progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--hino-red);
+  transform: scaleX(0);
+  transform-origin: left;
+  will-change: transform;
+  border-radius: 2px;
 }
 
 .milestone-event {
   position: relative;
-  flex: 0 0 clamp(260px, 20vw, 330px);
-  width: clamp(260px, 20vw, 330px);
-  min-height: 100%;
-  padding: clamp(20px, 2.8vw, 36px) clamp(16px, 2vw, 26px) clamp(20px, 3vw, 34px);
-  border-left: 1px solid rgba(148, 163, 184, 0.18);
+  flex: 0 0 var(--timeline-item-width);
+  width: var(--timeline-item-width);
+  padding: 0 0 10px;
+  scroll-snap-align: start;
   background: transparent;
   color: var(--ink);
   z-index: 1;
-}
-
-.milestone-event::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: -1px;
-  width: 1px;
-  background: var(--hino-red);
-  opacity: 0;
-  transform: scaleY(0.2);
-  transform-origin: center;
-  transition: opacity 260ms ease, transform 360ms ease;
-}
-
-.milestone-event.is-current::after {
-  opacity: 1;
-  transform: scaleY(1);
 }
 
 .milestone-copy {
   position: relative;
   z-index: 1;
   display: flex;
-  min-height: clamp(112px, 16vh, 170px);
+  min-height: clamp(104px, 10vh, 132px);
   flex-direction: column;
   justify-content: flex-start;
-  margin-top: clamp(118px, 24vh, 210px);
-  padding: 0;
+  padding: 0 clamp(30px, 3vw, 44px) 0 0;
   text-align: left;
-  opacity: 0.52;
+  opacity: 0.56;
   transition:
     opacity 360ms ease;
 }
@@ -1306,25 +1417,26 @@ blockquote {
 }
 
 .milestone-card {
-  width: 100%;
-  margin: clamp(20px, 2.8vh, 32px) 0 0;
-  overflow: visible;
-  border: 0;
+  position: relative;
+  width: calc(100% - clamp(22px, 2.4vw, 34px));
+  margin: 18px 0 0;
+  overflow: hidden;
+  border: 1px solid rgba(15, 23, 42, 0.08);
   border-radius: 0;
-  background: transparent;
+  background: #f1f2f4;
   box-shadow: none;
-  opacity: 0.5;
-  transform: translateX(20px);
+  opacity: 0.72;
+  transform: translateY(8px);
   transition:
-    transform 520ms cubic-bezier(0.16, 1, 0.3, 1),
-    opacity 360ms ease;
+    transform 360ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 260ms ease;
   will-change: transform, opacity;
 }
 
 .milestone-event.is-active .milestone-card,
 .milestone-event:hover .milestone-card {
-  opacity: 0.8;
-  transform: translateX(0);
+  opacity: 0.86;
+  transform: translateY(0);
 }
 
 .milestone-event.is-current .milestone-card {
@@ -1335,7 +1447,8 @@ blockquote {
   display: block;
   width: 100%;
   aspect-ratio: 16 / 10;
-  object-fit: contain;
+  object-fit: cover;
+  object-position: center;
   background: transparent;
 }
 
@@ -1344,6 +1457,29 @@ blockquote {
   padding: clamp(16px, 2vw, 24px);
   background: #ffffff;
   filter: none;
+}
+
+.milestone-year-1995 .milestone-image,
+.milestone-year-1996 .milestone-image,
+.milestone-year-1997 .milestone-image,
+.milestone-year-2001 .milestone-image,
+.milestone-year-2006 .milestone-image,
+.milestone-year-2007 .milestone-image,
+.milestone-year-2010 .milestone-image,
+.milestone-year-2011 .milestone-image,
+.milestone-year-2015 .milestone-image,
+.milestone-year-2016 .milestone-image,
+.milestone-year-2022 .milestone-image,
+.milestone-year-2023 .milestone-image,
+.milestone-year-2025 .milestone-image {
+  object-position: center top;
+}
+
+.milestone-year-2008 .milestone-image,
+.milestone-year-2018 .milestone-image,
+.milestone-year-2021 .milestone-image,
+.milestone-year-2024 .milestone-image {
+  object-position: center;
 }
 
 .milestone-event.is-anniversary .milestone-card {
@@ -1444,9 +1580,7 @@ blockquote {
 }
 
 .profile-cta {
-  background:
-    linear-gradient(rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.9)),
-    url("./assets/back-milestone.jpg") center / cover no-repeat;
+  background: var(--soft);
 }
 
 .profile-cta .button {
@@ -1889,50 +2023,50 @@ blockquote {
   }
 
   .timeline-section {
-    min-height: 100svh;
-    padding: 0;
+    padding: clamp(54px, 11vw, 82px) 0 clamp(46px, 9vw, 70px);
   }
 
-  .timeline-pin {
-    position: relative;
-    top: auto;
-    overflow: visible;
-    height: 100svh;
-    padding-top: var(--nav-height);
+  .timeline-header {
+    margin-bottom: clamp(42px, 9vw, 64px);
   }
 
-  .timeline-viewport {
-    scroll-snap-type: x mandatory;
-    cursor: grab;
+  .timeline-header h2 {
+    font-size: clamp(2.1rem, 9vw, 3.1rem);
+    line-height: 1.22;
+    padding-bottom: 0.2em;
+  }
+
+  .timeline-intro-small {
+    font-size: 0.98rem;
+    line-height: 1.55;
+  }
+
+  .timeline-controls {
+    display: none;
   }
 
   .timeline-track {
     padding: 0;
   }
 
-  .timeline-canvas {
-    gap: 0;
+  .timeline-rail {
+    grid-template-columns: repeat(19, minmax(min(84vw, 420px), 1fr));
+    margin-bottom: 20px;
   }
 
-  .timeline-intro-panel {
-    flex-basis: min(88vw, 380px);
-    width: min(88vw, 380px);
-    padding: 24px 24px 26px;
-  }
-
-  .timeline-intro-main h2 {
-    font-size: clamp(1.58rem, 6.35vw, 2.18rem);
-    line-height: 1.34;
+  .timeline-marker {
+    min-width: min(84vw, 420px);
+    gap: 18px;
   }
 
   .milestone-event {
-    flex-basis: min(78vw, 330px);
-    width: min(78vw, 330px);
+    flex-basis: min(84vw, 420px);
+    width: min(84vw, 420px);
   }
 
   .milestone-copy {
-    min-height: clamp(112px, 16vh, 180px);
-    margin-top: clamp(118px, 24vh, 210px);
+    min-height: 118px;
+    padding-right: 18px;
   }
 
   .footer-main {
@@ -2096,9 +2230,7 @@ blockquote {
 
   .portrait-placeholder,
   .appreciation-portrait-panel {
-    min-height: 300px;
-    border-right: 0;
-    border-bottom: 1px solid var(--border);
+    min-height: 240px;
   }
 
   .split-copy,
@@ -2116,55 +2248,74 @@ blockquote {
 
   .appreciation-section {
     grid-template-columns: 1fr;
+    gap: 0;
     min-height: auto;
-    padding-inline: 0;
+    padding: 28px 18px 38px;
   }
 
   .appreciation-portrait-panel {
-    align-items: center;
-    padding-top: 36px;
-    padding-bottom: 30px;
+    align-items: end;
+    min-height: 280px;
+    width: min(100%, 360px);
+    margin: 0 auto;
+    padding: 16px 18px 0;
+    border-radius: 20px 20px 0 0;
   }
 
   .appreciation-portrait-panel::before {
-    inset: 18px;
-    border-left-width: 4px;
+    inset: 12px;
+    border-radius: 16px;
   }
 
   .appreciation-portrait-panel::after {
-    right: 34px;
-    bottom: 116px;
-    width: 220px;
-    opacity: 0.055;
+    right: 16px;
+    left: 16px;
+    height: 30%;
   }
 
   .director-portrait {
-    width: min(100%, 350px);
+    width: min(100%, 255px);
   }
 
   .director-image-frame {
-    width: min(100%, 330px);
+    width: min(100%, 250px);
     overflow: visible;
   }
 
   .director-image {
-    width: min(100%, 310px);
+    width: min(100%, 240px);
+    max-height: 270px;
   }
 
   .appreciation-letter {
-    padding-top: 42px;
-    padding-bottom: 52px;
+    min-height: auto;
+    margin: -1px auto 0;
+    padding: 26px 20px 30px 30px;
+    border-radius: 20px;
+  }
+
+  .appreciation-letter::before {
+    top: 24px;
+    bottom: 24px;
+    left: 14px;
+    width: 3px;
   }
 
   .appreciation-letter h2 {
-    max-width: 11ch;
-    font-size: clamp(2.1rem, 11vw, 3.35rem);
-    line-height: 1.02;
+    max-width: 12ch;
+    font-size: clamp(1.75rem, 9vw, 2.55rem);
+    line-height: 1.04;
   }
 
   .letter-body {
-    font-size: 1rem;
-    line-height: 1.72;
+    column-count: 1;
+    margin-top: 16px;
+    font-size: 0.95rem;
+    line-height: 1.54;
+  }
+
+  .letter-body p {
+    margin-bottom: 9px;
   }
 
   .card-grid {
@@ -2304,16 +2455,10 @@ blockquote {
     top: auto;
     height: auto;
     overflow: visible;
-    padding-top: var(--nav-height);
   }
 
   .timeline-viewport {
     overflow-x: auto;
-  }
-
-  .timeline-track,
-  .timeline-canvas {
-    min-height: min(720px, 100svh);
   }
 
   *,
