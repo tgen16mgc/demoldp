@@ -29,6 +29,7 @@ test("project shell files exist", () => {
     "src/assets/new2.png",
     "src/assets/finalvi.webp",
     "src/assets/finalen.webp",
+    "src/assets/director-yoshio-osaka-website.png",
     "src/assets/a30-nav-white-new.svg",
     "src/assets/news-eco-driving-can-tho.jpg",
     "src/assets/news-vilog-2025.jpg",
@@ -90,9 +91,9 @@ test("app modules expose the scaffold contract", async () => {
   assert.deepEqual(sectionOrder, [
     "hero",
     "appreciation",
-    "statistics",
     "video",
     "milestones",
+    "statistics",
     "news",
     "profile",
     "contact"
@@ -155,7 +156,7 @@ test("rendered page uses requested Hino logo and copied footer", async () => {
 
   assert.match(html, /src="src\/assets\/hinologonew\.png"/);
   assert.match(html, /src="src\/a30new\.svg"/);
-  assert.match(html, /src="src\/assets\/banner vi\.webp"/);
+  assert.match(html, /src="src\/assets\/finalvi\.webp"/);
   assert.doesNotMatch(html, /src="src\/assets\/hino-logo\.svg"/);
   assert.doesNotMatch(html, /src="src\/assets\/a30-mark\.svg"/);
   assert.doesNotMatch(html, /src="src\/assets\/hero-banner\.png"/);
@@ -211,7 +212,7 @@ test("rendered output escapes text and filters unsafe urls", async () => {
   ]);
   const data = structuredClone(content.vi);
   data.nav.logoHref = "javascript:alert(1)";
-  data.sections.hero.heading = `<img src=x onerror="alert(1)">`;
+  data.sections.news.items[0].title = `<img src=x onerror="alert(1)">`;
   data.assets.videoUrl = "javascript:alert(2)";
   data.assets.companyProfileUrl = "data:text/html,<script>alert(3)</script>";
 
@@ -292,7 +293,7 @@ test("rendered milestones expose unpinned horizontal timeline", async () => {
   const html = renderPage(content.vi, "vi");
 
   assert.match(html, /class="timeline-header"/);
-  assert.match(html, /class="timeline-intro-mark" src="src\/a30new\.svg" alt="A30" loading="lazy"/);
+  assert.doesNotMatch(html, /timeline-intro-mark/);
   assert.match(html, /class="timeline-viewport" tabindex="0"/);
   assert.match(html, /class="timeline-rail"/);
   assert.match(html, /data-timeline-marker data-year="1995"/);
@@ -313,12 +314,14 @@ test("rendered milestones use coded reference-style timeline structure", async (
 
   assert.match(html, /class="timeline-header"/);
   assert.match(html, /class="timeline-canvas"/);
-  assert.match(html, /id="milestones-title" class="heading-gradient-text"/);
+  assert.match(html, /id="milestones-title" aria-label="NHỮNG CỘT MỐC ĐÁNG NHỚ"/);
+  assert.match(html, /class="timeline-heading-line heading-gradient-text">ĐÁNG NHỚ<\/span>/);
   assert.match(html, /class="timeline-rail"/);
   assert.match(html, /class="timeline-marker"/);
   assert.match(html, /class="timeline-dot"/);
-  assert.match(html, /class="milestone-date">1995<\/p>/);
+  assert.doesNotMatch(html, /class="milestone-date"/);
   assert.match(html, /class="milestone-title">Mở văn phòng đại diện tại Hà Nội<\/h3>/);
+  assert.match(html, /class="milestone-title milestone-list"><li>Khai trương đại lý Hino Sao Bắc \(Hà Nội\)<\/li><li>Khai trương đại lý Hino Lexim \(Hà Nội\)<\/li><li>Kỷ niệm 10 năm thành lập<\/li><\/ul>/);
   assert.match(html, /class="milestone-event milestone-year-2026 is-anniversary"/);
   assert.match(html, /class="milestone-image milestone-image-anniversary"/);
   assert.doesNotMatch(html, /class="timeline-intro-panel"/);
@@ -355,12 +358,12 @@ test("rendered page avoids design-slop placeholders and preserves the supplied b
   assert.match(html, /<section class="hero-banner" id="hero" aria-label="Hino 30 years anniversary banner">/);
   assert.match(html, /<img class="a30-mark-image a30-mark-default" src="src\/a30new\.svg" width="72" height="50" alt="A30">/);
   assert.match(html, /<img class="a30-mark-image a30-mark-hero" src="src\/assets\/a30-nav-white-new\.svg" width="72" height="50" alt="" aria-hidden="true">/);
-  assert.match(html, /<img class="hero-image-full" src="src\/assets\/banner vi\.webp" width="2752" height="1536" alt="Hino 30 years hero banner" fetchpriority="high">/);
-  assert.match(htmlEn, /<img class="hero-image-full" src="src\/assets\/banner en\.webp" width="2752" height="1536" alt="Hino 30 years hero banner" fetchpriority="high">/);
+  assert.match(html, /<img class="hero-image-full" src="src\/assets\/finalvi\.webp" width="2752" height="1536" alt="Hino 30 years hero banner" fetchpriority="high">/);
+  assert.match(htmlEn, /<img class="hero-image-full" src="src\/assets\/finalen\.webp" width="2752" height="1536" alt="Hino 30 years hero banner" fetchpriority="high">/);
   assert.doesNotMatch(heroBanner, /<h1 id="hero-title">/);
-  assert.match(html, /<section class="hero-action-strip" aria-labelledby="hero-title">[\s\S]*class="hero-actions"/);
-  assert.match(html, /<h1 id="hero-title" class="hero-title">[\s\S]*hero-title-line[\s\S]*GIÁ[\s\S]*TRỊ[\s\S]*hero-title-line[\s\S]*data-gradient-text="VƯỢT THỜI GIAN"[\s\S]*VƯỢT THỜI GIAN[\s\S]*<\/h1>/);
-  assert.match(html, /<p class="hero-copy">[\s\S]*hero-copy-reveal/);
+  assert.match(heroBanner, /href="#appreciation" aria-label="Scroll to appreciation letter"/);
+  assert.doesNotMatch(html, /hero-action-strip/);
+  assert.doesNotMatch(html, /hero-copy/);
 });
 
 test("build asset copier includes root-level anniversary mark", () => {
@@ -369,7 +372,7 @@ test("build asset copier includes root-level anniversary mark", () => {
   assert.match(script, /dist\/src\/a30new\.svg/);
 });
 
-test("rendered hero actions and language toggle are localized and grouped", async () => {
+test("rendered navigation and language toggle are localized and grouped", async () => {
   const [{ content }, { renderPage }] = await Promise.all([
     import("../src/content.js"),
     import("../src/render.js")
@@ -384,13 +387,11 @@ test("rendered hero actions and language toggle are localized and grouped", asyn
   assert.match(vi, /href="#profile">Kỷ yếu 30 năm<\/a>/);
   assert.match(vi, /href="#news">Tin tức<\/a>/);
   assert.match(vi, /href="#contact">Liên hệ<\/a>/);
-  assert.match(vi, /href="#video">Video<\/a>/);
   assert.match(en, /href="#appreciation">Appreciation letter<\/a>/);
   assert.match(en, /href="#milestones">Milestones<\/a>/);
   assert.match(en, /href="#profile">Company profile<\/a>/);
   assert.match(en, /href="#news">News<\/a>/);
   assert.match(en, /href="#contact">Contact<\/a>/);
-  assert.match(en, /href="#video">Video<\/a>/);
 });
 
 test("rendered appreciation letter uses director portrait and real copy", async () => {
@@ -403,7 +404,7 @@ test("rendered appreciation letter uses director portrait and real copy", async 
   const en = renderPage(content.en, "en");
 
   assert.match(vi, /<section class="appreciation-section section-pattern" id="appreciation" aria-labelledby="appreciation-title">/);
-  assert.match(vi, /<img class="director-image" src="src\/assets\/director-yoshio-osaka\.png" width="2582" height="3872" alt="Ông Yoshio Osaka, Tổng Giám đốc Hino Motors Việt Nam" loading="lazy">/);
+  assert.match(vi, /<img class="director-image" src="src\/assets\/director-yoshio-osaka-website\.png" width="1920" height="1081" alt="Ông Yoshio Osaka trước xe tải Hino 500" loading="lazy">/);
   assert.match(vi, /Thân gửi Quý khách hàng và Quý Đại lý,/);
   assert.match(vi, /YOSHIO OSAKA/);
   assert.match(en, /APPRECIATION LETTER/);
@@ -415,7 +416,11 @@ test("rendered appreciation letter uses director portrait and real copy", async 
 test("css includes approved UI/UX Pro Max quality gates", () => {
   const css = file("src/styles.css");
   assert.match(css, /--hino-red:\s*#c90000/);
-  assert.match(css, /Helvetica Neue/);
+  assert.match(css, /@import "@fontsource-variable\/geist"/);
+  assert.match(css, /--font-primary:\s*"Geist Variable", Arial, sans-serif/);
+  assert.match(css, /body\s*\{[^}]*font-family:\s*var\(--font-primary\)/s);
+  assert.doesNotMatch(css, /Plus Jakarta Sans/);
+  assert.doesNotMatch(css, /Helvetica Neue/);
   assert.match(css, /section-pattern/);
   assert.match(css, /#video\s*\{[^}]*url\("\.\/assets\/back-milestone\.jpg"\)/s);
   assert.doesNotMatch(css, /body::before\s*\{[^}]*url\("\.\/assets\/back-milestone\.jpg"\)/s);

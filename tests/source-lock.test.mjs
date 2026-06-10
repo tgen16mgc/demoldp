@@ -25,7 +25,7 @@ test("English source strings remain unedited", () => {
     "TIMELESS VALUE",
     "APPRECIATION LETTER",
     "OUTSTANDING STATISTICS",
-    "30 Years, One Guiding Principle",
+    "30 YEARS, ONE GUIDING PRINCIPLE",
     "MEMORABLE MILESTONES",
     "ABOUT HINO MOTORS VIETNAM",
     "HINO MOTORS VIETNAM, LTD."

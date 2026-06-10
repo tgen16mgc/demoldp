@@ -214,11 +214,7 @@ export function setupPageMotion(root) {
         "-=0.34"
       )
       .from(".hero-image-full", { y: 16, autoAlpha: 0.82, duration: 1.08 }, "-=0.16")
-      .from(
-        ".hero-action-copy > *, .hero-action-side > *",
-        { y: 22, autoAlpha: 0, duration: 0.72, stagger: 0.09 },
-        "-=0.48"
-      );
+      .from(".scroll-cue", { y: 10, autoAlpha: 0, duration: 0.42 }, "-=0.36");
 
     root.querySelectorAll(".section-heading p").forEach((element) => {
       splitCleanups.push(splitTextForScrub(element));

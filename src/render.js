@@ -7,16 +7,6 @@ function escapeHtml(value) {
 }
 
 const safeUrlBase = "https://hino.local/";
-const heroActionLabels = {
-  vi: {
-    milestones: "Hành trình 30 năm",
-    video: "Video"
-  },
-  en: {
-    milestones: "Milestones",
-    video: "Video"
-  }
-};
 const unavailableLabels = {
   vi: {
     video: "Video sẽ được cập nhật"
@@ -27,13 +17,15 @@ const unavailableLabels = {
 };
 const milestoneControlLabels = {
   vi: {
-    headingLines: ["NHỮNG", "CỘT MỐC", "ĐÁNG NHỚ"],
+    headingLines: ["NHỮNG CỘT MỐC", "ĐÁNG NHỚ"],
+    gradientLine: 1,
     previous: "Cột mốc trước",
     next: "Cột mốc tiếp theo",
     skip: "Đến phần tiếp theo"
   },
   en: {
     headingLines: ["MEMORABLE", "MILESTONES"],
+    gradientLine: 1,
     previous: "Previous milestone",
     next: "Next milestone",
     skip: "Continue"
@@ -124,23 +116,24 @@ function sectionHeading(section, headingId, kicker = "") {
 
 function renderPhraseGradientHeading(section, headingId, activeLang, phrase) {
   const heading = String(section.heading || "");
-  const shouldGradientPhrase = activeLang === "vi" && heading.includes(phrase);
+  const phrases = Array.isArray(phrase) ? phrase : [phrase];
+  const gradientPhrase = phrases.find((candidate) => candidate && heading.includes(candidate));
+  const shouldGradientPhrase = Boolean(gradientPhrase);
 
   if (!shouldGradientPhrase) {
     return sectionHeading(section, headingId);
   }
 
-  const [before, after] = heading.split(phrase);
+  const [before, after] = heading.split(gradientPhrase);
   const beforeText = before.trim();
   const afterText = after.trim();
+  const beforeSuffix = beforeText ? " " : "";
+  const afterPrefix = afterText && !/^[,.;:!?]/.test(afterText) ? " " : "";
+  const headingHtml = `${beforeText ? `<span>${escapeHtml(beforeText)}</span>${beforeSuffix}` : ""}<span class="heading-gradient-text">${escapeHtml(gradientPhrase)}</span>${afterText ? `${afterPrefix}<span>${escapeHtml(afterText)}</span>` : ""}`;
 
   return `
     <div class="section-heading">
-      <h2 id="${escapeHtml(headingId)}" aria-label="${escapeHtml(heading)}">
-        ${beforeText ? `<span>${escapeHtml(beforeText)}</span> ` : ""}
-        <span class="heading-gradient-text">${escapeHtml(phrase)}</span>
-        ${afterText ? ` <span>${escapeHtml(afterText)}</span>` : ""}
-      </h2>
+      <h2 id="${escapeHtml(headingId)}" aria-label="${escapeHtml(heading)}">${headingHtml}</h2>
       ${section.subtext ? `<p>${escapeHtml(section.subtext)}</p>` : ""}
     </div>
   `;
@@ -217,29 +210,15 @@ function renderNav(data, activeLang) {
 }
 
 function renderHero(section, activeLang, assets) {
-  const labels = heroActionLabels[activeLang] || heroActionLabels.vi;
   const hasHeroBannerUrl = hasSafeUrl(assets.heroBannerUrl, { allowHash: false });
   const heroBannerUrl = safeUrl(assets.heroBannerUrl, "", { allowHash: false });
 
   return `
     <section class="hero-banner" id="hero" aria-label="Hino 30 years anniversary banner">
       ${hasHeroBannerUrl ? `<img class="hero-image-full" src="${heroBannerUrl}" width="2752" height="1536" alt="Hino 30 years hero banner" fetchpriority="high">` : ""}
-      <a class="scroll-cue" href="#hero-title" aria-label="Scroll down">
+      <a class="scroll-cue" href="#appreciation" aria-label="Scroll to appreciation letter">
         <span></span>
       </a>
-    </section>
-    <section class="hero-action-strip" aria-labelledby="hero-title">
-      <div class="hero-action-copy">
-        <p class="eyebrow">${escapeHtml(section.eyebrow)}</p>
-        ${renderHeroTitle(section.heading)}
-      </div>
-      <div class="hero-action-side">
-        <p class="hero-copy">${renderBlockCutReveal(section.subtext, "hero-copy-reveal")}</p>
-        <div class="hero-actions">
-          <a class="button primary" href="#milestones">${escapeHtml(labels.milestones)}</a>
-          <a class="button secondary" href="#video">${escapeHtml(labels.video)}</a>
-        </div>
-      </div>
     </section>
   `;
 }
@@ -249,9 +228,7 @@ function renderAppreciation(section, activeLang) {
   const headingText = headingParts.length === 2
     ? `${escapeHtml(headingParts[0])} &amp;<br>${escapeHtml(headingParts[1])}`
     : escapeHtml(section.heading);
-  const headingHtml = activeLang === "vi"
-    ? `<span class="heading-gradient-text">${headingText}</span>`
-    : headingText;
+  const headingHtml = `<span class="heading-gradient-text">${headingText}</span>`;
   const bodyParagraphs = Array.isArray(section.body) ? section.body : [section.quote || ""];
   const bodyHtml = bodyParagraphs
     .filter((paragraph) => String(paragraph || "").trim())
@@ -267,7 +244,7 @@ function renderAppreciation(section, activeLang) {
     .join("");
   const imageUrl = safeUrl(section.imageUrl, "", { allowHash: false });
   const portrait = imageUrl
-    ? `<img class="director-image" src="${imageUrl}" width="2582" height="3872" alt="${escapeHtml(section.imageAlt || section.signatureName || "Director portrait")}" loading="lazy">`
+    ? `<img class="director-image" src="${imageUrl}" width="1920" height="1081" alt="${escapeHtml(section.imageAlt || section.signatureName || "Director portrait")}" loading="lazy">`
     : mediaPlaceholder("Director photo", "portrait-placeholder");
 
   return `
@@ -322,7 +299,7 @@ function renderStatistics(section, activeLang = "vi") {
       </div>
       <div class="stats-shell">
         <div class="stats-intro">
-          ${renderPhraseGradientHeading(section, "statistics-title", activeLang, "CON SỐ ẤN TƯỢNG")}
+          ${renderPhraseGradientHeading(section, "statistics-title", activeLang, activeLang === "vi" ? "CON SỐ ẤN TƯỢNG" : "STATISTICS")}
         </div>
         <div class="stats-grid" role="list">${items}</div>
         ${section.note ? `<p class="stats-note">${escapeHtml(section.note)}</p>` : ""}
@@ -344,7 +321,7 @@ function renderVideo(section, assets, activeLang) {
 
   return `
     <section class="content-band section-pattern" id="video" aria-labelledby="video-title">
-      ${renderPhraseGradientHeading(section, "video-title", activeLang, "30 NĂM")}
+      ${renderPhraseGradientHeading(section, "video-title", activeLang, activeLang === "vi" ? "30 NĂM" : "30 YEARS")}
       <div class="video-frame">${videoBody}</div>
       ${cta}
     </section>
@@ -354,12 +331,16 @@ function renderVideo(section, assets, activeLang) {
 function renderMilestones(section, activeLang) {
   const labels = milestoneControlLabels[activeLang] || milestoneControlLabels.vi;
   const headingLines = labels.headingLines
-    .map((line) => `<span>${escapeHtml(line)}</span>`)
+    .map((line, index) => {
+      const className = index === labels.gradientLine
+        ? "timeline-heading-line heading-gradient-text"
+        : "timeline-heading-line";
+      return `<span class="${className}">${escapeHtml(line)}</span>`;
+    })
     .join("");
   const header = `
     <div class="timeline-header">
-      <img class="timeline-intro-mark" src="src/a30new.svg" alt="A30" loading="lazy">
-      <h2 id="milestones-title" class="heading-gradient-text" aria-label="${escapeHtml(section.heading)}">${headingLines}</h2>
+      <h2 id="milestones-title" aria-label="${escapeHtml(section.heading)}">${headingLines}</h2>
       <p class="timeline-intro-small">${escapeHtml(section.subtext || "")}</p>
     </div>
   `;
@@ -387,6 +368,13 @@ function renderMilestones(section, activeLang) {
       const isAnniversaryMilestone = item.year === "2026";
       const eventClass = `milestone-event milestone-year-${escapeHtml(item.year)}${isAnniversaryMilestone ? " is-anniversary" : ""}`;
       const imageClass = `milestone-image${isAnniversaryMilestone ? " milestone-image-anniversary" : ""}`;
+      const eventParts = String(item.text || "")
+        .split("/")
+        .map((part) => part.trim())
+        .filter(Boolean);
+      const titleHtml = eventParts.length > 1
+        ? `<ul class="milestone-title milestone-list">${eventParts.map((part) => `<li>${escapeHtml(part)}</li>`).join("")}</ul>`
+        : `<h3 class="milestone-title">${escapeHtml(eventParts[0] || item.text)}</h3>`;
       const image = hasImage
         ? `<img class="${imageClass}" src="${safeUrl(item.imageUrl, "", { allowHash: false })}" alt="${escapeHtml(item.imageAlt || `${item.year} milestone image`)}" loading="lazy">`
         : `<div class="milestone-image milestone-image-placeholder" role="img" aria-label="${escapeHtml(item.imageAlt || `${item.year} milestone image`)}"></div>`;
@@ -394,8 +382,7 @@ function renderMilestones(section, activeLang) {
       return `
       <article class="${eventClass}" data-year="${escapeHtml(item.year)}">
         <div class="milestone-copy">
-          <p class="milestone-date">${escapeHtml(item.year)}</p>
-          <h3 class="milestone-title">${escapeHtml(item.text)}</h3>
+          ${titleHtml}
         </div>
         <figure class="milestone-card">
           ${image}
@@ -548,9 +535,9 @@ export function renderPage(data, activeLang) {
     ${renderNav(data, activeLang)}
     ${renderHero(sections.hero, activeLang, data.assets)}
     ${renderAppreciation(sections.appreciation, activeLang)}
-    ${renderStatistics(sections.statistics, activeLang)}
     ${renderVideo(sections.video, data.assets, activeLang)}
     ${renderMilestones(sections.milestones, activeLang)}
+    ${renderStatistics(sections.statistics, activeLang)}
     ${renderCards(sections.news, "news")}
     ${renderProfile(sections.profile, data.assets)}
     ${renderFooter(sections.contact, activeLang)}

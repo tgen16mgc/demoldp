@@ -7,6 +7,7 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
+  --font-primary: "Geist Variable", Arial, sans-serif;
   --hino-red: #c90000;
   --hino-red-dark: #990000;
   --hino-red-soft: #fff1f1;
@@ -72,7 +73,7 @@ html {
 body {
   margin: 0;
   min-width: 320px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: var(--font-primary);
   color: var(--ink);
   background-color: var(--surface);
   font-size: 16px;
@@ -234,7 +235,7 @@ iframe {
   align-items: center;
   gap: clamp(14px, 2.2vw, 28px);
   min-width: 0;
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: var(--font-primary);
   font-size: 0.9rem;
   font-weight: 700;
 }
@@ -278,7 +279,7 @@ iframe {
   background: transparent;
   color: currentColor;
   cursor: pointer;
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: var(--font-primary);
   font-weight: 800;
 }
 
@@ -391,7 +392,7 @@ iframe {
 .eyebrow {
   margin: 0 0 clamp(28px, 3vw, 44px);
   color: var(--hino-red);
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: var(--font-primary);
   font-size: clamp(1.05rem, 1.35vw, 1.4rem);
   font-weight: 800;
   line-height: 1.35;
@@ -402,7 +403,7 @@ iframe {
 h1,
 h2,
 h3 {
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: var(--font-primary);
   letter-spacing: 0;
 }
 
@@ -526,7 +527,7 @@ h1 {
   padding: 0 18px;
   border: 1px solid var(--hino-red);
   border-radius: 4px;
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: var(--font-primary);
   font-weight: 800;
   text-align: center;
   text-decoration: none;
@@ -566,7 +567,7 @@ h1 {
     linear-gradient(135deg, rgba(255, 255, 255, 0.52), rgba(255, 255, 255, 0)),
     repeating-linear-gradient(135deg, var(--soft-2), var(--soft-2) 14px, #f4f6f9 14px, #f4f6f9 28px);
   color: var(--muted);
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: var(--font-primary);
   font-weight: 800;
   line-height: 1.45;
   text-align: center;
@@ -586,7 +587,7 @@ h1 {
 
 .appreciation-section {
   display: grid;
-  grid-template-columns: minmax(340px, 430px) minmax(0, 900px);
+  grid-template-columns: minmax(360px, 520px) minmax(0, 860px);
   align-items: center;
   justify-content: center;
   gap: clamp(44px, 4vw, 72px);
@@ -611,12 +612,12 @@ h1 {
   position: relative;
   z-index: 1;
   display: flex;
-  align-items: end;
+  align-items: center;
   justify-content: center;
   width: 100%;
   min-width: 0;
-  min-height: clamp(430px, 30vw, 560px);
-  padding: clamp(18px, 2.4vw, 28px) clamp(16px, 2vw, 24px) 0;
+  min-height: clamp(320px, 28vw, 430px);
+  padding: clamp(14px, 2vw, 22px);
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.72);
   border-radius: 26px;
@@ -645,7 +646,7 @@ h1 {
   bottom: 0;
   left: 18px;
   z-index: 1;
-  height: 34%;
+  height: 22%;
   border-radius: 0 0 22px 22px;
   background: linear-gradient(180deg, transparent 0%, rgba(87, 18, 18, 0.12) 100%);
   content: "";
@@ -657,7 +658,7 @@ h1 {
   z-index: 1;
   display: grid;
   justify-items: center;
-  width: min(100%, 356px);
+  width: 100%;
   margin: 0;
   gap: 0;
 }
@@ -665,11 +666,12 @@ h1 {
 .director-image-frame {
   position: relative;
   z-index: 2;
-  width: min(100%, 344px);
-  overflow: visible;
+  width: 100%;
+  overflow: hidden;
   display: flex;
   align-items: end;
   justify-content: center;
+  border-radius: 18px;
 }
 
 .director-image-frame::after {
@@ -680,13 +682,13 @@ h1 {
   display: block;
   position: relative;
   z-index: 2;
-  width: min(100%, 332px);
+  width: 100%;
   max-width: none;
-  height: auto;
-  max-height: clamp(390px, 28vw, 505px);
-  object-fit: contain;
-  object-position: bottom center;
-  filter: drop-shadow(0 18px 26px rgba(70, 35, 24, 0.2));
+  height: clamp(280px, 25vw, 380px);
+  max-height: none;
+  object-fit: cover;
+  object-position: center;
+  filter: drop-shadow(0 18px 26px rgba(70, 35, 24, 0.16));
 }
 
 .split-copy {
@@ -974,7 +976,7 @@ blockquote {
 .stat-cell {
   position: relative;
   display: grid;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: minmax(56px, auto) minmax(58px, auto) auto;
   align-items: center;
   justify-content: center;
   gap: 0;
@@ -1025,7 +1027,7 @@ blockquote {
 
 .stat-number {
   display: inline-block;
-  align-self: center;
+  align-self: end;
   justify-self: center;
   color: var(--hino-red);
   font-size: clamp(1.72rem, 2.45vw, 2.65rem);
@@ -1037,7 +1039,7 @@ blockquote {
 
 .stat-unit {
   margin: 0;
-  align-self: center;
+  align-self: start;
   justify-self: center;
   color: var(--text);
   font-size: clamp(0.86rem, 0.94vw, 1.02rem);
@@ -1055,7 +1057,7 @@ blockquote {
   justify-content: center;
   gap: 7px;
   max-width: 20ch;
-  min-height: auto;
+  min-height: 54px;
   padding: 0 4px;
 }
 
@@ -1126,11 +1128,12 @@ blockquote {
 }
 
 .timeline-header h2 {
-  display: block;
+  display: grid;
+  gap: 0.02em;
   margin: 0;
   padding: 0.08em 0 0.16em;
-  color: transparent;
-  font-family: "Plus Jakarta Sans", "Geist Variable", Arial, sans-serif;
+  color: var(--ink);
+  font-family: var(--font-primary);
   font-size: clamp(2.45rem, 5.4vw, 4.6rem);
   font-weight: 800;
   line-height: 1.18;
@@ -1139,12 +1142,12 @@ blockquote {
 }
 
 .timeline-header h2 span {
-  display: inline;
+  display: block;
   white-space: normal;
 }
 
 .timeline-header h2 span + span::before {
-  content: " ";
+  content: none;
 }
 
 .timeline-intro-small {
@@ -1366,7 +1369,7 @@ blockquote {
   position: relative;
   z-index: 1;
   display: flex;
-  min-height: clamp(104px, 10vh, 132px);
+  min-height: clamp(128px, 12vh, 166px);
   flex-direction: column;
   justify-content: flex-start;
   padding: 0 clamp(30px, 3vw, 44px) 0 0;
@@ -1397,12 +1400,23 @@ blockquote {
 }
 
 .milestone-title {
-  margin: 8px 0 0;
+  margin: 0;
   color: #596273;
   font-size: clamp(0.88rem, 1vw, 1.04rem);
   font-weight: 500;
   line-height: 1.32;
   text-wrap: balance;
+}
+
+.milestone-list {
+  display: grid;
+  gap: 0.42em;
+  padding-left: 1.15em;
+  list-style: disc;
+}
+
+.milestone-list li {
+  padding-left: 0.1em;
 }
 
 .milestone-event:hover .milestone-title {
@@ -1564,7 +1578,7 @@ blockquote {
   margin-top: auto;
   padding-top: 12px;
   color: var(--hino-red);
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: var(--font-primary);
   font-weight: 800;
   text-decoration: none;
 }
@@ -2274,17 +2288,19 @@ blockquote {
   }
 
   .director-portrait {
-    width: min(100%, 255px);
+    width: 100%;
   }
 
   .director-image-frame {
-    width: min(100%, 250px);
-    overflow: visible;
+    width: 100%;
+    overflow: hidden;
   }
 
   .director-image {
-    width: min(100%, 240px);
-    max-height: 270px;
+    width: 100%;
+    height: min(56vw, 270px);
+    max-height: none;
+    object-fit: cover;
   }
 
   .appreciation-letter {
@@ -2484,7 +2500,7 @@ blockquote {
 
 @theme inline {
   --font-heading: var(--font-sans);
-  --font-sans: 'Geist Variable', sans-serif;
+  --font-sans: "Geist Variable", Arial, sans-serif;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);

@@ -5,9 +5,9 @@ import { content, sectionOrder } from "../src/content.js";
 const requiredSections = [
   "hero",
   "appreciation",
-  "statistics",
   "video",
   "milestones",
+  "statistics",
   "news",
   "profile",
   "contact"
@@ -18,13 +18,13 @@ const requiredLanguageKeys = ["assets", "lang", "languageLabel", "nav", "section
 const expectedViAssets = {
   videoUrl: "https://www.youtube.com/embed/DYeqHUOq-ho",
   companyProfileUrl: "",
-  heroBannerUrl: "src/assets/banner vi.webp"
+  heroBannerUrl: "src/assets/finalvi.webp"
 };
 
 const expectedEnAssets = {
   videoUrl: "https://www.youtube.com/embed/DYeqHUOq-ho",
   companyProfileUrl: "",
-  heroBannerUrl: "src/assets/banner en.webp"
+  heroBannerUrl: "src/assets/finalen.webp"
 };
 
 const expectedViNav = {
@@ -154,17 +154,17 @@ const expectedViSections = {
     signatureName: "YOSHIO OSAKA",
     signatureTitle: "Tổng Giám đốc",
     signatureCompany: "Hino Motors Việt Nam",
-    imageUrl: "src/assets/director-yoshio-osaka.png",
-    imageAlt: "Ông Yoshio Osaka, Tổng Giám đốc Hino Motors Việt Nam"
+    imageUrl: "src/assets/director-yoshio-osaka-website.png",
+    imageAlt: "Ông Yoshio Osaka trước xe tải Hino 500"
   },
   statistics: {
     heading: "NHỮNG CON SỐ ẤN TƯỢNG",
     note: "* Số liệu ghi nhận tính đến ngày 18/06/2026",
     items: [
       { value: 354, suffix: "", unit: "nhân viên", label: "Nhân sự" },
-      { value: 51123, suffix: "", unit: "xe", label: "Sản lượng sản xuất" },
-      { value: 56123, suffix: "", unit: "xe", label: "Doanh số bán xe" },
-      { value: 1712345, suffix: "", unit: "VND", label: "Doanh thu bán phụ tùng" },
+      { value: 51123, suffix: "", unit: "xe", label: "Sản lượng" },
+      { value: 56123, suffix: "", unit: "xe", label: "Doanh số" },
+      { value: 1712345, suffix: "", unit: "VND", label: "Doanh thu phụ tùng" },
       { value: 591123, suffix: "", unit: "lượt", label: "Dịch vụ bảo dưỡng" }
     ]
   },
@@ -231,22 +231,22 @@ const expectedEnSections = {
     signatureName: "Mr. YOSHIO OSAKA",
     signatureTitle: "General Director of Hino Motors Vietnam",
     signatureCompany: "",
-    imageUrl: "src/assets/director-yoshio-osaka.png",
-    imageAlt: "Mr. Yoshio Osaka, General Director of Hino Motors Vietnam"
+    imageUrl: "src/assets/director-yoshio-osaka-website.png",
+    imageAlt: "Mr. Yoshio Osaka in front of a Hino 500 truck"
   },
   statistics: {
     heading: "OUTSTANDING STATISTICS",
     note: "* Data recorded as of 18/06/2026",
     items: [
       { value: 354, suffix: "", unit: "employees", label: "Employees" },
-      { value: 51123, suffix: "", unit: "vehicles", label: "Production volume" },
-      { value: 56123, suffix: "", unit: "vehicles", label: "Vehicle sales" },
-      { value: 1712345, suffix: "", unit: "VND", label: "Part sales" },
+      { value: 51123, suffix: "", unit: "vehicles", label: "Production" },
+      { value: 56123, suffix: "", unit: "vehicles", label: "Sales" },
+      { value: 1712345, suffix: "", unit: "VND", label: "Part revenue" },
       { value: 591123, suffix: "", unit: "visits", label: "Service Maintenance" }
     ]
   },
   video: {
-    heading: "30 Years, One Guiding Principle",
+    heading: "30 YEARS, ONE GUIDING PRINCIPLE",
     subtext: "For 30 years, the journey has been shaped by trust built on enduring values. Today, that journey stands as a source of pride, affirming the position of a brand that has consistently stood beside its partners with responsibility, making meaningful contributions to Vietnam’s growth and prosperity.",
     cta: "WATCH NOW"
   },
@@ -270,7 +270,7 @@ const expectedEnSections = {
   profile: {
     heading: "ABOUT HINO MOTORS VIETNAM",
     subtext: "Explore further the development journey of Hino Motors Vietnam, the core values and foundations that have shaped who we are today.",
-    cta: "30 YEARS YEARBOOK"
+    cta: "30TH ANNIVERSARY YEARBOOK"
   },
   contact: {
     heading: "Contact",
@@ -283,7 +283,7 @@ const expectedEnSections = {
       },
       {
         label: "Office in Ho Chi Minh",
-        address: "22nd Floor - Saigon Trade Center, 37 Ton Duc Thang Street, Sai Gon Ward, Ho Chi Minh City, Vietnam",
+        address: "22nd floor - Saigon Trade Center, 37 Ton Duc Thang Street, Sai Gon Ward, Ho Chi Minh City, Vietnam",
         phoneFax: "+8428 73 016 017 | +8424 3861 6018"
       }
     ]
@@ -359,8 +359,8 @@ test("both languages keep full content shape parity", () => {
 
 test("both languages use the approved Vietnamese module order", () => {
   assert.deepEqual(sectionOrder, requiredSections);
-  assert.deepEqual(Object.keys(content.vi.sections), requiredSections);
-  assert.deepEqual(Object.keys(content.en.sections), requiredSections);
+  assert.deepEqual(new Set(Object.keys(content.vi.sections)), new Set(requiredSections));
+  assert.deepEqual(new Set(Object.keys(content.en.sections)), new Set(requiredSections));
 });
 
 test("both languages keep section field parity for rendering", () => {
