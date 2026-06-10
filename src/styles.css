@@ -7,7 +7,6 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --font-primary: "Geist Variable", Arial, sans-serif;
   --hino-red: #c90000;
   --hino-red-dark: #990000;
   --hino-red-soft: #fff1f1;
@@ -73,7 +72,7 @@ html {
 body {
   margin: 0;
   min-width: 320px;
-  font-family: var(--font-primary);
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: var(--ink);
   background-color: var(--surface);
   font-size: 16px;
@@ -235,7 +234,7 @@ iframe {
   align-items: center;
   gap: clamp(14px, 2.2vw, 28px);
   min-width: 0;
-  font-family: var(--font-primary);
+  font-family: "Plus Jakarta Sans", sans-serif;
   font-size: 0.9rem;
   font-weight: 700;
 }
@@ -279,7 +278,7 @@ iframe {
   background: transparent;
   color: currentColor;
   cursor: pointer;
-  font-family: var(--font-primary);
+  font-family: "Plus Jakarta Sans", sans-serif;
   font-weight: 800;
 }
 
@@ -392,7 +391,7 @@ iframe {
 .eyebrow {
   margin: 0 0 clamp(28px, 3vw, 44px);
   color: var(--hino-red);
-  font-family: var(--font-primary);
+  font-family: "Plus Jakarta Sans", sans-serif;
   font-size: clamp(1.05rem, 1.35vw, 1.4rem);
   font-weight: 800;
   line-height: 1.35;
@@ -403,7 +402,7 @@ iframe {
 h1,
 h2,
 h3 {
-  font-family: var(--font-primary);
+  font-family: "Plus Jakarta Sans", sans-serif;
   letter-spacing: 0;
 }
 
@@ -527,7 +526,7 @@ h1 {
   padding: 0 18px;
   border: 1px solid var(--hino-red);
   border-radius: 4px;
-  font-family: var(--font-primary);
+  font-family: "Plus Jakarta Sans", sans-serif;
   font-weight: 800;
   text-align: center;
   text-decoration: none;
@@ -567,7 +566,7 @@ h1 {
     linear-gradient(135deg, rgba(255, 255, 255, 0.52), rgba(255, 255, 255, 0)),
     repeating-linear-gradient(135deg, var(--soft-2), var(--soft-2) 14px, #f4f6f9 14px, #f4f6f9 28px);
   color: var(--muted);
-  font-family: var(--font-primary);
+  font-family: "Plus Jakarta Sans", sans-serif;
   font-weight: 800;
   line-height: 1.45;
   text-align: center;
@@ -1133,7 +1132,7 @@ blockquote {
   margin: 0;
   padding: 0.08em 0 0.16em;
   color: var(--ink);
-  font-family: var(--font-primary);
+  font-family: "Plus Jakarta Sans", "Geist Variable", Arial, sans-serif;
   font-size: clamp(2.45rem, 5.4vw, 4.6rem);
   font-weight: 800;
   line-height: 1.18;
@@ -1578,7 +1577,7 @@ blockquote {
   margin-top: auto;
   padding-top: 12px;
   color: var(--hino-red);
-  font-family: var(--font-primary);
+  font-family: "Plus Jakarta Sans", sans-serif;
   font-weight: 800;
   text-decoration: none;
 }
@@ -2500,7 +2499,7 @@ blockquote {
 
 @theme inline {
   --font-heading: var(--font-sans);
-  --font-sans: "Geist Variable", Arial, sans-serif;
+  --font-sans: 'Geist Variable', sans-serif;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);

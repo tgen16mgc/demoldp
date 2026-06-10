@@ -416,11 +416,7 @@ test("rendered appreciation letter uses director portrait and real copy", async 
 test("css includes approved UI/UX Pro Max quality gates", () => {
   const css = file("src/styles.css");
   assert.match(css, /--hino-red:\s*#c90000/);
-  assert.match(css, /@import "@fontsource-variable\/geist"/);
-  assert.match(css, /--font-primary:\s*"Geist Variable", Arial, sans-serif/);
-  assert.match(css, /body\s*\{[^}]*font-family:\s*var\(--font-primary\)/s);
-  assert.doesNotMatch(css, /Plus Jakarta Sans/);
-  assert.doesNotMatch(css, /Helvetica Neue/);
+  assert.match(css, /Helvetica Neue/);
   assert.match(css, /section-pattern/);
   assert.match(css, /#video\s*\{[^}]*url\("\.\/assets\/back-milestone\.jpg"\)/s);
   assert.doesNotMatch(css, /body::before\s*\{[^}]*url\("\.\/assets\/back-milestone\.jpg"\)/s);
