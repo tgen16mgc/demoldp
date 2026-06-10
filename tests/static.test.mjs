@@ -182,9 +182,10 @@ test("rendered statistics expose animated numeric counters", async () => {
 
   const html = renderPage(content.vi, "vi");
 
-  assert.match(html, /class="stat-number"[\s\S]*data-count-to="354"/);
+  assert.match(html, /class="stat-number stat-number--short"[\s\S]*data-count-to="354"/);
   assert.match(html, /data-count-to="354"[\s\S]*data-count-suffix=""/);
-  assert.match(html, /data-count-to="1712345"[\s\S]*data-count-suffix=""/);
+  assert.match(html, /class="stat-number stat-number--long"[\s\S]*data-count-to="1712345"[\s\S]*data-count-suffix=""/);
+  assert.match(html, /class="stat-number stat-number--wide"[\s\S]*data-count-to="591123"/);
   assert.match(html, /class="stat-unit">nhân viên<\/p>/);
   assert.match(html, /class="stats-note">\* Số liệu ghi nhận tính đến ngày 18\/06\/2026<\/p>/);
   assert.doesNotMatch(html, /class="stat-hex"/);
@@ -417,6 +418,11 @@ test("css includes approved UI/UX Pro Max quality gates", () => {
   const css = file("src/styles.css");
   assert.match(css, /--hino-red:\s*#c90000/);
   assert.match(css, /Helvetica Neue/);
+  assert.match(css, /\.stat-cell\s*\{[^}]*align-items:\s*center/s);
+  assert.match(css, /\.stat-cell\s*\{[^}]*justify-items:\s*center/s);
+  assert.match(css, /\.stat-number--short\s*\{/);
+  assert.match(css, /\.stat-number--wide\s*\{/);
+  assert.match(css, /\.stat-number--long\s*\{/);
   assert.match(css, /section-pattern/);
   assert.match(css, /#video\s*\{[^}]*url\("\.\/assets\/back-milestone\.jpg"\)/s);
   assert.doesNotMatch(css, /body::before\s*\{[^}]*url\("\.\/assets\/back-milestone\.jpg"\)/s);

@@ -975,10 +975,12 @@ blockquote {
 .stat-cell {
   position: relative;
   display: grid;
-  grid-template-rows: minmax(56px, auto) minmax(58px, auto) auto;
+  grid-template-rows: auto auto;
+  align-content: center;
   align-items: center;
   justify-content: center;
-  gap: 0;
+  justify-items: center;
+  gap: clamp(18px, 1.85vw, 26px);
   min-height: clamp(205px, 17vw, 238px);
   padding: clamp(24px, 2.5vw, 34px) clamp(16px, 1.8vw, 24px);
   border: 1px solid rgba(15, 23, 42, 0.09);
@@ -1021,19 +1023,40 @@ blockquote {
 
 .stat-figure {
   margin: 0;
-  display: contents;
+  display: grid;
+  grid-template-rows: auto auto;
+  align-content: center;
+  justify-self: center;
+  justify-items: center;
+  width: 100%;
+  min-width: 0;
+  gap: clamp(8px, 0.75vw, 12px);
 }
 
 .stat-number {
   display: inline-block;
   align-self: end;
   justify-self: center;
+  max-width: 100%;
   color: var(--hino-red);
-  font-size: clamp(1.72rem, 2.45vw, 2.65rem);
+  font-size: clamp(1.78rem, 2.32vw, 2.5rem);
   font-weight: 900;
   letter-spacing: 0;
-  line-height: 0.96;
+  line-height: 0.94;
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.stat-number--short {
+  transform: translateX(0.06em);
+}
+
+.stat-number--wide {
+  font-size: clamp(1.66rem, 2.06vw, 2.24rem);
+}
+
+.stat-number--long {
+  font-size: clamp(1.5rem, 1.88vw, 2.04rem);
 }
 
 .stat-unit {
@@ -1054,10 +1077,12 @@ blockquote {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  justify-self: center;
   gap: 7px;
   max-width: 20ch;
-  min-height: 54px;
+  min-height: 0;
   padding: 0 4px;
+  text-align: center;
 }
 
 .stat-label {

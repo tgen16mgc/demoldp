@@ -272,6 +272,9 @@ function renderStatistics(section, activeLang = "vi") {
   const countLocale = activeLang === "vi" ? "vi-VN" : "en-US";
   const items = section.items
     .map((item, i) => {
+      const digitCount = String(item.value).replace(/\D/g, "").length;
+      const numberSizeClass =
+        digitCount >= 7 ? " stat-number--long" : digitCount >= 6 ? " stat-number--wide" : digitCount <= 3 ? " stat-number--short" : "";
       return `
       <article class="stat-cell" style="--stat-i:${i}" role="listitem">
         <div class="stat-info">
@@ -279,7 +282,7 @@ function renderStatistics(section, activeLang = "vi") {
         </div>
         <div class="stat-figure">
           <span
-            class="stat-number"
+            class="stat-number${numberSizeClass}"
             data-count-to="${escapeHtml(item.value)}"
             data-count-suffix="${escapeHtml(item.suffix || "")}"
             data-count-locale="${escapeHtml(countLocale)}"
