@@ -180,7 +180,7 @@ export function setupTimeline(section) {
 
       const nextIndex = currentIndex() >= events.length - 1 ? 0 : currentIndex() + 1;
       goToIndex(nextIndex);
-    }, 3200);
+    }, 2200);
   }
 
   viewport.addEventListener("scroll", onViewportScroll, { passive: true });
