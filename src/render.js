@@ -42,7 +42,6 @@ const footerLabels = {
     serviceItems: ["Dịch vụ sau bán hàng", "Chính sách bảo hành", "Phụ tùng chính hãng"],
     policyItems: ["Quy định & Điều khoản", "Chính sách bảo mật", "Chính sách nhân quyền"],
     copyright: "© 2017 Xe tải Hino. Bản quyền đã được bảo hộ.",
-    backToTop: "Lên đầu trang",
     policyAria: "Liên kết chính sách chân trang"
   },
   en: {
@@ -55,7 +54,6 @@ const footerLabels = {
     serviceItems: ["After-sales service", "Warranty policy", "Genuine parts"],
     policyItems: ["Terms and Conditions", "Privacy Policy", "Human Rights Policy"],
     copyright: "© 2017 Hino Trucks. All rights reserved.",
-    backToTop: "Back to top",
     policyAria: "Footer policy links"
   }
 };
@@ -521,7 +519,6 @@ function renderFooter(contact, activeLang = "vi") {
             ${labels.policyItems.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
           </nav>
           <p>${escapeHtml(labels.copyright)}</p>
-          <a class="back-to-top" href="#hero">${escapeHtml(labels.backToTop)} <span aria-hidden="true">^</span></a>
         </div>
       </div>
     </footer>
