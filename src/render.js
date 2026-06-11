@@ -185,14 +185,16 @@ function renderNav(data, activeLang) {
 
   return `
     <header class="site-nav" id="site-nav">
-      <a class="brand-lockup" href="${safeUrl(data.nav.logoHref)}" aria-label="${escapeHtml(data.nav.homeLabel)}">
-        <img class="hino-logo" src="src/assets/hinologonew.png" width="52" height="52" alt="Hino">
+      <div class="brand-lockup" aria-label="${escapeHtml(data.nav.homeLabel)}">
+        <a class="hino-logo-link" href="${safeUrl(data.nav.logoHref)}" aria-label="Hino Việt Nam">
+          <img class="hino-logo" src="src/assets/hinologonew.png" width="52" height="52" alt="Hino">
+        </a>
         <span class="logo-divider"></span>
-        <span class="a30-mark">
+        <a class="a30-mark" href="#hero" aria-label="Hino 30 years anniversary">
           <img class="a30-mark-image a30-mark-default" src="src/a30new.svg" width="72" height="50" alt="A30">
           <img class="a30-mark-image a30-mark-hero" src="src/assets/a30-nav-white-new.svg" width="72" height="50" alt="" aria-hidden="true">
-        </span>
-      </a>
+        </a>
+      </div>
       <button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-links">
         <span></span><span></span><span></span>
       </button>

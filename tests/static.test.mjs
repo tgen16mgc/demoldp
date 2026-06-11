@@ -160,6 +160,8 @@ test("rendered page uses requested Hino logo and copied footer", async () => {
   assert.doesNotMatch(html, /src="src\/assets\/hino-logo\.svg"/);
   assert.doesNotMatch(html, /src="src\/assets\/a30-mark\.svg"/);
   assert.doesNotMatch(html, /src="src\/assets\/hero-banner\.png"/);
+  assert.match(html, /<a class="hino-logo-link" href="https:\/\/hino\.vn\/" aria-label="Hino Việt Nam">/);
+  assert.match(html, /<a class="a30-mark" href="#hero" aria-label="Hino 30 years anniversary">/);
   assert.match(html, /alt="Hino"/);
   assert.match(html, /id="contact"/);
   assert.match(html, /SẢN PHẨM/);
@@ -253,7 +255,7 @@ test("rendered output escapes text and filters unsafe urls", async () => {
   assert.doesNotMatch(html, /data:text\/html/i);
   assert.doesNotMatch(html, /<img src=x/i);
   assert.match(html, /&lt;img src=x onerror=&quot;alert\(1\)&quot;&gt;/);
-  assert.match(html, /class="brand-lockup" href="#"/);
+  assert.match(html, /class="hino-logo-link" href="#"/);
   assert.doesNotMatch(html, /<iframe/);
   assert.doesNotMatch(html, /aria-disabled="true"/);
   assert.match(html, /class="asset-status"/);
@@ -273,7 +275,7 @@ test("rendered output rejects control-character url obfuscation", async () => {
 
   assert.doesNotMatch(html, /java\s*script:/i);
   assert.doesNotMatch(html, /jav\s*ascript:/i);
-  assert.match(html, /class="brand-lockup" href="#"/);
+  assert.match(html, /class="hino-logo-link" href="#"/);
   assert.doesNotMatch(html, /<iframe/);
   assert.doesNotMatch(html, /aria-disabled="true"/);
   assert.match(html, /class="asset-status"/);
