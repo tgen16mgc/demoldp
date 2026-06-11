@@ -200,6 +200,7 @@ test("timeline supports drag scrolling without active text reflow", () => {
   assert.match(timeline, /addEventListener\("pointerdown", onPointerDown\)/);
   assert.match(timeline, /viewport\.scrollLeft = dragStartScrollLeft - \(event\.clientX - dragStartX\)/);
   assert.match(timeline, /event\.offsetLeft - leadingGutter/);
+  assert.match(styles, /--timeline-gutter:\s*max\(clamp\(18px, 4vw, 56px\), calc\(100vw - var\(--timeline-item-width\) - var\(--timeline-leading-gutter\)\)\)/);
   assert.match(timeline, /progress >= 0\.995[\s\S]*activeIndex = events\.length - 1/);
   assert.doesNotMatch(timeline, /classList\.toggle\("is-active", reached\)/);
   assert.match(styles, /\.timeline-viewport\.is-dragging/);
