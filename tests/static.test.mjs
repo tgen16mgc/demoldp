@@ -176,6 +176,35 @@ test("rendered page uses requested Hino logo and copied footer", async () => {
   assert.doesNotMatch(html, /Lên đầu trang|Back to top|class="back-to-top"/);
 });
 
+test("rendered footer links mirror hino.vn footer destinations", async () => {
+  const [{ content }, { renderPage }] = await Promise.all([
+    import("../src/content.js"),
+    import("../src/render.js")
+  ]);
+
+  const vi = renderPage(content.vi, "vi");
+  const en = renderPage(content.en, "en");
+
+  assert.match(vi, /<a href="https:\/\/hino\.vn\/san-pham\/\?section=section-series-300">Series 300<\/a>/);
+  assert.match(vi, /<a href="https:\/\/hino\.vn\/san-pham\/\?section=section-500-series">Series 500<\/a>/);
+  assert.match(vi, /<a href="https:\/\/hino\.vn\/san-pham\/\?section=section-series-700">Series 700<\/a>/);
+  assert.match(vi, /<a href="https:\/\/hino\.vn\/gioi-thieu\/">Hino Motors Việt Nam<\/a>/);
+  assert.match(en, /<a href="https:\/\/hino\.vn\/gioi-thieu\/">Hino Motors Vietnam<\/a>/);
+  assert.match(vi, /<a href="https:\/\/hino\.vn\/chang-duong\/">Chặng đường<\/a>/);
+  assert.match(en, /<a href="https:\/\/hino\.vn\/chang-duong\/">Milestones<\/a>/);
+  assert.match(vi, /<a href="https:\/\/hino\.vn\/tuyen-dung\/">Tuyển dụng<\/a>/);
+  assert.match(vi, /<a href="https:\/\/hino\.vn\/dich-vu\/dich-vu-sau-ban-hang-s159\.html">Dịch vụ sau bán hàng<\/a>/);
+  assert.match(en, /<a href="https:\/\/hino\.vn\/dich-vu\/dich-vu-sau-ban-hang-s159\.html">After-sales service<\/a>/);
+  assert.match(vi, /<a href="https:\/\/hino\.vn\/dich-vu\/chinh-sach-bao-hanh-s162\.html">Chính sách bảo hành<\/a>/);
+  assert.match(vi, /<a href="https:\/\/hino\.vn\/dich-vu\/phu-tung-chinh-hang-s2315\.html">Phụ tùng chính hãng<\/a>/);
+  assert.match(vi, /<a class="footer-social-item" href="https:\/\/www\.facebook\.com\/hinomotorsvietnam\.official">/);
+  assert.match(vi, /<a class="footer-social-item" href="https:\/\/www\.youtube\.com\/channel\/UCZgElv0GhgPGXP8z5lCeDsg">/);
+  assert.match(vi, /<a href="https:\/\/hino\.vn\/tin-tuc\/dieu-khoan-va-dieu-kien-su-dung-n7043\.html">Quy định &amp; Điều khoản<\/a>/);
+  assert.match(en, /<a href="https:\/\/hino\.vn\/tin-tuc\/dieu-khoan-va-dieu-kien-su-dung-n7043\.html">Terms and Conditions<\/a>/);
+  assert.match(vi, /<a href="https:\/\/hino\.vn\/chinh-sach-bao-mat\/">Chính sách bảo mật<\/a>/);
+  assert.match(vi, /<a href="https:\/\/hino\.vn\/chinh-sach-nhan-quyen\/">Chính sách nhân quyền<\/a>/);
+});
+
 test("rendered statistics expose animated numeric counters", async () => {
   const [{ content }, { renderPage }] = await Promise.all([
     import("../src/content.js"),

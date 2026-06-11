@@ -57,6 +57,32 @@ const footerLabels = {
     policyAria: "Footer policy links"
   }
 };
+const footerLinks = {
+  products: [
+    "https://hino.vn/san-pham/?section=section-series-300",
+    "https://hino.vn/san-pham/?section=section-500-series",
+    "https://hino.vn/san-pham/?section=section-series-700"
+  ],
+  about: [
+    "https://hino.vn/gioi-thieu/",
+    "https://hino.vn/chang-duong/",
+    "https://hino.vn/tuyen-dung/"
+  ],
+  services: [
+    "https://hino.vn/dich-vu/dich-vu-sau-ban-hang-s159.html",
+    "https://hino.vn/dich-vu/chinh-sach-bao-hanh-s162.html",
+    "https://hino.vn/dich-vu/phu-tung-chinh-hang-s2315.html"
+  ],
+  social: {
+    facebook: "https://www.facebook.com/hinomotorsvietnam.official",
+    youtube: "https://www.youtube.com/channel/UCZgElv0GhgPGXP8z5lCeDsg"
+  },
+  policies: [
+    "https://hino.vn/tin-tuc/dieu-khoan-va-dieu-kien-su-dung-n7043.html",
+    "https://hino.vn/chinh-sach-bao-mat/",
+    "https://hino.vn/chinh-sach-nhan-quyen/"
+  ]
+};
 
 function safeUrl(value, fallback = "#", options = {}) {
   const { allowHash = true } = options;
@@ -467,6 +493,12 @@ function renderProfile(section, assets) {
   `;
 }
 
+function renderFooterLinks(items, hrefs) {
+  return items
+    .map((item, index) => `<li><a href="${safeUrl(hrefs[index])}">${escapeHtml(item)}</a></li>`)
+    .join("");
+}
+
 function renderFooter(contact, activeLang = "vi") {
   const labels = footerLabels[activeLang] || footerLabels.vi;
   const offices = (contact.offices || [])
@@ -485,26 +517,26 @@ function renderFooter(contact, activeLang = "vi") {
         <section class="footer-group" aria-labelledby="footer-products-title">
           <h2 id="footer-products-title">${escapeHtml(labels.products)}</h2>
           <ul class="footer-list">
-            ${labels.productItems.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
+            ${renderFooterLinks(labels.productItems, footerLinks.products)}
           </ul>
         </section>
         <section class="footer-group" aria-labelledby="footer-about-title">
           <h2 id="footer-about-title">${escapeHtml(labels.about)}</h2>
           <ul class="footer-list">
-            ${labels.aboutItems.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
+            ${renderFooterLinks(labels.aboutItems, footerLinks.about)}
           </ul>
         </section>
         <section class="footer-group" aria-labelledby="footer-service-title">
           <h2 id="footer-service-title">${escapeHtml(labels.services)}</h2>
           <ul class="footer-list">
-            ${labels.serviceItems.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
+            ${renderFooterLinks(labels.serviceItems, footerLinks.services)}
           </ul>
         </section>
         <section class="footer-group footer-follow" aria-labelledby="footer-follow-title">
           <h2 id="footer-follow-title">${escapeHtml(labels.follow)}</h2>
           <div class="footer-social-list">
-            <span class="footer-social-item"><span class="social-icon social-facebook" aria-hidden="true">f</span>Facebook</span>
-            <span class="footer-social-item"><span class="social-icon social-youtube" aria-hidden="true"></span>Youtube</span>
+            <a class="footer-social-item" href="${safeUrl(footerLinks.social.facebook)}"><span class="social-icon social-facebook" aria-hidden="true">f</span>Facebook</a>
+            <a class="footer-social-item" href="${safeUrl(footerLinks.social.youtube)}"><span class="social-icon social-youtube" aria-hidden="true"></span>Youtube</a>
           </div>
         </section>
         <section class="footer-contact" aria-labelledby="footer-contact-title">
@@ -518,7 +550,7 @@ function renderFooter(contact, activeLang = "vi") {
       <div class="footer-bottom">
         <div class="footer-bottom-inner">
           <nav class="footer-policy" aria-label="${escapeHtml(labels.policyAria)}">
-            ${labels.policyItems.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
+            ${labels.policyItems.map((item, index) => `<a href="${safeUrl(footerLinks.policies[index])}">${escapeHtml(item)}</a>`).join("")}
           </nav>
           <p>${escapeHtml(labels.copyright)}</p>
         </div>

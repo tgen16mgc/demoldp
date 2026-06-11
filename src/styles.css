@@ -1663,6 +1663,30 @@ blockquote {
   list-style: none;
 }
 
+.footer-list a,
+.footer-social-item,
+.footer-policy a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+.footer-list a:hover,
+.footer-list a:focus-visible,
+.footer-social-item:hover,
+.footer-social-item:focus-visible,
+.footer-policy a:hover,
+.footer-policy a:focus-visible {
+  color: var(--hino-red);
+}
+
+.footer-list a:focus-visible,
+.footer-social-item:focus-visible,
+.footer-policy a:focus-visible {
+  outline: 2px solid var(--hino-red);
+  outline-offset: 3px;
+}
+
 .footer-social-list,
 .footer-contact address {
   display: grid;
