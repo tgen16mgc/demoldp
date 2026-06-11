@@ -361,7 +361,7 @@ function renderMilestones(section, activeLang) {
     .map((item) => `
       <button class="timeline-marker" type="button" data-timeline-marker data-year="${escapeHtml(item.year)}" aria-label="${escapeHtml(item.year)}">
         <span class="timeline-dot" aria-hidden="true"></span>
-        <span class="timeline-marker-year">${escapeHtml(item.year === "2026" ? "Now" : item.year)}</span>
+        <span class="timeline-marker-year">${escapeHtml(item.year)}</span>
       </button>
     `)
     .join("");

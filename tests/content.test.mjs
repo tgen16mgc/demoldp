@@ -76,7 +76,7 @@ const expectedViMilestones = [
   ["2023", "Kỷ niệm chiếc xe thứ 50.000 được sản xuất"],
   ["2024", "Xuất xưởng xe XZU Euro5"],
   ["2025", "Bàn giao xe tải thứ 60.000 tại Việt Nam"],
-  ["2026", "Kỷ niệm 30 năm thành lập"]
+  ["2026", "Kỷ niệm 30 năm thành lập Hino Motors Việt Nam"]
 ];
 
 const expectedEnMilestones = [
@@ -98,7 +98,7 @@ const expectedEnMilestones = [
   ["2023", "Celebrated the 50,000th vehicle produced"],
   ["2024", "Rolled out XZU Euro5 vehicle"],
   ["2025", "Delivered the 60,000th truck in Vietnam"],
-  ["2026", "Celebrating the 30th anniversary"]
+  ["2026", "Celebrating the 30th anniversary of Hino Motors Vietnam"]
 ];
 
 const expectedMilestoneImageUrls = {
@@ -201,7 +201,7 @@ const expectedViSections = {
     offices: [
       {
         label: "Trụ sở tại Hà Nội",
-        address: "Tầng 15 - Tòa nhà Diamond Park Plaza, số 16 Láng Hạ, Phường Giảng Võ, Thành phố Hà Nội, Việt Nam",
+        address: "Tầng 15 - Tòa nhà văn phòng 16 Láng Hạ, Phường Giảng Võ, Thành phố Hà Nội, Việt Nam",
         phoneFax: "+8424 73 016 017 | +8424 3861 6018"
       },
       {
@@ -278,7 +278,7 @@ const expectedEnSections = {
     offices: [
       {
         label: "Office in Ha Noi",
-        address: "15th floor - Diamond Park Plaza, 16 Lang Ha Street, Giang Vo Ward, Hanoi, Vietnam",
+        address: "15th floor - 16 Lang Ha Office Building, Giang Vo Ward, Hanoi, Vietnam",
         phoneFax: "+8424 73 016 017 | +8424 3861 6018"
       },
       {

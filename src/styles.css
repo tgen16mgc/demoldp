@@ -768,7 +768,9 @@ blockquote {
 
 .letter-salutation {
   color: var(--ink);
-  font-weight: 800;
+  font-synthesis: none;
+  font-weight: 700;
+  text-rendering: geometricPrecision;
 }
 
 .person-line {

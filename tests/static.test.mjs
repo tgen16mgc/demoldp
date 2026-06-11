@@ -169,7 +169,7 @@ test("rendered page uses requested Hino logo and copied footer", async () => {
   assert.match(html, /DỊCH VỤ VÀ PHỤ TÙNG/);
   assert.match(html, /THEO DÕI CHÚNG TÔI/);
   assert.match(html, /CÔNG TY LIÊN DOANH TNHH HINO MOTORS VIỆT NAM/);
-  assert.match(html, /Tầng 15 - Tòa nhà Diamond Park Plaza/);
+  assert.match(html, /Tầng 15 - Tòa nhà văn phòng 16 Láng Hạ/);
   assert.match(html, /Tầng 22 - Cao ốc Saigon Trade Center/);
   assert.match(html, /\+8424 73 016 017 \| \+8424 3861 6018/);
   assert.match(html, /Quy định &amp; Điều khoản/);
@@ -331,7 +331,7 @@ test("rendered milestones expose unpinned horizontal timeline", async () => {
   assert.match(html, /class="timeline-rail"/);
   assert.match(html, /data-timeline-marker data-year="1995"/);
   assert.match(html, /class="timeline-dot"/);
-  assert.match(html, /class="timeline-marker-year">Now<\/span>/);
+  assert.match(html, /class="timeline-marker-year">2026<\/span>/);
   assert.match(html, /data-timeline-prev/);
   assert.match(html, /data-timeline-next/);
   assert.match(html, /class="timeline-progress"/);
