@@ -21,6 +21,9 @@ export function setupTimeline(section) {
   let currentProgress = 0;
   let idleUntil = 0;
   let autoplayId = null;
+  let isDragging = false;
+  let dragStartX = 0;
+  let dragStartScrollLeft = 0;
 
   function maxScroll() {
     return Math.max(0, viewport.scrollWidth - viewport.clientWidth);
@@ -34,12 +37,17 @@ export function setupTimeline(section) {
     return Math.min(1, Math.max(0, viewport.scrollLeft / distance));
   }
 
+  function targetLeftForEvent(event) {
+    const leadingGutter = Math.max(0, track.offsetLeft);
+    return Math.min(maxScroll(), Math.max(0, event.offsetLeft - leadingGutter));
+  }
+
   function eventCenterRatios(distance) {
     if (distance <= 0) {
       return events.map(() => 0);
     }
     return events.map((event) => {
-      const targetTravel = Math.min(distance, Math.max(0, event.offsetLeft));
+      const targetTravel = targetLeftForEvent(event);
       return Math.min(1, Math.max(0, targetTravel / distance));
     });
   }
@@ -82,8 +90,11 @@ export function setupTimeline(section) {
     }
 
     let index = 0;
+    let closestDistance = Number.POSITIVE_INFINITY;
     for (let i = 0; i < ratios.length; i += 1) {
-      if (currentProgress >= ratios[i] - 0.005) {
+      const distance = Math.abs(currentProgress - ratios[i]);
+      if (distance < closestDistance) {
+        closestDistance = distance;
         index = i;
       }
     }
@@ -105,7 +116,7 @@ export function setupTimeline(section) {
     }
 
     const safeIndex = Math.min(events.length - 1, Math.max(0, index));
-    const targetLeft = Math.min(maxScroll(), Math.max(0, events[safeIndex].offsetLeft));
+    const targetLeft = targetLeftForEvent(events[safeIndex]);
     const distance = maxScroll();
     viewport.scrollTo({
       left: targetLeft,
@@ -165,6 +176,35 @@ export function setupTimeline(section) {
     pauseAutoplay();
   }
 
+  function onPointerDown(event) {
+    if (event.button !== 0 && event.pointerType === "mouse") {
+      return;
+    }
+    pauseAutoplay();
+    isDragging = true;
+    dragStartX = event.clientX;
+    dragStartScrollLeft = viewport.scrollLeft;
+    viewport.classList.add("is-dragging");
+    viewport.setPointerCapture?.(event.pointerId);
+  }
+
+  function onPointerMove(event) {
+    if (!isDragging) {
+      return;
+    }
+    event.preventDefault();
+    viewport.scrollLeft = dragStartScrollLeft - (event.clientX - dragStartX);
+  }
+
+  function stopDragging(event) {
+    if (!isDragging) {
+      return;
+    }
+    isDragging = false;
+    viewport.classList.remove("is-dragging");
+    viewport.releasePointerCapture?.(event.pointerId);
+  }
+
   function isTimelineVisible() {
     const rect = section.getBoundingClientRect();
     return rect.top < window.innerHeight * 0.8 && rect.bottom > window.innerHeight * 0.2;
@@ -184,6 +224,11 @@ export function setupTimeline(section) {
   }
 
   viewport.addEventListener("scroll", onViewportScroll, { passive: true });
+  viewport.addEventListener("pointerdown", onPointerDown);
+  viewport.addEventListener("pointermove", onPointerMove);
+  viewport.addEventListener("pointerup", stopDragging);
+  viewport.addEventListener("pointercancel", stopDragging);
+  viewport.addEventListener("lostpointercapture", stopDragging);
   window.addEventListener("resize", onResize);
   window.addEventListener("wheel", onUserInput, { passive: true });
   window.addEventListener("touchstart", onUserInput, { passive: true });
@@ -201,6 +246,11 @@ export function setupTimeline(section) {
 
   return () => {
     viewport.removeEventListener("scroll", onViewportScroll);
+    viewport.removeEventListener("pointerdown", onPointerDown);
+    viewport.removeEventListener("pointermove", onPointerMove);
+    viewport.removeEventListener("pointerup", stopDragging);
+    viewport.removeEventListener("pointercancel", stopDragging);
+    viewport.removeEventListener("lostpointercapture", stopDragging);
     window.removeEventListener("resize", onResize);
     window.removeEventListener("wheel", onUserInput);
     window.removeEventListener("touchstart", onUserInput);

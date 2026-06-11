@@ -173,7 +173,7 @@ export const content = {
         offices: [
           {
             label: "Trụ sở tại Hà Nội",
-            address: "Tầng 15 - Tòa nhà Diamond Park Plaza, số 16 Láng Hạ, Phường Ba Đình, Thành phố Hà Nội, Việt Nam",
+            address: "Tầng 15 - Tòa nhà Diamond Park Plaza, số 16 Láng Hạ, Phường Giảng Võ, Thành phố Hà Nội, Việt Nam",
             phoneFax: "+8424 73 016 017 | +8424 3861 6018"
           },
           {
@@ -269,7 +269,7 @@ export const content = {
         offices: [
           {
             label: "Office in Ha Noi",
-            address: "15th floor - Diamond Park Plaza, 16 Lang Ha Street, Ba Dinh Ward, Hanoi, Vietnam",
+            address: "15th floor - Diamond Park Plaza, 16 Lang Ha Street, Giang Vo Ward, Hanoi, Vietnam",
             phoneFax: "+8424 73 016 017 | +8424 3861 6018"
           },
           {

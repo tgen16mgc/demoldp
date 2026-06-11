@@ -171,7 +171,7 @@ test("rendered page uses requested Hino logo and copied footer", async () => {
   assert.match(html, /Tầng 22 - Cao ốc Saigon Trade Center/);
   assert.match(html, /\+8424 73 016 017 \| \+8424 3861 6018/);
   assert.match(html, /Quy định &amp; Điều khoản/);
-  assert.match(html, /Lên đầu trang/);
+  assert.doesNotMatch(html, /Lên đầu trang|Back to top|class="back-to-top"/);
 });
 
 test("rendered statistics expose animated numeric counters", async () => {
@@ -190,6 +190,32 @@ test("rendered statistics expose animated numeric counters", async () => {
   assert.match(html, /class="stats-note">\* Số liệu ghi nhận tính đến ngày 18\/06\/2026<\/p>/);
   assert.doesNotMatch(html, /class="stat-hex"/);
   assert.doesNotMatch(html, /Đại lý Hino tại Việt Nam/);
+});
+
+
+test("timeline supports drag scrolling without active text reflow", () => {
+  const timeline = file("src/timeline.js");
+  const styles = file("src/styles.css");
+
+  assert.match(timeline, /addEventListener\("pointerdown", onPointerDown\)/);
+  assert.match(timeline, /viewport\.scrollLeft = dragStartScrollLeft - \(event\.clientX - dragStartX\)/);
+  assert.match(timeline, /event\.offsetLeft - leadingGutter/);
+  assert.match(styles, /\.timeline-viewport\.is-dragging/);
+  const currentTitleBlock = styles.match(/\.milestone-event\.is-current \.milestone-title \{[\s\S]*?\n\}/)?.[0] || "";
+  assert.doesNotMatch(currentTitleBlock, /font-weight/);
+});
+
+
+test("footer uses Giang Vo ward in both languages", async () => {
+  const [{ content }, { renderPage }] = await Promise.all([
+    import("../src/content.js"),
+    import("../src/render.js")
+  ]);
+
+  assert.match(renderPage(content.vi, "vi"), /Phường Giảng Võ/);
+  assert.match(renderPage(content.en, "en"), /Giang Vo Ward/);
+  assert.doesNotMatch(renderPage(content.vi, "vi"), /Phường Ba Đình/);
+  assert.doesNotMatch(renderPage(content.en, "en"), /Ba Dinh Ward/);
 });
 
 

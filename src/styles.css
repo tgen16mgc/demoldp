@@ -54,7 +54,7 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
-  --timeline-leading-gutter: clamp(18px, 14vw, 280px);
+  --timeline-leading-gutter: clamp(14px, 5vw, 72px);
   --timeline-gutter: max(clamp(18px, 4vw, 56px), calc((100vw - 1180px) / 2));
 }
 
@@ -975,12 +975,12 @@ blockquote {
 .stat-cell {
   position: relative;
   display: grid;
-  grid-template-rows: auto auto;
+  grid-template-rows: minmax(3.1em, auto) minmax(4.9em, auto);
   align-content: center;
   align-items: center;
   justify-content: center;
   justify-items: center;
-  gap: clamp(18px, 1.85vw, 26px);
+  gap: clamp(14px, 1.45vw, 20px);
   min-height: clamp(205px, 17vw, 238px);
   padding: clamp(24px, 2.5vw, 34px) clamp(16px, 1.8vw, 24px);
   border: 1px solid rgba(15, 23, 42, 0.09);
@@ -1024,8 +1024,8 @@ blockquote {
 .stat-figure {
   margin: 0;
   display: grid;
-  grid-template-rows: auto auto;
-  align-content: center;
+  grid-template-rows: minmax(2.7em, auto) minmax(1.5em, auto);
+  align-content: start;
   justify-self: center;
   justify-items: center;
   width: 100%;
@@ -1039,24 +1039,24 @@ blockquote {
   justify-self: center;
   max-width: 100%;
   color: var(--hino-red);
-  font-size: clamp(1.78rem, 2.32vw, 2.5rem);
+  font-size: clamp(1.54rem, 2.04vw, 2.2rem);
   font-weight: 900;
   letter-spacing: 0;
-  line-height: 0.94;
+  line-height: 1;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 
 .stat-number--short {
-  transform: translateX(0.06em);
+  font-size: clamp(1.54rem, 2.04vw, 2.2rem);
 }
 
 .stat-number--wide {
-  font-size: clamp(1.66rem, 2.06vw, 2.24rem);
+  font-size: clamp(1.54rem, 2.04vw, 2.2rem);
 }
 
 .stat-number--long {
-  font-size: clamp(1.5rem, 1.88vw, 2.04rem);
+  font-size: clamp(1.54rem, 2.04vw, 2.2rem);
 }
 
 .stat-unit {
@@ -1089,8 +1089,8 @@ blockquote {
   margin: 0;
   color: var(--ink);
   font-size: clamp(0.92rem, 1.02vw, 1.06rem);
-  font-weight: 900;
-  line-height: 1.28;
+  font-weight: 800;
+  line-height: 1.25;
   color: var(--ink);
   text-wrap: balance;
 }
@@ -1257,6 +1257,7 @@ blockquote {
   user-select: none;
   background: transparent;
   cursor: grab;
+  touch-action: pan-x;
   scrollbar-width: none;
   -ms-overflow-style: none;
   padding-left: var(--timeline-leading-gutter);
@@ -1267,7 +1268,8 @@ blockquote {
   display: none;
 }
 
-.timeline-viewport:active {
+.timeline-viewport:active,
+.timeline-viewport.is-dragging {
   cursor: grabbing;
 }
 
@@ -1427,7 +1429,7 @@ blockquote {
   margin: 0;
   color: #596273;
   font-size: clamp(0.88rem, 1vw, 1.04rem);
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.32;
   text-wrap: balance;
 }
@@ -1445,13 +1447,11 @@ blockquote {
 
 .milestone-event:hover .milestone-title {
   color: #303846;
-  font-weight: 650;
 }
 
 .milestone-event.is-current .milestone-title {
   color: var(--ink);
-  font-weight: 800;
-  line-height: 1.28;
+  line-height: 1.32;
 }
 
 .milestone-card {
