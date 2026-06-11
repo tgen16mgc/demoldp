@@ -1273,6 +1273,10 @@ blockquote {
   cursor: grabbing;
 }
 
+.timeline-viewport.is-dragging {
+  scroll-snap-type: none;
+}
+
 .timeline-track {
   position: relative;
   width: max-content;

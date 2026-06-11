@@ -57,18 +57,18 @@ export function setupTimeline(section) {
     let activeIndex = 0;
     let closestDistance = Number.POSITIVE_INFINITY;
     for (let i = 0; i < events.length; i += 1) {
-      const reached = progress >= ratios[i] - 0.005;
       const distance = Math.abs(progress - ratios[i]);
-      events[i].classList.toggle("is-active", reached);
-      events[i].classList.remove("is-current");
+      events[i].classList.remove("is-active", "is-current");
       events[i].removeAttribute("aria-current");
-      markers[i]?.classList.toggle("is-active", reached);
-      markers[i]?.classList.remove("is-current");
+      markers[i]?.classList.remove("is-active", "is-current");
       markers[i]?.removeAttribute("aria-current");
       if (distance < closestDistance) {
         closestDistance = distance;
         activeIndex = i;
       }
+    }
+    if (progress >= 0.995) {
+      activeIndex = events.length - 1;
     }
     if (events[activeIndex]) {
       events[activeIndex].classList.add("is-active", "is-current");
