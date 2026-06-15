@@ -1567,15 +1567,6 @@ blockquote {
   transform: none;
 }
 
-.news-arrow:hover:not(:disabled),
-.news-arrow:focus-visible:not(:disabled) {
-  transform: translateY(-2px);
-}
-
-.news-arrow:active {
-  transform: scale(0.98);
-}
-
 .news-arrow:disabled {
   opacity: 0.42;
   cursor: default;
