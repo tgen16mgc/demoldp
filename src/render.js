@@ -469,10 +469,17 @@ function renderCards(section, type) {
     .join("");
 
   if (type === "news") {
+    const hasMultipleItems = section.items.length > 1;
+    const controlDisabled = hasMultipleItems ? "" : " disabled aria-disabled=\"true\"";
+
     return `
       <section class="card-section section-pattern" id="news" aria-labelledby="news-title">
         ${sectionHeading(section, "news-title")}
-        <div class="card-grid">${items}</div>
+        <div class="news-carousel">
+          <button class="news-arrow news-arrow-prev" type="button" aria-label="Bài viết trước"${controlDisabled}>‹</button>
+          <div class="card-grid">${items}</div>
+          <button class="news-arrow news-arrow-next" type="button" aria-label="Bài viết tiếp theo"${controlDisabled}>›</button>
+        </div>
       </section>
     `;
   }
@@ -504,9 +511,11 @@ function renderFooter(contact, activeLang = "vi") {
   const offices = (contact.offices || [])
     .map((office) => `
       <div class="footer-office">
-        <strong>${escapeHtml(office.label)}</strong>
-        <span>${escapeHtml(office.address)}</span>
-        <span>${escapeHtml(office.phoneFax)}</span>
+        <strong>${escapeHtml(office.label)}:</strong>
+        <ul>
+          <li><b>Địa chỉ:</b> ${escapeHtml(office.address)}</li>
+          <li><b>Hotline:</b> ${escapeHtml(office.phoneFax)}</li>
+        </ul>
       </div>
     `)
     .join("");

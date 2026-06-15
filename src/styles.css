@@ -232,7 +232,7 @@ iframe {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: clamp(14px, 2.2vw, 28px);
+  gap: clamp(20px, 3vw, 38px);
   min-width: 0;
   font-family: "Plus Jakarta Sans", sans-serif;
   font-size: 0.9rem;
@@ -1544,6 +1544,53 @@ blockquote {
   margin: 0 auto;
 }
 
+.news-carousel {
+  display: grid;
+  grid-template-columns: 48px minmax(0, var(--container)) 48px;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(12px, 2vw, 24px);
+  width: min(calc(var(--container) + 144px), calc(100% - 36px));
+  margin: 0 auto;
+}
+
+.news-carousel .card-grid {
+  width: 100%;
+}
+
+.news-arrow {
+  display: inline-grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid rgba(201, 0, 0, 0.22);
+  border-radius: 999px;
+  background: #ffffff;
+  color: var(--hino-red);
+  font-size: 2rem;
+  line-height: 1;
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.08);
+  cursor: pointer;
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.news-arrow:hover:not(:disabled),
+.news-arrow:focus-visible:not(:disabled) {
+  border-color: rgba(201, 0, 0, 0.45);
+  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.12);
+  transform: translateY(-2px);
+}
+
+.news-arrow:focus-visible {
+  outline: 2px solid var(--hino-red);
+  outline-offset: 3px;
+}
+
+.news-arrow:disabled {
+  opacity: 0.42;
+  cursor: default;
+}
+
 .news-card {
   display: grid;
   grid-template-columns: minmax(260px, 420px) minmax(0, 1fr);
@@ -1693,6 +1740,10 @@ blockquote {
   gap: 10px;
 }
 
+.footer-contact address {
+  gap: 18px;
+}
+
 .footer-social-item {
   display: inline-flex;
   align-items: center;
@@ -1746,16 +1797,28 @@ blockquote {
 
 .footer-office {
   display: grid;
-  gap: 4px;
+  gap: 8px;
+}
+
+.footer-office ul {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding-left: 18px;
+}
+
+.footer-office li {
+  padding-left: 2px;
 }
 
 .footer-contact strong {
   color: #747474;
-  font-weight: 400;
+  font-weight: 600;
 }
 
 .footer-contact b {
   color: #d62222;
+  font-weight: 600;
 }
 
 .footer-contact a {
@@ -2392,10 +2455,22 @@ blockquote {
     gap: 18px;
   }
 
+  .news-carousel {
+    grid-template-columns: 40px minmax(0, 430px) 40px;
+    gap: 10px;
+    width: calc(100% - 24px);
+  }
+
+  .news-arrow {
+    width: 40px;
+    height: 40px;
+    font-size: 1.7rem;
+  }
+
   .news-card {
     grid-template-columns: 1fr;
     gap: 0;
-    width: min(100%, 430px);
+    width: 100%;
     margin: 0 auto;
   }
 

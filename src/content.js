@@ -172,12 +172,12 @@ export const content = {
         company: "CÔNG TY LIÊN DOANH TNHH HINO MOTORS VIỆT NAM",
         offices: [
           {
-            label: "Trụ sở tại Hà Nội",
+            label: "Trụ sở Hà Nội",
             address: "Tầng 15 - Tòa nhà văn phòng 16 Láng Hạ, Phường Giảng Võ, Thành phố Hà Nội, Việt Nam",
             phoneFax: "+8424 73 016 017 | +8424 3861 6018"
           },
           {
-            label: "Chi nhánh tại Hồ Chí Minh",
+            label: "Chi nhánh HCM",
             address: "Tầng 22 - Cao ốc Saigon Trade Center, số 37 Tôn Đức Thắng, Phường Sài Gòn, Thành phố Hồ Chí Minh, Việt Nam",
             phoneFax: "+8428 73 016 017 | +8424 3861 6018"
           }
