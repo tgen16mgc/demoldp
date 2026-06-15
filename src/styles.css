@@ -1567,6 +1567,12 @@ blockquote {
   transform: none;
 }
 
+.news-carousel .news-arrow:hover,
+.news-carousel .news-arrow:focus-visible,
+.news-carousel .news-arrow:active {
+  transform: none;
+}
+
 .news-arrow:disabled {
   opacity: 0.42;
   cursor: default;
