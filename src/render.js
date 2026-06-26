@@ -213,7 +213,11 @@ function renderNav(data, activeLang) {
     <header class="site-nav" id="site-nav">
       <div class="brand-lockup" aria-label="${escapeHtml(data.nav.homeLabel)}">
         <a class="hino-logo-link" href="${safeUrl(data.nav.logoHref)}" aria-label="Hino Việt Nam">
-          <img class="hino-logo" src="src/assets/hinologonew.png" width="52" height="52" alt="Hino">
+          <span class="hino-logo" aria-hidden="true">
+            <img class="hino-logo-image hino-logo-default" src="src/assets/Asset 1redblack.svg" width="52" height="52" alt="">
+            <img class="hino-logo-image hino-logo-hero" src="src/assets/Asset 3white.svg" width="52" height="52" alt="">
+          </span>
+          <span class="sr-only">Hino</span>
         </a>
         <span class="logo-divider"></span>
         <a class="a30-mark" href="#hero" aria-label="Hino 30 years anniversary">
