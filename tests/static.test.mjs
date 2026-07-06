@@ -154,7 +154,7 @@ test("rendered page uses requested Hino logo and copied footer", async () => {
 
   const html = renderPage(content.vi, "vi");
 
-  assert.match(html, /src="src\/assets\/hinologonew\.png"/);
+  assert.match(html, /src="src\/assets\/Asset 1redblack\.svg"/);
   assert.match(html, /src="src\/a30new\.svg"/);
   assert.match(html, /src="src\/assets\/finalvi\.webp"/);
   assert.doesNotMatch(html, /src="src\/assets\/hino-logo\.svg"/);
