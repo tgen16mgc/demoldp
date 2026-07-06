@@ -977,7 +977,7 @@ blockquote {
 
 .stats-shell {
   position: relative;
-  width: min(var(--container), 100%);
+  width: min(1320px, 100%);
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr;
@@ -1000,9 +1000,9 @@ blockquote {
 .stats-grid {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: clamp(18px, 2.3vw, 30px);
-  width: min(1120px, 100%);
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: clamp(14px, 1.5vw, 22px);
+  width: min(1320px, 100%);
   margin: 0 auto;
   justify-items: stretch;
   border: 0;
