@@ -214,7 +214,7 @@ function renderNav(data, activeLang) {
       <div class="brand-lockup" aria-label="${escapeHtml(data.nav.homeLabel)}">
         <a class="hino-logo-link" href="${safeUrl(data.nav.logoHref)}" aria-label="Hino Việt Nam">
           <span class="hino-logo">
-            <img class="hino-logo-image hino-logo-default" src="src/assets/hinologonew.png" width="52" height="52" alt="Hino">
+            <img class="hino-logo-image hino-logo-default" src="src/assets/Asset 1redblack.svg" width="52" height="52" alt="Hino">
             <img class="hino-logo-image hino-logo-hero" src="src/assets/Asset 3white.svg" width="52" height="52" alt="" aria-hidden="true">
           </span>
         </a>
