@@ -171,9 +171,15 @@ iframe {
   grid-column: 1;
   display: inline-flex;
   align-items: center;
-  gap: 14px;
-  min-height: 44px;
+  gap: 16px;
+  min-height: 52px;
   text-decoration: none;
+}
+
+.hino-logo-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px;
 }
 
 .hino-logo {
@@ -213,9 +219,10 @@ iframe {
 .logo-divider {
   display: block;
   width: 2px;
-  height: 36px;
+  height: 38px;
   background-color: currentColor;
   border-radius: 1px;
+  flex: 0 0 auto;
 }
 
 .a30-mark {
@@ -1930,11 +1937,15 @@ blockquote {
     grid-row: 1;
     position: relative;
     z-index: 2;
-    gap: 7px;
+    gap: 8px;
     min-width: 0;
     height: 44px;
     min-height: 44px;
     overflow: hidden;
+  }
+
+  .hino-logo-link {
+    padding: 3px;
   }
 
   .hino-logo {
@@ -1944,7 +1955,7 @@ blockquote {
 
   .logo-divider {
     width: 1px;
-    height: 22px;
+    height: 26px;
     opacity: 0.82;
   }
 
@@ -2533,7 +2544,11 @@ blockquote {
   }
 
   .brand-lockup {
-    gap: 6px;
+    gap: 7px;
+  }
+
+  .hino-logo-link {
+    padding: 2px;
   }
 
   .hino-logo {
@@ -2547,7 +2562,7 @@ blockquote {
   }
 
   .logo-divider {
-    height: 20px;
+    height: 24px;
   }
 
   .language-toggle {

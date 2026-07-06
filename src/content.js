@@ -103,7 +103,7 @@ export const content = {
       links: [
         ["appreciation", "Lời tri ân"],
         ["milestones", "Hành trình phát triển"],
-        ["profile", "Kỷ yếu 30 năm"],
+        ["profile", "Ấn phẩm 30 năm"],
         ["news", "Tin tức"],
         ["contact", "Liên hệ"]
       ]
@@ -131,13 +131,14 @@ export const content = {
       },
       statistics: {
         heading: "NHỮNG CON SỐ ẤN TƯỢNG",
-        note: "* Số liệu ghi nhận tính đến ngày 18/06/2026",
+        note: "*Số liệu cập nhật đến ngày 18/06/2026",
         items: [
-          { value: 354, suffix: "", unit: "nhân viên", label: "Nhân sự" },
-          { value: 51123, suffix: "", unit: "xe", label: "Sản lượng" },
-          { value: 56123, suffix: "", unit: "xe", label: "Doanh số" },
-          { value: 1712345, suffix: "", unit: "VND", label: "Doanh thu phụ tùng" },
-          { value: 591123, suffix: "", unit: "lượt", label: "Dịch vụ bảo dưỡng" }
+          { value: 371, suffix: "", unit: "Nhân viên", label: "Nhân sự Hino Motors Việt Nam" },
+          { value: 22, suffix: "", unit: "Đại lý", label: "Hệ thống đại lý chính hãng" },
+          { value: 58777, suffix: "", unit: "Xe", label: "Sản lượng xe xuất xưởng" },
+          { value: 63954, suffix: "", unit: "Xe", label: "Sản lượng xe bán ra" },
+          { value: 2682710, suffix: "", unit: "Triệu đồng", label: "Doanh thu phụ tùng" },
+          { value: 831809, suffix: "", unit: "Lượt", label: "Dịch vụ bảo dưỡng" }
         ]
       },
       video: {
@@ -227,13 +228,14 @@ export const content = {
       },
       statistics: {
         heading: "OUTSTANDING STATISTICS",
-        note: "* Data recorded as of 18/06/2026",
+        note: "*Data updated as of June 18, 2026",
         items: [
-          { value: 354, suffix: "", unit: "employees", label: "Employees" },
-          { value: 51123, suffix: "", unit: "vehicles", label: "Production" },
-          { value: 56123, suffix: "", unit: "vehicles", label: "Sales" },
-          { value: 1712345, suffix: "", unit: "VND", label: "Part revenue" },
-          { value: 591123, suffix: "", unit: "visits", label: "Service Maintenance" }
+          { value: 371, suffix: "", unit: "Employees", label: "Hino Motors Vietnam Employees" },
+          { value: 22, suffix: "", unit: "Dealers", label: "Authorized Dealer" },
+          { value: 58777, suffix: "", unit: "Vehicles", label: "Vehicles Produced" },
+          { value: 63954, suffix: "", unit: "Vehicles", label: "Vehicles Sold" },
+          { value: 2682710, suffix: "", unit: "Million VND", label: "Parts Revenue" },
+          { value: 831809, suffix: "", unit: "Visits", label: "Maintenance Services" }
         ]
       },
       video: {
