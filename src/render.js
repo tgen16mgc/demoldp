@@ -213,11 +213,10 @@ function renderNav(data, activeLang) {
     <header class="site-nav" id="site-nav">
       <div class="brand-lockup" aria-label="${escapeHtml(data.nav.homeLabel)}">
         <a class="hino-logo-link" href="${safeUrl(data.nav.logoHref)}" aria-label="Hino Việt Nam">
-          <span class="hino-logo" aria-hidden="true">
-            <img class="hino-logo-image hino-logo-default" src="src/assets/Asset 1redblack.svg" width="52" height="52" alt="">
-            <img class="hino-logo-image hino-logo-hero" src="src/assets/Asset 3white.svg" width="52" height="52" alt="">
+          <span class="hino-logo">
+            <img class="hino-logo-image hino-logo-default" src="src/assets/hinologonew.png" width="52" height="52" alt="Hino">
+            <img class="hino-logo-image hino-logo-hero" src="src/assets/Asset 3white.svg" width="52" height="52" alt="" aria-hidden="true">
           </span>
-          <span class="sr-only">Hino</span>
         </a>
         <span class="logo-divider"></span>
         <a class="a30-mark" href="#hero" aria-label="Hino 30 years anniversary">
@@ -473,16 +472,13 @@ function renderCards(section, type) {
     .join("");
 
   if (type === "news") {
-    const hasMultipleItems = section.items.length > 1;
-    const controlDisabled = hasMultipleItems ? "" : " disabled aria-disabled=\"true\"";
-
     return `
       <section class="card-section section-pattern" id="news" aria-labelledby="news-title">
         ${sectionHeading(section, "news-title")}
         <div class="news-carousel">
-          <button class="timeline-arrow timeline-arrow-prev news-arrow" type="button" aria-label="Bài viết trước"${controlDisabled}><span class="sr-only">Bài viết trước</span></button>
+          <button class="timeline-arrow timeline-arrow-prev news-arrow" type="button" aria-label="Bài viết trước"><span class="sr-only">Bài viết trước</span></button>
           <div class="card-grid">${items}</div>
-          <button class="timeline-arrow timeline-arrow-next news-arrow" type="button" aria-label="Bài viết tiếp theo"${controlDisabled}><span class="sr-only">Bài viết tiếp theo</span></button>
+          <button class="timeline-arrow timeline-arrow-next news-arrow" type="button" aria-label="Bài viết tiếp theo"><span class="sr-only">Bài viết tiếp theo</span></button>
         </div>
       </section>
     `;

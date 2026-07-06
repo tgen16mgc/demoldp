@@ -213,12 +213,12 @@ test("rendered statistics expose animated numeric counters", async () => {
 
   const html = renderPage(content.vi, "vi");
 
-  assert.match(html, /class="stat-number stat-number--short"[\s\S]*data-count-to="354"/);
-  assert.match(html, /data-count-to="354"[\s\S]*data-count-suffix=""/);
-  assert.match(html, /class="stat-number stat-number--long"[\s\S]*data-count-to="1712345"[\s\S]*data-count-suffix=""/);
-  assert.match(html, /class="stat-number stat-number--wide"[\s\S]*data-count-to="591123"/);
-  assert.match(html, /class="stat-unit">nhân viên<\/p>/);
-  assert.match(html, /class="stats-note">\* Số liệu ghi nhận tính đến ngày 18\/06\/2026<\/p>/);
+  assert.match(html, /class="stat-number stat-number--short"[\s\S]*data-count-to="371"/);
+  assert.match(html, /data-count-to="22"[\s\S]*data-count-suffix=""/);
+  assert.match(html, /class="stat-number stat-number--long"[\s\S]*data-count-to="2682710"[\s\S]*data-count-suffix=""/);
+  assert.match(html, /class="stat-number stat-number--wide"[\s\S]*data-count-to="831809"/);
+  assert.match(html, /class="stat-unit">Nhân viên<\/p>/);
+  assert.match(html, /class="stats-note">\*Số liệu cập nhật đến ngày 18\/06\/2026<\/p>/);
   assert.doesNotMatch(html, /class="stat-hex"/);
   assert.doesNotMatch(html, /Đại lý Hino tại Việt Nam/);
 });
@@ -446,7 +446,7 @@ test("rendered navigation and language toggle are localized and grouped", async 
   assert.match(vi, /<div class="language-toggle" role="group" aria-label="Switch language">/);
   assert.match(vi, /href="#appreciation">Lời tri ân<\/a>/);
   assert.match(vi, /href="#milestones">Hành trình phát triển<\/a>/);
-  assert.match(vi, /href="#profile">Kỷ yếu 30 năm<\/a>/);
+  assert.match(vi, /href="#profile">Ấn phẩm 30 năm<\/a>/);
   assert.match(vi, /href="#news">Tin tức<\/a>/);
   assert.match(vi, /href="#contact">Liên hệ<\/a>/);
   assert.match(en, /href="#appreciation">Appreciation letter<\/a>/);
