@@ -1,6 +1,6 @@
 # Milestone Gesture-First Autoplay UX Design
 
-**Date:** 2026-07-15  
+**Date:** 2026-07-15<br>
 **Status:** Approved for implementation planning
 
 ## Context
